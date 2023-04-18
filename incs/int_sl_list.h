@@ -1,0 +1,35 @@
+#ifndef INT_SL_LIST_H
+
+# define INT_SL_LIST_H
+
+# include <stdlib.h>
+# include <stdint.h>
+# include <stddef.h>
+
+# include "memory_pool.h"
+
+typedef struct s_ismnode
+{
+    int data;
+    struct s_ismnode  *next;
+} t_ismnode;
+
+typedef struct s_ismlist
+{
+    t_ismnode *head;
+    t_ismnode *tail;
+    size_t  len;
+} t_ismlist;
+
+t_ismlist	*ismlist_new(void);
+void		ismlist_in_head(t_ismlist* list, int data);
+void		ismlist_in_tail(t_ismlist* list, int data);
+int			ismlist_find(t_ismlist *list, int target);
+void		ismlist_removeif(t_ismlist *list, int target);
+void		ismlist_del_head(t_ismlist* list);
+void		ismlist_head_print(t_ismlist *list, void (*pnt)(int));
+void    	ismlist_destroy(t_ismlist **list);
+
+/* falta adicionar suporte para memory pool */
+
+#endif
