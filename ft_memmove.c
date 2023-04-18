@@ -26,29 +26,20 @@ chunk_len = (len / (UL_SIZE * TWO_UNROLL));
 /*
 TESTAR MACRO
 
-#if ULONG_MAX == 0xffffffffffffffff
-# define UL_SIZE 8
-# define UL_ALIGN 7
-#elif ULONG_MAX == 0xffffffff
-# define UL_SIZE 4
-# define UL_ALIGN 3
+#if defined(__LP64__) || defined(_WIN64) || defined(__x86_64__) || defined(__aarch64__)
+# define UNSIGNED_LONG_SIZE 8
+#elif defined(__LP32__) || defined(_WIN32) || defined(__i386__) || defined(__arm__)
+# define UNSIGNED_LONG_SIZE 4
 #else
-# define UL_SIZE 1
-# define UL_ALIGN 0
+# define UNSIGNED_LONG_SIZE 2
 #endif
 
 */
 
-#if defined(__LP64__) || defined(_WIN64)
+#if ULONG_MAX == 0xffffffffffffffff
 # define UL_SIZE 8
 # define UL_ALIGN 7
-#elif defined(__x86_64__) || defined(__aarch64__)
-# define UL_SIZE 8
-# define UL_ALIGN 7
-#elif defined(__LP32__) || defined(_WIN32)
-# define UL_SIZE 4
-# define UL_ALIGN 3
-#elif defined(__i386__) || defined(__arm__)
+#elif ULONG_MAX == 0xffffffff
 # define UL_SIZE 4
 # define UL_ALIGN 3
 #else

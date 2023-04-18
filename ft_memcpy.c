@@ -20,18 +20,25 @@ operations vs using an iterator i and dereferencing locations
 (even taking into account we are decreasing n and incrementing both pointers
 instead of moving "i" all in one)*/
 
+/*
+TESTAR MACRO
+
+#if defined(__LP64__) || defined(_WIN64) || defined(__x86_64__) || defined(__aarch64__)
+# define UNSIGNED_LONG_SIZE 8
+#elif defined(__LP32__) || defined(_WIN32) || defined(__i386__) || defined(__arm__)
+# define UNSIGNED_LONG_SIZE 4
+#else
+# define UNSIGNED_LONG_SIZE 2
+#endif
+
+*/
+
 #include "libft.h"
 
-#if defined(__LP64__) || defined(_WIN64)
+#if ULONG_MAX == 0xffffffffffffffff
 # define UL_SIZE 8
 # define UL_ALIGN 7
-#elif defined(__x86_64__) || defined(__aarch64__)
-# define UL_SIZE 8
-# define UL_ALIGN 7
-#elif defined(__LP32__) || defined(_WIN32)
-# define UL_SIZE 4
-# define UL_ALIGN 3
-#elif defined(__i386__) || defined(__arm__)
+#elif ULONG_MAX == 0xffffffff
 # define UL_SIZE 4
 # define UL_ALIGN 3
 #else

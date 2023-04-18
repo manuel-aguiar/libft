@@ -206,45 +206,35 @@ on previous work and use it as our foundation.
 
 */
 
-#include "libft.h"
+/*
+TESTAR MACRO
 
-#if defined(__LP64__) || defined(_WIN64)
-# define UL_SIZE 8
-# define UL_ALIGN 7
-#elif defined(__x86_64__) || defined(__aarch64__)
-# define UL_SIZE 8
-# define UL_ALIGN 7
-#elif defined(__LP32__) || defined(_WIN32)
-# define UL_SIZE 4
-# define UL_ALIGN 3
-#elif defined(__i386__) || defined(__arm__)
-# define UL_SIZE 4
-# define UL_ALIGN 3
+#if defined(__LP64__) || defined(_WIN64) || defined(__x86_64__) || defined(__aarch64__)
+# define UNSIGNED_LONG_SIZE 8
+#elif defined(__LP32__) || defined(_WIN32) || defined(__i386__) || defined(__arm__)
+# define UNSIGNED_LONG_SIZE 4
 #else
-# define UL_SIZE 1
-# define UL_ALIGN 0
+# define UNSIGNED_LONG_SIZE 2
 #endif
 
-#define FOUR_UNROLL 4
-#define TWO_UNROLL 2
+*/
 
-typedef unsigned long	t_ulong;
-typedef unsigned char	t_uchar;
+#include "libft.h"
 
-static t_ulong	multiply_char(int c)
+static unsigned long	multiply_char(int c)
 {
-	t_ulong	word;
+	unsigned long	word;
 
-	word = (t_uchar)c;
+	word = (unsigned char)c;
 	word = (word << 8) | word;
 	word = (word << 16) | word;
-	if (UL_SIZE > 4)
+	if (sizeof(word) > 4)
 		word = ((word << 16) << 16) | word;
 	return (word);
 }
 
-static t_uchar	*loop_unroll(
-t_ulong *b, t_ulong word, size_t len, size_t roll)
+static unsigned char	*loop_unroll(
+unsigned long *b, unsigned long word, size_t len, size_t roll)
 {
 	if (roll == 4)
 	{
@@ -266,43 +256,43 @@ t_ulong *b, t_ulong word, size_t len, size_t roll)
 			b += 2;
 		}
 	}
-	return ((t_uchar *)b);
+	return ((unsigned char *)b);
 }
 
-static t_uchar	*charword_set(
-t_uchar *str, t_ulong word, size_t *len)
+static unsigned char	*charword_set(
+unsigned char *str, unsigned long word, size_t *len)
 {
 	size_t	temp_len;
 	size_t	roll;
 
-	roll = *len / UL_SIZE;
+	roll = *len / sizeof(word);
 	if (roll >= 4)
 		roll = 4;
 	else
 		roll = 2;
-	temp_len = *len / (UL_SIZE * roll);
-	str = loop_unroll((t_ulong *)str, word, temp_len, roll);
-	*len %= UL_SIZE * roll;
-	temp_len = *len / UL_SIZE;
+	temp_len = *len / (sizeof(word) * roll);
+	str = loop_unroll((unsigned long *)str, word, temp_len, roll);
+	*len %= sizeof(word) * roll;
+	temp_len = *len / sizeof(word);
 	while (temp_len-- > 0)
 	{
-		*((t_ulong *)str) = word;
-		str += UL_SIZE;
+		*((unsigned long *)str) = word;
+		str += sizeof(word);
 	}
-	*len %= UL_SIZE;
+	*len %= sizeof(word);
 	return (str);
 }
 
 void	*ft_memset(void *b, int c, size_t len)
 {
-	t_uchar	*str;
-	t_ulong	word;
+	unsigned char	*str;
+	unsigned long	word;
 
-	str = (t_uchar *)b;
-	if (len >= UL_SIZE * 2)
+	str = (unsigned char *)b;
+	if (len >= sizeof(word) * 2)
 	{
 		word = multiply_char(c);
-		while (((t_ulong)str & (UL_SIZE - 1)) != 0)
+		while (((unsigned long)str & (sizeof(word) - 1)) != 0)
 		{
 			*str++ = c;
 			len--;

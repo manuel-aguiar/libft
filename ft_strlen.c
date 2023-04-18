@@ -44,43 +44,36 @@ se still don't know which one-> loop unroll (faster?)
 
 */
 
-#include "libft.h"
+/*
+TESTAR MACRO
 
-#if defined(__LP64__) || defined(_WIN64)
-# define UL_SIZE 8
-# define UL_ALIGN 7
-#elif defined(__x86_64__) || defined(__aarch64__)
-# define UL_SIZE 8
-# define UL_ALIGN 7
-#elif defined(__LP32__) || defined(_WIN32)
-# define UL_SIZE 4
-# define UL_ALIGN 3
-#elif defined(__i386__) || defined(__arm__)
-# define UL_SIZE 4
-# define UL_ALIGN 3
+#if defined(__LP64__) || defined(_WIN64) || defined(__x86_64__) || defined(__aarch64__)
+# define UNSIGNED_LONG_SIZE 8
+#elif defined(__LP32__) || defined(_WIN32) || defined(__i386__) || defined(__arm__)
+# define UNSIGNED_LONG_SIZE 4
 #else
-# define UL_SIZE 1
-# define UL_ALIGN 0
+# define UNSIGNED_LONG_SIZE 2
 #endif
+
+*/
+
+#include "libft.h"
 
 #define RIGHT_BIT_ONE 0x01010101
 #define LEFT_BIT_ONE 0x80808080
 
-typedef unsigned long	t_ulong;
-typedef const char		t_cchar;
-
-static void	expand_mask(t_ulong *right_one, t_ulong *left_one)
+static void	expand_mask(unsigned long *right_one, unsigned long *left_one)
 {
 	*right_one = RIGHT_BIT_ONE;
 	*left_one = LEFT_BIT_ONE;
-	if (UL_SIZE > 4)
+	if (sizeof(*right_one) > 4)
 	{
 		*right_one = ((*right_one << 16) << 16) | *right_one;
 		*left_one = ((*left_one << 16) << 16) | *left_one;
 	}
 }
 
-static size_t	loop_unroll(t_cchar *str, t_cchar *i, size_t size)
+static size_t	loop_unroll(const char *str, const char *i, size_t size)
 {
 	if (i[0] == 0)
 		return ((size_t)(i - str));
@@ -104,30 +97,30 @@ static size_t	loop_unroll(t_cchar *str, t_cchar *i, size_t size)
 	return (0);
 }
 
-size_t	ft_strlen(t_cchar *str)
+size_t	ft_strlen(const char *str)
 {
-	t_cchar		*i;
-	t_ulong		*longword_ptr;
-	t_ulong		longword;
-	t_ulong		left_one;
-	t_ulong		right_one;
+	const char			*i;
+	unsigned long		*longword_ptr;
+	unsigned long		longword;
+	unsigned long		left_one;
+	unsigned long		right_one;
 
 	i = str;
-	while (((t_ulong)i & (UL_SIZE - 1)) != 0)
+	while (((unsigned long)i & (sizeof(longword) - 1)) != 0)
 	{
 		if (!*i)
 			return (i - str);
 		i++;
 	}
-	longword_ptr = (t_ulong *)i;
+	longword_ptr = (unsigned long *)i;
 	expand_mask(&right_one, &left_one);
 	while (1)
 	{
 		longword = *longword_ptr++;
 		if (((longword - right_one) & ~longword & left_one) != 0)
 		{
-			i = (t_cchar *)(longword_ptr - 1);
-			return (loop_unroll(str, i, UL_SIZE));
+			i = (const char *)(longword_ptr - 1);
+			return (loop_unroll(str, i, sizeof(longword)));
 		}
 	}
 }

@@ -17,6 +17,19 @@
 # include <limits.h>
 # include <stdlib.h>
 # include <unistd.h>
+/*
+
+check these macros to determine the size of unsigned long
+#if defined(__LP64__) || defined(_WIN64) || defined(__x86_64__) || defined(__aarch64__)
+# define UNSIGNED_LONG_SIZE 8
+#elif defined(__LP32__) || defined(_WIN32) || defined(__i386__) || defined(__arm__)
+# define UNSIGNED_LONG_SIZE 4
+#else
+# define UNSIGNED_LONG_SIZE 2
+#endif
+
+*/
+
 
 /* PART 1*/
 int		ft_isalpha(int c);
