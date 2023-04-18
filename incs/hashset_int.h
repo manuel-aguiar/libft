@@ -10,20 +10,20 @@
 #define SIGN(Value) ({ __auto_type _v = (Value); (_v < 0) * -1 + (_v > 0) * 1;})
 #define ABS(Value) ({ __auto_type _v = (Value); _v * SIGN(_v);})
 
-typedef struct s_iht_table
+typedef struct s_ihs_table
 {
 	int			*data;
 	int			size;
 	int			zero;
 	t_ismlist	**collision;
-} t_iht_table;
+} t_ihs_table;
 
-t_iht_table	*iht_init_table(int size);
-int			iht_hash_function(int key, int tab_size);
-int			iht_contains(t_iht_table *table, int key);
-int			iht_insert(t_iht_table *table, int key);
-int			iht_remove(t_iht_table *table, int key);
-void		iht_free_table(t_iht_table **table);
+t_ihs_table	*ihs_init_table(int size);
+int			ihs_hash_function(int key, int tab_size);
+int			ihs_contains(t_ihs_table *table, int key);
+int			ihs_insert(t_ihs_table *table, int key);
+int			ihs_remove(t_ihs_table *table, int key);
+void		ihs_free_table(t_ihs_table **table);
 
 /* escrever uma função para printar a tabela*/
 

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_output.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/18 17:46:11 by marvin            #+#    #+#             */
+/*   Updated: 2023/04/18 17:46:11 by marvin           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FT_OUTPUT_H
 
 # define FT_OUTPUT_H
@@ -7,7 +19,6 @@
 # include "ft_string.h"
 
 /* to print to standard output*/
-
 void	ft_putchar(char c);
 void	ft_putendl(char *str);
 void	ft_putnbr(int nb);

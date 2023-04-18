@@ -22,11 +22,11 @@ Return: pointer difference between the starting location and the
 null byte location.
 */
 
-#include "libft.h"
+#include "ft_string.h"
 
 size_t	ft_strlcpy(char *dst, t_cchar *src, size_t size)
 {
-	const char	*st;
+	t_cchar	*st;
 
 	st = src;
 	if (size > 0)

@@ -57,7 +57,7 @@ TESTAR MACRO
 
 */
 
-#include "libft.h"
+#include "ft_string.h"
 
 #define RIGHT_BIT_ONE 0x01010101
 #define LEFT_BIT_ONE 0x80808080
@@ -97,7 +97,7 @@ static size_t	loop_unroll(t_cchar *str, t_cchar *i, size_t size)
 	return (0);
 }
 
-size_t	ft_strlen(const char *str)
+size_t	ft_strlen(t_cchar *str)
 {
 	t_cchar			*i;
 	t_ulong		*longword_ptr;

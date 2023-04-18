@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_string.h"
 
-char	*ft_substr(char const *s, unsigned int start, size_t len)
+char	*ft_substr(t_cchar *s, t_uint start, size_t len)
 {
 	char	*new;
 	size_t	og_len;

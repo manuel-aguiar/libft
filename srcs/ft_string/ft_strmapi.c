@@ -10,13 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_string.h"
 
-char	*ft_strmapi(char *s, char (*f)(unsigned int, char))
+char	*ft_strmapi(char *s, char (*f)(t_uint, char))
 {
-	unsigned int		len;
-	unsigned int		i;
-	char				*new;
+	t_uint		len;
+	t_uint		i;
+	char		*new;
 
 	if (!s)
 		return (NULL);

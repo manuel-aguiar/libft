@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 /* bitwise manipulation to speed things up
-A : 01000001     
+A : 01000001
 a : 01100001
 
 same as tolower, 6th bit->index 5
@@ -31,7 +31,7 @@ so 1 << 5 is:
  (1 << 5): 00100000
 ~(1 << 5): 11011111
 
-a :        01100001  
+a :        01100001
 ~(1 << 5): 11011111
 AND:       01000001
 
@@ -47,7 +47,7 @@ GOOD FUN STILL
 
 */
 
-#include "libft.h"
+#include "ft_string.h"
 
 int	ft_toupper(int c)
 {

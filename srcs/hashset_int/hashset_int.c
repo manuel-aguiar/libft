@@ -12,9 +12,9 @@
 
 #include "hashset_int.h"
 
-t_iht_table	*iht_init_table(int size)
+t_ihs_table	*ihs_init_table(int size)
 {
-    t_iht_table	*table;
+    t_ihs_table	*table;
     t_ismlist	**collision;
     int			*array;
 
@@ -28,17 +28,17 @@ t_iht_table	*iht_init_table(int size)
     collision = ft_calloc(sizeof(*collision), size);
 	table->collision = collision;
     if (!collision || !array)
-		iht_free_table(&table);
+		ihs_free_table(&table);
     return (table);
 }
 
 
-int	iht_hash_function(int key, int tab_size)
+int	ihs_hash_function(int key, int tab_size)
 {
     return (ABS(key) % tab_size);
 }
 
-int	iht_contains(t_iht_table *table, int key)
+int	ihs_contains(t_ihs_table *table, int key)
 {
     int index;
 
@@ -50,7 +50,7 @@ int	iht_contains(t_iht_table *table, int key)
             return (0);
         return (1);
     }
-    index = iht_hash_function(key, table->size);
+    index = ihs_hash_function(key, table->size);
     if (table->data[index] == key)
         return (1);
     if (table->collision[index] && ismlist_find(table->collision[index], key))
@@ -59,20 +59,20 @@ int	iht_contains(t_iht_table *table, int key)
 }
 
 
-int	iht_insert(t_iht_table *table, int key)
+int	ihs_insert(t_ihs_table *table, int key)
 {
     int index;
 
     if (!table)
         return (-1);
-    if (iht_contains(table, key))
+    if (ihs_contains(table, key))
         return (0);
     if (key == 0)
     {
         table->zero = 1;
         return (1);
     }
-    index = iht_hash_function(key, table->size);
+    index = ihs_hash_function(key, table->size);
     if (!table->data[index])
         table->data[index] = key;
     else
@@ -84,20 +84,20 @@ int	iht_insert(t_iht_table *table, int key)
     return (1);
 }
 
-int	iht_remove(t_iht_table *table, int key)
+int	ihs_remove(t_ihs_table *table, int key)
 {
     int index;
 
     if (!table)
         return (-1);
-    if (!iht_contains(table, key))
+    if (!ihs_contains(table, key))
         return (0);
     if (key == 0)
     {
         table->zero = 0;
         return (1);
     }
-    index = iht_hash_function(key, table->size);
+    index = ihs_hash_function(key, table->size);
     if (table->data[index] == key)
         table->data[index] = 0;
     else
@@ -116,23 +116,23 @@ void print_array(int *arr, int size);
 #define TABLE_SIZE 20 // fixed size of hash table
 int main() {
 
-    t_iht_table *table;
+    t_ihs_table *table;
 
-    table = iht_init_table(TABLE_SIZE);
+    table = ihs_init_table(TABLE_SIZE);
 
-    iht_insert(table, 40);
-    iht_insert(table, 20);
-    iht_insert(table, 60);
+    ihs_insert(table, 40);
+    ihs_insert(table, 20);
+    ihs_insert(table, 60);
 
     print_array(table->data, TABLE_SIZE);
 
-    printf("%d\n", iht_contains(table, 20)); // output: 10
-    printf("%d\n", iht_contains(table, 0)); // output: 20
-    printf("%d\n", iht_contains(table, 40)); // output: 20
-    printf("%d\n", iht_contains(table, 60)); // output: 30
-    iht_remove(table, 20);
-    printf("%d\n", iht_contains(table, 20)); // output: -1
-    iht_free_table(table);
+    printf("%d\n", ihs_contains(table, 20)); // output: 10
+    printf("%d\n", ihs_contains(table, 0)); // output: 20
+    printf("%d\n", ihs_contains(table, 40)); // output: 20
+    printf("%d\n", ihs_contains(table, 60)); // output: 30
+    ihs_remove(table, 20);
+    printf("%d\n", ihs_contains(table, 20)); // output: -1
+    ihs_free_table(table);
     return 0;
 }
 */

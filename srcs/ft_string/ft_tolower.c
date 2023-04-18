@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 /* bitwise manipulation to speed things up
-A : 01000001     
+A : 01000001
 a : 01100001
 
 so lower is the same as upper with 6th bit turned to "1";
@@ -29,7 +29,7 @@ so 1 << 5 is:
 
 so A | (1 << 5) is equal to:
 
-A :        01000001  
+A :        01000001
 (1 << 5) : 00100000
 OR:        01100001
 
@@ -44,7 +44,7 @@ GOOD FUN STILL
 
 */
 
-#include "libft.h"
+#include "ft_string.h"
 
 int	ft_tolower(int c)
 {

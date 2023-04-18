@@ -10,14 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_string.h"
 
-size_t	ft_strlcat(char *dst, const char *src, size_t size)
+size_t	ft_strlcat(char *dst, t_cchar *src, size_t size)
 {
-	char			*d;
-	const char		*s;
-	size_t			n;
-	size_t			destlen;
+	char		*d;
+	t_cchar		*s;
+	size_t		n;
+	size_t		destlen;
 
 	d = dst;
 	s = src;

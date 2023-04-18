@@ -20,7 +20,7 @@ operations vs using an iterator i and dereferencing locations
 (even taking into account we are decreasing n and incrementing both pointers
 instead of moving "i" all in one)*/
 
-#include "libft.h"
+#include "ft_memfunc.h"
 
 static size_t	check_align(t_uchar **dest, t_uchar **src, size_t *len)
 {

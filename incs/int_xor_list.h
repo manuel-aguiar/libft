@@ -20,7 +20,6 @@
 /* adding support to allocate nodes in a memory pool */
 # include "memory_pool.h"
 
-# include "ft_output.h"
 
 /* ixp: integer xor mempool list */
 

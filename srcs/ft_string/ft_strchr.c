@@ -10,13 +10,13 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_string.h"
 
-char	*ft_strchr(const char *s, int c)
+char	*ft_strchr(t_cchar *s, int c)
 {
-	unsigned char	cc;
+	t_uchar	cc;
 
-	cc = (unsigned char)c;
+	cc = (t_uchar)c;
 	while (*s && *s != cc)
 		s++;
 	if (*s || cc == '\0')

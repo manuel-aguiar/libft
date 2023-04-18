@@ -206,7 +206,7 @@ on previous work and use it as our foundation.
 
 */
 
-#include "libft.h"
+#include "ft_memfunc.h"
 
 static t_ulong	multiply_char(int c)
 {

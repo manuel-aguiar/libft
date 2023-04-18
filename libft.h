@@ -23,31 +23,16 @@
 
 /* library sub-headers */
 # include "memory_pool.h"
+# include "ft_atoi.h"
+# include "ft_memfunc.h"
+# include "ft_string.h"
+# include "ft_output.h"
+# include "hashset_int.h"
+# include "int_cd_list.h"
+# include "int_dl_list.h"
+# include "int_sl_list.h"
+# include "int_xor_list.h"
 
-
-#if defined(__LP64__) || defined(_WIN64)
-# define UL_SIZE 8
-# define UL_ALIGN 7
-#elif defined(__x86_64__) || defined(__aarch64__)
-# define UL_SIZE 8
-# define UL_ALIGN 7
-#elif defined(__LP32__) || defined(_WIN32)
-# define UL_SIZE 4
-# define UL_ALIGN 3
-#elif defined(__i386__) || defined(__arm__)
-# define UL_SIZE 4
-# define UL_ALIGN 3
-#else
-# define UL_SIZE 1
-# define UL_ALIGN 0
-#endif
-
-#define FOUR_UNROLL 4
-#define TWO_UNROLL 2
-
-typedef unsigned long	t_ulong;
-typedef unsigned char	t_uchar;
-typedef const char		t_cchar;
 
 /* memory_pool.h functions
 files:

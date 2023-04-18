@@ -18,7 +18,7 @@ we can use memcpy to copy byte by byte
 
 */
 
-#include "libft.h"
+#include "ft_string.h"
 
 char	*ft_strdup(t_cchar *s)
 {

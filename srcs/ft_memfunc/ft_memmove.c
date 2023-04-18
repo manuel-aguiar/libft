@@ -21,7 +21,7 @@ chunk_len = (len / (UL_SIZE * TWO_UNROLL));
 		(*dest)[0] = (((*src)[0] >> lbytes) | ((*src)[1] << rbytes));
 	}
 */
-#include "libft.h"
+#include "ft_memfunc.h"
 
 static size_t	rev_check_align(t_uchar **dest, t_uchar **src, size_t *len)
 {

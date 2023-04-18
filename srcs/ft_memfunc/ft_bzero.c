@@ -15,7 +15,7 @@ of something not a "char", using sizeof for example
 same as calling memset (which also sets bytes) with constant '0'
 for the same number of bytes.*/
 
-#include "libft.h"
+#include "ft_memfunc.h"
 
 void	ft_bzero(void *s, size_t n)
 {

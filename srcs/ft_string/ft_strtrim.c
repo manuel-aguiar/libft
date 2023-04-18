@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_string.h"
 
-static char	in_set(char c, char const *set)
+static char	in_set(char c, t_cchar *set)
 {
 	while (*set)
 	{
@@ -23,7 +23,7 @@ static char	in_set(char c, char const *set)
 	return (0);
 }
 
-char	*ft_strtrim(char const *s1, char const *set)
+char	*ft_strtrim(t_cchar *s1, t_cchar *set)
 {
 	size_t	len;
 	char	*new;

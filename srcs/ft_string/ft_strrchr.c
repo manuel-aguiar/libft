@@ -10,14 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_string.h"
 
-char	*ft_strrchr(const char *s, int c)
+char	*ft_strrchr(t_cchar *s, int c)
 {
-	const char		*move;
-	unsigned char	cc;
+	t_cchar			*move;
+	t_uchar	cc;
 
-	cc = (unsigned char)c;
+	cc = (t_uchar)c;
 	move = s + ft_strlen(s);
 	while (move > s && *move != cc)
 		move--;

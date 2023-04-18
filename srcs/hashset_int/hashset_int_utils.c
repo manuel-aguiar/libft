@@ -12,10 +12,10 @@
 
 #include "hashset_int.h"
 
-void iht_free_table(t_iht_table **table)
+void ihs_free_table(t_ihs_table **table)
 {
     int			i;
-	t_iht_table	*destroy;
+	t_ihs_table	*destroy;
 
     if (!table)
         return ;
