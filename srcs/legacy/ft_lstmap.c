@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: manuel <manuel@student.42.fr>              +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 21:34:54 by manuel            #+#    #+#             */
-/*   Updated: 2023/03/18 11:45:15 by manuel           ###   ########.fr       */
+/*   Updated: 2023/04/19 14:11:10 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
 #include "libft.h"
 
 static t_list	*ft_lstclear_nullret(t_list **lst, void (*del)(void*))
@@ -55,4 +56,4 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 		lst = lst->next;
 	}
 	return (save_new);
-}
+}*/

@@ -28,6 +28,8 @@ asigned to a variable for safe array manipulation.
 
 #include <stddef.h>
 
+int atoi_overf(int res, char next, int *sign);
+
 static int     ft_argv_count(char **argv)
 {
     int i;
@@ -43,17 +45,17 @@ int	ft_atoiable(char *str, int *placenum)
     int res;
     int sign;
 
-    while (*str && is_space(*str))
+    while (*str && ft_isspace(*str))
         str++;
     sign = 1;
     if (*str && *str == '-')
         sign = -1;
-    if (*str && *str == '-' || *str == '+')
+    if (*str && (*str == '-' || *str == '+'))
         str++;
-    if (!is_num(*str))
+    if (!ft_isdigit(*str))
         sign = 0;
     res = 0;
-    while(*str && is_num(*str) && atoi_overf(res, *str, &sign))
+    while(*str && ft_isdigit(*str) && atoi_overf(res, *str, &sign))
         res = res * 10 - '0' + *str++;
     *placenum = res * sign;
     if (sign == 0)

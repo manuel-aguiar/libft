@@ -6,18 +6,11 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 20:07:35 by manuel            #+#    #+#             */
-/*   Updated: 2023/04/18 13:54:48 by marvin           ###   ########.fr       */
+/*   Updated: 2023/04/19 14:04:46 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-static char	is_space(char c)
-{
-	if ((c >= '\t' && c <= '\r') || c == ' ')
-		return (1);
-	return (0);
-}
+#include "ft_atoi.h"
 
 int	ft_atoi(const char *nptr)
 {
@@ -25,7 +18,7 @@ int	ft_atoi(const char *nptr)
 	int	sign;
 
 	sign = 1;
-	while (*nptr && is_space(*nptr))
+	while (*nptr && ft_isspace(*nptr))
 		nptr++;
 	if (*nptr == '-')
 		sign = -1;

@@ -8,7 +8,7 @@
 # include "ft_memfunc.h"
 
 #define SIGN(Value) ({ __auto_type _v = (Value); (_v < 0) * -1 + (_v > 0) * 1;})
-#define ABS(Value) ({ __auto_type _v = (Value); _v * SIGN(_v);})
+#define ABS(Value) ({ __auto_type _w = (Value); _w * SIGN(_w);})
 
 typedef struct s_ihs_table
 {
@@ -23,6 +23,7 @@ int			ihs_hash_function(int key, int tab_size);
 int			ihs_contains(t_ihs_table *table, int key);
 int			ihs_insert(t_ihs_table *table, int key);
 int			ihs_remove(t_ihs_table *table, int key);
+void		ihs_table_print(t_ihs_table *table, void (*pnt)(int));
 void		ihs_free_table(t_ihs_table **table);
 
 /* escrever uma função para printar a tabela*/

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_atoi.h"
 
 static int	numdigits(int nb)
 {

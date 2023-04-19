@@ -60,7 +60,7 @@ void icplist_head_print(t_icplist *list, void (*pnt)(int))
     if (!list || !list->pivot)
         return ;
     cur = list->pivot;
-    printf("%d  ", cur->data);
+    pnt(cur->data);
     cur = cur->next;
     while (cur != list->pivot)
     {
@@ -76,7 +76,7 @@ void icplist_tail_print(t_icplist *list, void (*pnt)(int))
     if (!list || !list->pivot)
         return ;
     cur = list->pivot->prev;
-    printf("%d  ", cur->data);
+    pnt(cur->data);
     cur = cur->prev;
     while (cur != list->pivot->prev)
     {

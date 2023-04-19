@@ -22,5 +22,5 @@ void	ft_putendl_fd(char *str, int fd)
 
 void	ft_putendl(char *str)
 {
-	ft_putend_fd(str, 1);
+	ft_putendl_fd(str, 1);
 }

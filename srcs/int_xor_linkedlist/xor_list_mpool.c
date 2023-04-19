@@ -1,6 +1,6 @@
 #include "int_xor_list.h"
 
-static  t_ixpnode* xor_func(t_ixpnode* prev, t_ixpnode* next)
+t_ixpnode* xor_func(t_ixpnode* prev, t_ixpnode* next)
 {
     return ((t_ixpnode*)((uintptr_t)prev ^ (uintptr_t)next));
 }

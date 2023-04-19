@@ -1,7 +1,7 @@
 #include "int_xor_list.h"
 #include <stdio.h>
 
-static  t_ixpnode* xor_func(t_ixpnode* prev, t_ixpnode* next);
+t_ixpnode* xor_func(t_ixpnode* prev, t_ixpnode* next);
 
 void ixplist_del_head(t_ixplist* list)
 {

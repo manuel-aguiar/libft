@@ -12,23 +12,9 @@
 
 #include "ft_atoi.h"
 
-#include "libft.h"
+#include <limits.h>
 
-static int is_space(char c)
-{
-    if ((c >= '\t' && c <= '\r') || c == ' ')
-        return (1);
-    return (0);
-}
-
-static int is_num(char c)
-{
-    if (c >= '0' && c <= '9')
-        return (1);
-    return (0);
-}
-
-static int atoi_overf(int res, char next, int *sign)
+int atoi_overf(int res, char next, int *sign)
 {
     int max;
 
@@ -61,15 +47,15 @@ int ft_atoi_overf(char *str)
     int res;
     int sign;
 
-    while (*str && is_space(*str))
+    while (*str && ft_isspace(*str))
         str++;
     sign = 1;
     if (*str && *str == '-')
         sign = -1;
-    if (*str && *str == '-' || *str == '+')
+    if (*str && (*str == '-' || *str == '+'))
         str++;
     res = 0;
-    while(*str && is_num(*str) && atoi_overf(res, *str, &sign))
+    while(*str && ft_isdigit(*str) && atoi_overf(res, *str, &sign))
         res = res * 10 - '0' + *str++;
     if (sign == 0)
         res = 0;

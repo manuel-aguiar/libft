@@ -71,5 +71,3 @@ void    ixmlist_tail_print(t_ixmlist *list, void (*pnt)(int));
 void    ixmlist_destroy(t_ixmlist **list);
 
 #endif
-
-#endif

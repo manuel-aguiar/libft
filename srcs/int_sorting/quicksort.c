@@ -47,7 +47,7 @@ static void	qs_recursion(int arr[], int low, int high, int (*cmp)(int, int))
 
     if (low < high)
     {
-        randpivot = rand_gen(low, high);
+        randpivot = low;
         swap(&arr[low], &arr[randpivot]);
 
         part = partition(arr, low, high, cmp);

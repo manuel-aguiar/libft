@@ -4,6 +4,7 @@
 
 # include <stdlib.h>
 # include <stddef.h>
+# include <limits.h>
 
 #if defined(__LP64__) || defined(_WIN64)
 # define UL_SIZE 8

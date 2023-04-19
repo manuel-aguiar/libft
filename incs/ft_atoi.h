@@ -16,6 +16,7 @@
 
 # include <stdlib.h>
 
+# include <ft_string.h>
 /*
 	DESCRIPTION OF FUNCTIONS
 
