@@ -10,48 +10,40 @@ FILES = 	ft_isalpha ft_isdigit ft_isalnum ft_isascii				\
 B_FILES =	ft_lstnew ft_lstadd_front ft_lstsize ft_lstlast			\
 			ft_lstadd_back ft_lstdelone ft_lstclear ft_lstiter		\
 			ft_lstmap
-		 
-HEADERS = *libft.h
+
+HEADERS = incs
 
 NAME = libft.a
 
 
-SRCS = $(addsuffix .c, $(FILES))
-OBJS = ${SRCS:c=o}
+SRCS = srcs/**/*.c
+OBJS = *.o
 
 
-
-B_SRCS = $(addsuffix .c, $(B_FILES))
-B_OBJS = ${B_SRCS:c=o}
-
-
-CC = cc
+GCC = gcc
 FLAGS = -c -Wall -Wextra -Werror
 LIB = ar rcs
-RM = rm -f
-	
+RM = rm
+
 all: $(NAME)
-	
+
 $(NAME): $(OBJS)
 	$(LIB) $@ $(OBJS)
 
 $(OBJS): $(SRCS) $(HEADERS)
-	$(CC) $(FLAGS) -I$(HEADERS) $(SRCS)
-
-$(B_OBJS): $(B_SRCS) $(HEADERS)
-	$(CC) $(FLAGS) -I$(HEADERS) $(B_SRCS) 
+	$(GCC) $(FLAGS) -I$(HEADERS) $(SRCS)
 
 clean:
-	$(RM) $(OBJS) $(B_OBJS)
+	$(RM) $(OBJS)
 
 fclean: clean
 	$(RM) $(NAME)
-
-bonus: $(NAME) $(B_OBJS)
-	$(LIB) $(NAME) $(B_OBJS)
 
 re: fclean all
 
 mkclean: all clean
 
-.PHONY: clean fclean re mkclean
+bruh:
+	rm mymain.exe
+
+.PHONY: clean fclean re mkclean bruh
