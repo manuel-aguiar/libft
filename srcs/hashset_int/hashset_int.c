@@ -12,6 +12,8 @@
 
 #include "hashset_int.h"
 
+int    hashset_ismlist_removefst(t_ismlist *list, int target);
+
 t_ihs_table	*ihs_init_table(int size)
 {
     t_ihs_table	*table;

@@ -27,7 +27,7 @@ t_idpnode *new_idpnode(int nbr, t_mpool *pool)
     return (new);
 }
 
-t_idplist *new_idplist(int elements, t_mpool *shared_pool)
+t_idplist *idplist_new(int elements, t_mpool *shared_pool)
 {
     t_idplist *list;
     t_mpool *pool;

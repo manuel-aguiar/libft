@@ -21,8 +21,9 @@
 # include "ft_memfunc.h"
 # include "ft_output.h"
 # include "ft_string.h"
-# include "ft_output.h"
+# include "int_sorting.h"
 # include "hashset_int.h"
 # include "linked_lists.h"
+# include "ft_math.h"
 
 #endif

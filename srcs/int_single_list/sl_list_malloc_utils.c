@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:39:23 by marvin            #+#    #+#             */
-/*   Updated: 2023/04/19 11:48:55 by marvin           ###   ########.fr       */
+/*   Updated: 2023/04/19 17:34:16 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,33 +112,4 @@ void    ismlist_destroy(t_ismlist **list)
 	}
     free(*list);
     *list = NULL;
-}
-
-int    hashset_ismlist_removefst(t_ismlist *list, int target)
-{
-    t_ismnode *cur;
-    t_ismnode *prev;
-    t_ismnode dummy;
-
-    if (!list || !list->head || !(list->len))
-        return (0);
-    prev = &dummy;
-    cur = list->head;
-    while (cur && cur->data != target)
-    {
-            prev->next = cur;
-            cur = cur->next;
-            prev = prev->next;
-    }
-    if (cur)
-    {
-        prev->next = cur->next;
-        free(cur);
-        cur = NULL;
-        if (!prev->next)
-            list->tail = prev;
-        list->head = (dummy.next);
-        return (1);
-    }
-    return (0);
 }

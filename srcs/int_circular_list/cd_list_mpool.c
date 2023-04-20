@@ -27,7 +27,7 @@ t_icpnode *new_icpnode(int nbr, t_mpool *pool)
     return (new);
 }
 
-t_icplist *new_icplist(int elements, t_mpool *shared_pool)
+t_icplist *icplist_new(int elements, t_mpool *shared_pool)
 {
     t_icplist *list;
     t_mpool *pool;

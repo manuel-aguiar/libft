@@ -12,6 +12,35 @@
 
 #include "hashset_int.h"
 
+int    hashset_ismlist_removefst(t_ismlist *list, int target)
+{
+    t_ismnode *cur;
+    t_ismnode *prev;
+    t_ismnode dummy;
+
+    if (!list || !list->head || !(list->len))
+        return (0);
+    prev = &dummy;
+    cur = list->head;
+    while (cur && cur->data != target)
+    {
+            prev->next = cur;
+            cur = cur->next;
+            prev = prev->next;
+    }
+    if (cur)
+    {
+        prev->next = cur->next;
+        free(cur);
+        cur = NULL;
+        if (!prev->next)
+            list->tail = prev;
+        list->head = (dummy.next);
+        return (1);
+    }
+    return (0);
+}
+
 void	ihs_table_print(t_ihs_table *table, void (*pnt)(int))
 {
     int	i;

@@ -25,7 +25,7 @@ t_idmnode *new_idmnode(int nbr)
     return (new);
 }
 
-t_idmlist *new_idmlist(void)
+t_idmlist *idmlist_new(void)
 {
     t_idmlist *list;
 

@@ -34,7 +34,7 @@ typedef struct s_idmlist
     size_t  len;
 } t_idmlist;
 
-t_idmlist	*new_idmlist(void);
+t_idmlist	*idmlist_new(void);
 void	idmlist_in_head(t_idmlist* list, int data);
 void	idmlist_in_tail(t_idmlist* list, int data);
 int		idmlist_find(t_idmlist *list, int target);
@@ -67,7 +67,7 @@ typedef struct s_idplist
     size_t  len;
 } t_idplist;
 
-t_idplist *new_idplist(int elements, t_mpool *shared_pool);
+t_idplist *idplist_new(int elements, t_mpool *shared_pool);
 void    idplist_in_head(t_idplist* list, int data);
 void    idplist_in_tail(t_idplist* list, int data);
 void    idplist_del_head(t_idplist* list);
