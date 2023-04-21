@@ -12,7 +12,7 @@
 
 #include "ft_output.h"
 
-void	ft_print_arr(int *arr, int size, char *space, void (*pnt)(int))
+void	ft_print_arr(int *arr, int size, void (*pnt)(int))
 {
 	int i;
 
@@ -22,7 +22,6 @@ void	ft_print_arr(int *arr, int size, char *space, void (*pnt)(int))
 	while (i < size)
 	{
 		pnt(arr[i]);
-		ft_putstr(space);
 		i++;
 	}
 }

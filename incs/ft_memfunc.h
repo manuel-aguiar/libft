@@ -43,5 +43,5 @@ void	ft_free_charmat(char **table, void(*del)(char *));
 void	ft_free_charmat_null(char ***table, void(*del)(char *));
 void	ft_free_sizemat(void **table, size_t size, void(*del)(void *));
 void	ft_free_sizemat_null(void ***table, size_t size, void(*del)(void *));
-
+void	ft_free_set_null(void *ptr);
 #endif

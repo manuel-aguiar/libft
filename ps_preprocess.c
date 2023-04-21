@@ -25,8 +25,16 @@ static int checkdups(int size, int *arr, int target)
 			return (0);
 		i++;
 	}
-	arr[size] = target;
 	return (1);
+}
+
+static void set_and_sort_check(int *arr, int index, int target, int *check)
+{
+	arr[index] = target;
+	if (!index)
+		return ;
+	if (arr[index] < arr[index - 1])
+		*check = 1;
 }
 
 static int arrtoi_naivedups(int **res, int size, char **args)
@@ -34,26 +42,40 @@ static int arrtoi_naivedups(int **res, int size, char **args)
 	int *arr;
 	int i;
 	int num;
+	int check;
 
 	arr = malloc(size * sizeof(*arr));
 	if (!arr)
-	{
-		*res = NULL;
 		return (0);
-	}
+	check = 0;
 	i = 0;
 	while (i < size)
 	{
 		if (ft_atoiable(args[i], &num) && checkdups(i, arr, num))
-			i++;
+			set_and_sort_check(arr, i++, num, &check);
 		else
 		{
-			free(arr);
-			*res = NULL;
-			return (0);
+			check = 0;
+			break ;
 		}
 	}
+	if (!check)
+		ft_free_set_null(&arr);
 	*res = arr;
+	return (check);
+}
+
+static int prepare_arr_and_hash(int **arr, t_ihs_table **table, int size)
+{
+	*arr = malloc(size * sizeof(*arr));
+	if (!*arr)
+		return (0);
+	*table = ihs_init_table(size);
+	if (!*table)
+	{
+		ft_free_set_null(arr);
+		return (0);
+	}
 	return (1);
 }
 
@@ -63,55 +85,38 @@ static int arrtoi_tabledups(int **res, int size, char **args)
 	int i;
 	int num;
 	t_ihs_table *table;
+	int check;
 
-	table = ihs_init_table(size);
-	arr = malloc(size * sizeof(*arr));
-	if (!arr | !table)
-	{
-		*res = NULL;
+	if (!prepare_arr_and_hash(&arr, &table, size))
 		return (0);
-	}
+	check = 0;
 	i = 0;
 	while (i < size)
 	{
 		if (ft_atoiable(args[i], &num) && ihs_insert(table, num))
-			arr[i++] = num;
+			set_and_sort_check(arr, i++, num, &check);
 		else
 		{
-			free(arr);
-			*res = NULL;
-			return (0);
+			check = 0;
+			break ;
 		}
 	}
 	ihs_free_table(&table);
+	if (!check)
+		ft_free_set_null(&arr);
 	*res = arr;
-	return (1);
-}
-
-static int ps_is_sorted(int *arr, int size)
-{
-	int i;
-
-	i = 1;
-	while (i < size)
-	{
-		if (arr[i] < arr[i - 1])
-			return (0);
-		i++;
-	}
-	return (1);
+	return (check);
 }
 
 int ps_preprocess(int **res, int ac, char **av)
 {
 	int check;
+
 	if (ac > MAGIC_SIZE)
 		check = arrtoi_tabledups(res, ac, av);
 	else
 		check = arrtoi_naivedups(res, ac, av);
-	if (check && !ps_is_sorted(*res, ac))
-		return (1);
-	free(*res);
-	*res = NULL;
-	return (0);
+	if (!check)
+		ft_free_set_null(res);
+	return (check);
 }

@@ -12,6 +12,14 @@
 
 #include "ft_memfunc.h"
 
+void	ft_free_set_null(void *ptr)
+{
+	t_uchar **to_free;
+    to_free = (unsigned char **)ptr;
+    free(*to_free);
+    *to_free = NULL;
+}
+
 void	ft_free_charmat(char **table, void(*del)(char *))
 {
 	int		i;
@@ -25,8 +33,7 @@ void	ft_free_charmat(char **table, void(*del)(char *))
 		table[i] = NULL;
 		i++;
 	}
-	free(table);
-	table = NULL;
+	ft_free_set_null(&table);
 }
 
 void	ft_free_charmat_null(char ***table, void(*del)(char *))
@@ -44,9 +51,7 @@ void	ft_free_charmat_null(char ***table, void(*del)(char *))
 		split[i] = NULL;
 		i++;
 	}
-	free(split);
-	split = NULL;
-	*table = NULL;
+	ft_free_set_null(table);
 }
 
 void	ft_free_sizemat(void **table, size_t size, void(*del)(void *))
@@ -64,8 +69,7 @@ void	ft_free_sizemat(void **table, size_t size, void(*del)(void *))
 		split[i] = NULL;
 		i++;
 	}
-	free(split);
-	split = NULL;
+	ft_free_set_null(&split);
 }
 
 void	ft_free_sizemat_null(void ***table, size_t size, void(*del)(void *))
@@ -83,7 +87,5 @@ void	ft_free_sizemat_null(void ***table, size_t size, void(*del)(void *))
 		split[i] = NULL;
 		i++;
 	}
-	free(split);
-	split = NULL;
-	*((t_uchar ***)table) = NULL;
+	ft_free_set_null(table);
 }

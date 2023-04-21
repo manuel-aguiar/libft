@@ -50,7 +50,7 @@ void solver(int ac, char **av)
 /*
 int main(int ac, char **av)
 {
-	if (ac > 1)
+	if (ac > 2)
 		solver(--ac, ++av);
 	return (0);
 }*/

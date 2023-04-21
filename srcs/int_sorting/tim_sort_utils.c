@@ -12,56 +12,77 @@
 
 #include "int_sorting.h"
 
-int		split_arr(int *arr, int *lmr, int **left, int **right)
+/*
+
+Using binary search to merge elements but unless there is some order before,
+it is pretty useless and i wasted 5 hours dubugging this S. :)
+
+static	tim_bin_srch(int *arr, int size, int target, int (*cmp)(int, int))
+{
+    int	high;
+    int	low;
+    int	mid;
+
+    low = 0;
+    high = size - 1;
+    if (cmp(target, arr[high]))
+        return (size);
+    while (high - low > 1)
+    {
+        mid = (high + low) / 2;
+        if (arr[mid] == target)
+            return (mid);
+        if (cmp(arr[mid], target))
+            high = mid - 1;
+        else
+            low = mid + 1;
+    }
+
+    return (low + cmp(target, arr[low]));
+}
+
+
+
+static void	intersect(int *arr, int *copy, int *lmr, int (*cmp)(int, int))
 {
     int len1;
     int len2;
-    int *l;
-    int *r;
-
-    len1 = lmr[1] - lmr[0] + 1;
-    len2 = lmr[2] - lmr[1];
-    l = malloc(len1 * sizeof(int));
-    if (!l)
-        return (0);
-    r = malloc(len2 * sizeof(int));
-    if (!right)
-    {
-        free(l);
-        return (0);
-    }
-    ft_memcpy(l, &arr[lmr[0]], len1 * sizeof(*arr));
-    ft_memcpy(r, &arr[lmr[1] + 1], len2 * sizeof(*arr));
-    *left = l;
-    *right = r;
-    return (1);
-}
-
-void	intersect(int *arr, int *lmr, int (*cmp)(int, int))
-{
-    int *left;
-    int *right;
     int i;
     int j;
     int k;
+    int srch;
 
-    if (split_arr(arr, lmr, &left, &right))
+    len1 = lmr[1] - lmr[0] + 1;
+    len2 = lmr[2] - lmr[1];
+    ft_memcpy(copy, &arr[lmr[0]], (len1 + len2) * sizeof(*copy));
+    i = 0;
+    j = len1;
+    k = lmr[0];
+
+    while (i < len1 && j < (len1 + len2))
     {
-        i = 0;
-        j = 0;
-        k = lmr[0];
-        while (i < (lmr[1] - lmr[0] + 1) && j < (lmr[2] - lmr[1]))
+        if (cmp(copy[i], copy[j]))
         {
-            if (cmp(right[j], left[i]))
-                arr[k++] = left[i++];
-            else
-                arr[k++] = right[j++];
+            srch = tim_bin_srch(&copy[j], len1 + len2 - j, copy[i], cmp);
+            ft_memcpy(&arr[k], &copy[j], sizeof(*arr) * srch);
+            k += srch;
+            j += srch;
+            //printf("search: %d\n", srch);
         }
-        if (i < (lmr[1] - lmr[0] + 1))
-            ft_memcpy(&arr[k], &left[i], ((lmr[1] - lmr[0] + 1) - i) * sizeof(*arr));
-        if (j < (lmr[2] - lmr[1]))
-            ft_memcpy(&arr[k], &right[j], ((lmr[2] - lmr[1]) - j) * sizeof(*arr));
-        free(left);
-        free(right);
+        else
+        {
+            srch = tim_bin_srch(&copy[i], len1 - i, copy[j], cmp);
+            ft_memcpy(&arr[k], &copy[i], sizeof(*arr) * srch);
+            k += srch;
+            i += srch;
+            //printf("search: %d\n", srch);
+        }
     }
+    if (i < len1)
+        ft_memcpy(&arr[k], &copy[i], sizeof(*arr) * (len1 - i));
+    if (j < (len1 + len2))
+        ft_memcpy(&arr[k], &copy[j], sizeof(*arr) * (len1 + len2 - j));
 }
+
+
+*/

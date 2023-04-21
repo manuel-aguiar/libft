@@ -10,6 +10,12 @@ void	printmembs(int num)
 	ft_printf("%d   ", num);
 }
 
+int ascending(int a, int b)
+{
+	return (a > b);
+}
+
+
 int ps_normalize(int **arr, int size);
 
 int ps_preprocess(int **res, int ac, char **av);
@@ -26,18 +32,36 @@ int main(int ac, char **av)
 	t_icplist *list;
 	int times = 1;
 
+	int size = ft_atoi_arr(&arr, ac, av);
 
+	ft_print_arr(arr, ac, &printmembs);
+	tim_sort(arr, ac, &ascending);
+	/*
 
 	clock_t c;
     c = clock();
     int d = 0;
     while (d < times)
     {
-		ps_preprocess(&arr, ac, av);
-		ps_normalize(&arr, ac);
-		ps_arr_to_cdlist(&list, &arr, ac);
-		//icplist_head_print(list, &printmembs);
-		icplist_destroy(&list, 0);
+
+		if (ps_preprocess(&arr, ac, av))
+		{
+			if (ps_normalize(&arr, ac))
+			{
+				if (ps_arr_to_cdlist(&list, &arr, ac))
+				{
+					ft_printf("successsssss\n\n\n");
+					//icplist_head_print(list, &printmembs);
+					icplist_destroy(&list, 0);
+				}
+				else
+					ft_printf("failed placing in list\n");
+			}
+			else
+				ft_printf("failed normalization\n");
+		}
+		else
+			ft_printf("failed preprocessing\n");
         d++;
     }
     c = clock() - c;
@@ -48,6 +72,6 @@ int main(int ac, char **av)
 	//ft_print_arr(tester, ac, "  ", &ft_putnbr);
 	//ft_putstr("  <- normalized slow\n");
 
-
+*/
     return (0);
 }
