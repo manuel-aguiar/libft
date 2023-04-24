@@ -10,47 +10,47 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+//gcc -Wall -Wextra -Werror *.c -L. -lft -Iincs
+
 #include "pushswap.h"
 
-int	ps_arr_to_cdlist(t_icplist **list, int **arr, int size)
+void	printmembs(int num)
 {
-	t_icplist *new;
-	int i;
-	int *array;
-
-	new = icplist_new(size, NULL);
-	if (new)
-	{
-		array = *arr;
-		i = -1;
-		while (++i < size)
-			icplist_in_tail(new, array[i]);
-	}
-	*list = new;
-	free(array);
-	*arr = NULL;
-	if (new)
-		return (1);
-	return (0);
+	ft_printf("%d   ", num);
 }
+
+
+
+
 
 void solver(int ac, char **av)
 {
-	int *arr;
-	t_icplist *list;
+	int			*arr;
+	t_pslist	*alist;
+	t_pslist	*blist;
 
-	if (ps_preprocess(&arr, ac, av))
-		ft_putstr("that's great!\n");
-	if (ps_normalize(&arr, ac))
-		ft_putstr("porreiro pa!\n");
-	if (ps_arr_to_cdlist(&list, &arr, ac))
-		ft_putstr("tas a abusar da sorte....!\n");
+	blist = NULL;
+	//ps_preprocess(&arr, ac, av);
+	ft_atoi_arr(&arr, ac, av);
+
+	ps_normalize(&arr, ac);
+	ps_arr_to_cdlist(&alist, &arr, ac);
+	blist = pslist_new(ac, alist->pool);
+	ps_printlists(alist, blist, &printmembs);
+	ps_split_list(alist, blist);
+	if (blist->pivot->data != blist->max)
+		pslist_rotate(blist, 1, "rb");
+	//ps_merge_swap(alist, blist);
+	//ps_bubble_sort(alist);
+	ps_printlists(alist, blist, &printmembs);
+	pslist_destroy(&blist, 1);
+	pslist_destroy(&alist, 0);
 
 }
-/*
+
 int main(int ac, char **av)
 {
 	if (ac > 2)
 		solver(--ac, ++av);
 	return (0);
-}*/
+}
