@@ -12,10 +12,10 @@
 
 #include "pushswap.h"
 
-void    icplist_swap_top(t_icplist *list)
+void    pslist_swap_top(t_pslist *list, char *print)
 {
-    t_icpnode *old_top;
-    t_icpnode *new_top;
+    t_psnode *old_top;
+    t_psnode *new_top;
 
     if (!list || list->len <= 1)
         return;
@@ -31,11 +31,13 @@ void    icplist_swap_top(t_icplist *list)
         old_top->prev = new_top;
         new_top->next = old_top;
     }
+	if (print)
+		ft_printf("%s\n", print);
 }
 
-static t_icpnode    *icplist_retrieve_top(t_icplist *list)
+static t_psnode    *pslist_retrieve_top(t_pslist *list)
 {
-    t_icpnode *ret;
+    t_psnode *ret;
 
     if (!list || !(list->pivot))
         return (NULL);
@@ -52,7 +54,7 @@ static t_icpnode    *icplist_retrieve_top(t_icplist *list)
     return (ret);
 }
 
-static int    icplist_add_top(t_icplist *list, t_icpnode *newtop)
+static int    pslist_add_top(t_pslist *list, t_psnode *newtop)
 {
     if (!list || !newtop)
         return (0);
@@ -70,25 +72,30 @@ static int    icplist_add_top(t_icplist *list, t_icpnode *newtop)
     }
     list->pivot = newtop;
     ++(list->len);
-    //minmax_newnode(list, newtop->data);
     return (1);
 }
 
 
-void    icplist_push_top(t_icplist *to, t_icplist *from)
+void    pslist_push_top(t_pslist *to, t_pslist *from, char *print)
 {
-    t_icpnode *move;
+    t_psnode *move;
 
     if (!to || !from || !from->pivot)
         return ;
-    move = icplist_retrieve_top(from);
+    move = pslist_retrieve_top(from);
     if (move)
-        icplist_add_top(to, move);
+	{
+        pslist_add_top(to, move);
+		minmax_add(to, move->data);
+		minmax_del(from, move->data);
+	}
+	if (print)
+		ft_printf("%s\n", print);
 }
 
-int    icplist_rotate(t_icplist *list, int rotate)
+int    pslist_rotate_multi(t_pslist *list, int rotate, char *print)
 {
-    t_icpnode    *pivot;
+    t_psnode    *pivot;
     int     nbr;
     int     i;
 
@@ -102,13 +109,25 @@ int    icplist_rotate(t_icplist *list, int rotate)
     while (i > 0)
     {
         pivot = pivot->next;
+		ft_printf("%s\n", print);
         i--;
     }
     while (i < 0)
     {
         pivot = pivot->prev;
+		ft_printf("%s\n", print);
         i++;
     }
     list->pivot = pivot;
     return (nbr);
+}
+
+void    pslist_rotate(t_pslist *list, int rotate, char *print)
+{
+	if (rotate == 1)
+		list->pivot = list->pivot->next;
+	if (rotate == -1)
+		list->pivot = list->pivot->prev;
+	if (print)
+		ft_printf("%s\n", print);
 }

@@ -39,10 +39,10 @@ static void set_and_sort_check(int *arr, int index, int target, int *check)
 
 static int arrtoi_naivedups(int **res, int size, char **args)
 {
-	int *arr;
-	int i;
-	int num;
-	int check;
+	int	*arr;
+	int	i;
+	int	num;
+	int	check;
 
 	arr = malloc(size * sizeof(*arr));
 	if (!arr)
@@ -81,11 +81,11 @@ static int prepare_arr_and_hash(int **arr, t_ihs_table **table, int size)
 
 static int arrtoi_tabledups(int **res, int size, char **args)
 {
-	int *arr;
-	int i;
-	int num;
-	t_ihs_table *table;
-	int check;
+	int			*arr;
+	int			i;
+	int			num;
+	t_ihs_table	*table;
+	int			check;
 
 	if (!prepare_arr_and_hash(&arr, &table, size))
 		return (0);

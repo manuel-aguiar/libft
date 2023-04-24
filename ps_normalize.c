@@ -21,8 +21,8 @@ static int ascending(int a, int b)
 
 static int countbigger(int *arr, int size, int target)
 {
-    int i;
-    int res;
+    int	i;
+    int	res;
 
     i = 0;
     res = 0;
@@ -37,9 +37,9 @@ static int countbigger(int *arr, int size, int target)
 
 int normalize_slow(int **arr, int size)
 {
-    int *new;
-    int i;
-	int *array;
+    int	*new;
+    int	i;
+	int	*array;
 
     new = malloc(sizeof(*new) * size);
     if (!new)
@@ -50,18 +50,19 @@ int normalize_slow(int **arr, int size)
 	array = *arr;
     i = -1;
     while (++i < size)
+	{
         new[i] = (size - 1 - countbigger(array, size, array[i]));
+	}
 	ft_memcpy(array, new, sizeof(*array) * size);
 	free(new);
     return (1);
 }
 
-int normalize_fast(int **arr, int size)
+int	normalize_fast(int **arr, int size)
 {
-    int *sorted;
-    int *normalized;
-    int i;
-	int *array;
+    int	*sorted;
+    int	i;
+	int	*array;
 
     sorted = malloc(sizeof(int) * size);
     if (!sorted)
@@ -79,7 +80,7 @@ int normalize_fast(int **arr, int size)
     return (1);
 }
 
-int ps_normalize(int **arr, int size)
+int	ps_normalize(int **arr, int size)
 {
 	if (size > 50)
 		return (normalize_fast(arr, size));

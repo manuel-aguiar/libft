@@ -35,8 +35,6 @@ typedef struct s_icplist
     t_icpnode	*pivot;
     t_mpool		*pool;
     int			len;
-    int			max;
-    int			min;
 } t_icplist;
 
 t_icplist	*icplist_new(int elements, t_mpool *shared_pool);
