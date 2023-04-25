@@ -265,6 +265,42 @@ void dumpbucket(t_pslist *alist, t_pslist *blist, int start, int end)
     }
 }
 
+void dumpbucket_2(t_pslist *alist, t_pslist *blist, int start, int end)
+{
+	if (alist->len == 0 || !in_bucket(alist->pivot->data, start, end))
+	{
+		pslist_push_top(alist, blist, "pa");
+		counter++;
+	}
+	while (blist->len && (in_bucket(blist->pivot->data, start, end) || \
+			in_bucket(blist->pivot->prev->data, start, end)))
+	{
+		if (!in_bucket(blist->pivot->data, start, end))
+		{
+			pslist_rotate(blist, 1, "rb");
+			counter++;
+		}	
+		if (blist->pivot->data < alist->pivot->data)
+		{
+			while (in_bucket(alist->pivot->prev->data, start, end) && alist->pivot->prev->data > blist->pivot->data)
+			{
+				pslist_rotate(alist, -1, "rra");
+				counter++;
+			}
+			pslist_push_top(alist, blist, "pa");
+		}
+		else if (blist->pivot->data > alist->pivot->data)
+		{
+			while (in_bucket(alist->pivot->data, start, end) && alist->pivot->data < blist->pivot->data)
+			{
+				pslist_rotate(alist, 1, "ra");
+				counter++;
+			}
+			pslist_push_top(alist, blist, "pa");
+		}
+	}
+}
+
 void ps_buckets_dumpfast(t_pslist *alist, t_pslist *blist, int bucksize, int total)
 {
     static int start;
@@ -277,6 +313,7 @@ void ps_buckets_dumpfast(t_pslist *alist, t_pslist *blist, int bucksize, int tot
         end = total;
 	
     pushbucket(alist, blist, start, end);
+	ps_printlists(alist, blist, &printmembs);
     dumpbucket(alist, blist, start, end);
     start += bucksize;
     //ps_printlists(alist, blist, &printmembs);
@@ -298,7 +335,7 @@ void ps_buckets(t_pslist *alist, t_pslist *blist, int bucksize, int total)
     if (start + bucksize > total)
         end = total;
 	
-    pushbucket(alist, blist, start, end);
+    //pushbucket(alist, blist, start, end);
     //dumpbucket(alist, blist, start, end);
     start += bucksize;
     //ps_printlists(alist, blist, &printmembs);
@@ -341,7 +378,7 @@ void ps_buckets_to_a(t_pslist *alist, t_pslist *blist, int bucksize, int total)
 
 void test_bench(t_pslist *alist, t_pslist *blist, int total)
 {
-	//ps_buckets_dumpfast(alist, blist, total / 10, total);
-	ps_buckets(alist, blist, total / 10, total);
-	ps_buckets_to_a(blist, alist, 1, total);
+	ps_buckets_dumpfast(alist, blist, total / 5, total);
+	//ps_buckets(alist, blist, total / 15, total);
+	//ps_buckets_to_a(blist, alist, 1, total);
 }
