@@ -12,35 +12,6 @@
 
 #include "pushswap.h"
 
-void    minmax_del(t_pslist *list, int data)
-{
-    t_psnode *cur;
-
-	if (data != list->min && data != list->max)
-		return ;
-    if (list->len == 0)
-    {
-        list->min = -1;
-        list->max = -1;
-    }
-    else
-    {
-        if (list->pivot->data > list->max)
-            list->max = list->pivot->data;
-        if (list->pivot->data < list->min)
-            list->min = list->pivot->data;
-        cur = list->pivot->next;
-        while (cur != list->pivot)
-        {
-            if (list->pivot->data > list->max)
-                list->max = list->pivot->data;
-            if (list->pivot->data < list->min)
-                list->min = list->pivot->data;
-            cur = cur->next;
-        }
-    }
-}
-
 void minmax_add(t_pslist *list, int data)
 {
     if (list->min == -1 || data < list->min)
@@ -48,6 +19,33 @@ void minmax_add(t_pslist *list, int data)
     if (list->max == -1 || data > list->max)
         list->max = data;
 }
+
+void    minmax_del(t_pslist *list, int data)
+{
+    t_psnode *cur;
+
+    if (list->len == 0)
+    {
+        list->min = -1;
+        list->max = -1;
+    }
+	if (data != list->min && data != list->max)
+		return ;
+    else
+    {
+        list->min = -1;
+        list->max = -1;
+        minmax_add(list, list->pivot->data);
+        cur = list->pivot->next;
+        while (cur != list->pivot)
+        {
+            minmax_add(list, cur->data);
+            cur = cur->next;
+        }
+    }
+}
+
+
 
 /*
 void    printmulti(char *str, int times)

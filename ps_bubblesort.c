@@ -14,7 +14,6 @@
 
 #include <stdio.h>
 
-
 int ps_goodswap(t_pslist *list)
 {
 	int piv;

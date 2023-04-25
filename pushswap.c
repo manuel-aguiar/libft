@@ -10,7 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-//gcc -Wall -Wextra -Werror *.c -L. -lft -Iincs
+//gcc *.c -L. -lft -Iincs
+
 
 #include "pushswap.h"
 
@@ -37,15 +38,17 @@ void solver(int ac, char **av)
 	ps_arr_to_cdlist(&alist, &arr, ac);
 	blist = pslist_new(ac, alist->pool);
 	ps_printlists(alist, blist, &printmembs);
-	ps_split_list(alist, blist);
-	if (blist->pivot->data != blist->max)
-		pslist_rotate(blist, 1, "rb");
+
+	test_bench(alist, blist, ac);
+	
+	//ps_buckets(alist, blist, 10, ac);
+	//ps_split_list(alist, blist, ac);
+	
 	//ps_merge_swap(alist, blist);
 	//ps_bubble_sort(alist);
 	ps_printlists(alist, blist, &printmembs);
 	pslist_destroy(&blist, 1);
 	pslist_destroy(&alist, 0);
-
 }
 
 int main(int ac, char **av)

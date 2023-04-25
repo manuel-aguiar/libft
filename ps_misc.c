@@ -12,9 +12,9 @@
 
 #include "pushswap.h"
 
-void    calcminmax(t_icplist *list)
+void    calcminmax(t_pslist *list)
 {
-    t_icpnode *cur;
+    t_psnode *cur;
 
     if (list->len == 0)
     {
@@ -39,7 +39,7 @@ void    calcminmax(t_icplist *list)
     }
 }
 
-void minmax_newnode(t_icplist *list, int data)
+void minmax_newnode(t_pslist *list, int data)
 {
     if (list->min == -1 || data < list->min)
         list->min = data;
@@ -54,10 +54,27 @@ void    printmulti(char *str, int times)
         printf("%s\n", str);
 }*/
 
-
-int rotatable(t_icplist *list)
+int is_ordered(t_pslist *list)
 {
-    t_icpnode *node;
+    t_psnode *cur;
+
+    cur = list->pivot;
+    if (cur->data < cur->prev->data && cur->data != list->min)
+        return (0);
+    cur = cur->next;
+    while (cur != list->pivot)
+    {
+        if (cur->data < cur->prev->data && cur->data != list->min)
+            return (0);
+        cur = cur->next;
+    }
+    return (1);
+}
+
+/*
+int rotatable(t_pslist *list)
+{
+    t_psnode *node;
     int count;
     int new_pivot;
 
@@ -81,12 +98,12 @@ int rotatable(t_icplist *list)
     }
     if (new_pivot > list->len / 2)
     {
-        icplist_rotate(list, new_pivot - list->len);
+        pslist_rotate(list, new_pivot - list->len);
         return (new_pivot - list->len);
     }
     else
     {
-        icplist_rotate(list, new_pivot);
+        pslist_rotate(list, new_pivot);
         return (new_pivot);
     }
-}
+}*/

@@ -88,7 +88,23 @@ void 	ps_bubble_sort(t_pslist *list);
 
 void	ps_merge_swap(t_pslist *a_list, t_pslist *blist);
 
-void ps_split_list(t_pslist *alist, t_pslist *blist);
+void ps_split_list(t_pslist *alist, t_pslist *blist, int ac);
 
+void dumpable (t_pslist *alist, t_pslist *blist);
+
+void	ps_merge_stacks(t_pslist *alist, t_pslist *blist, int prev_min);
+
+int is_ordered(t_pslist *list);
+
+int total_radix_ops(int size);
+void	get_b_max_on_top(t_pslist *blist);
+void 	find_b_place(t_pslist *blist, int target);
+void pushbucket(t_pslist *alist, t_pslist *blist, int min, int max);
+void dumpbucket(t_pslist *alist, t_pslist *blist, int start, int end);
+void ps_buckets(t_pslist *alist, t_pslist *blist, int bucksize, int total);
+
+void ps_buckets_to_a(t_pslist *alist, t_pslist *blist, int bucksize, int total);
+
+void test_bench(t_pslist *alist, t_pslist *blist, int total);
 
 #endif

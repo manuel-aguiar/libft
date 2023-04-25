@@ -41,149 +41,159 @@ int	second_order(t_pslist *list)
 	return (0);
 }
 
-/*
-int dumpable (t_pslist *alist, t_pslist *blist)
-{
-	while (alist->pivot->prev->data == blist->pivot->data)
-}*/
 
-void	get_max_on_top(t_pslist *blist)
-{
-	int i;
-	t_psnode *cur;
-
-	i = 0;
-	cur = blist->pivot;
-	while (cur->data != blist->max)
-	{
-		//ft_printf("cur->data %d, blist max %d\n", cur->data, blist->max);
-		cur = cur->next;
-		i++;
-	}
-	//printf("%d blist max, i is %d\n", blist->max, i);
-	if (i <= blist->len / 2)
-	{
-		while (i--)
-		{
-			pslist_rotate(blist, 1, "rb");
-			counter++;
-		}
-	}
-	else
-	{
-		while (i--)
-		{
-			pslist_rotate(blist, -1, "rrb");
-			counter++;
-		}
-	}
-}
-
-void 	find_b_place(t_pslist *blist, int target)
-{
-	t_psnode *cur;
-	int i;
-
-	if (target < blist->min || target > blist->max)
-		get_max_on_top(blist);
-	else
-	{
-		i = 0;
-		cur = blist->pivot;
-		while(!(cur->data > target && cur->next->data < target))
-		{
-			cur = cur->next;
-			i++;
-		}
-		if (i < blist->len / 2)
-		{
-			while (i--)
-			{
-				pslist_rotate(blist, 1, "rb");
-				counter++;
-			}
-		}
-		else
-		{
-			while (i--)
-			{
-				pslist_rotate(blist, -1, "rrb");
-				counter++;
-			}
-		}
-	}
-}
-
-
-void ps_split_list(t_pslist *alist, t_pslist *blist)
+void dumpable (t_pslist *alist, t_pslist *blist)
 {
 	int len;
 
-	len = alist->len;
-	while (len--)
+	len = blist->len;
+	while (blist->len)
 	{
-		if (first_order(alist) && second_order(alist))
-		{
-			if (blist->len <= 1)
-				pslist_push_top(blist, alist, "pb");
-			else if (blist->len == 2)
-			{
-				if (blist->pivot->data < blist->pivot->next->data)
-				{
-					pslist_swap_top(alist, NULL);
-					pslist_swap_top(blist, "ss");
-					counter++;
-					//ps_printlists(alist, blist, &printmembs);
-				}
-				else
-				{
-					pslist_push_top(blist, alist, "pb");
-					counter++;
-					//ps_printlists(alist, blist, &printmembs);
-				}
-			}
-			else if (blist->len > 2)
-			{
-				//ps_printlists(alist, blist, &printmembs);
+		pslist_push_top(alist, blist, "pa");
+		counter++;
+	}
+}
 
-				find_b_place(blist, alist->pivot->data);
-				pslist_push_top(blist, alist, "pb");
-				counter++;
-				//ps_printlists(alist, blist, &printmembs);
-			}
-		}
-		else if (alist->pivot->data > alist->pivot->next->data && alist->pivot->data < alist->pivot->next->next->data)
-		{
-			if (blist->len >= 2)
+
+
+
+void ps_split_list(t_pslist *alist, t_pslist *blist, int ac)
+{
+	int len;
+	int i;
+	int save;
+	int totalplaced;
+	int prev_max;
+	int prev_min;
+
+	prev_max = -1;
+	prev_min = -1;
+	totalplaced = 0;
+	len = 1;
+	save = ac;
+	while (len < ac)
+	{
+			len *= 2;
+			while (blist->len < len)
 			{
-				if (blist->pivot->data < blist->pivot->next->data  && !(blist->pivot->data == blist->min && blist->pivot->next->data == blist->max))
+				if (first_order(alist) && second_order(alist))
 				{
-					pslist_swap_top(alist, NULL);
-					pslist_swap_top(blist, "ss");
-					counter++;
-					//ps_printlists(alist, blist, &printmembs);
+					if (blist->len <= 1)
+					{
+						pslist_push_top(blist, alist, "pb");
+						//ps_printlists(alist, blist, &printmembs);
+					}
+					else if (blist->len == 2)
+					{
+						if (blist->pivot->data < blist->pivot->next->data)
+						{
+							pslist_swap_top(alist, NULL);
+							pslist_swap_top(blist, "ss");
+							//ps_printlists(alist, blist, &printmembs);
+							counter++;
+							ps_printlists(alist, blist, &printmembs);
+						}
+						else
+						{
+							pslist_push_top(blist, alist, "pb");
+							if (blist->pivot->data > blist->min && blist->pivot->data < blist->max)
+								pslist_swap_top(blist, "sb");
+							counter++;
+							//ps_printlists(alist, blist, &printmembs);
+						}
+					}
+					else if (blist->len > 2)
+					{
+						//ps_printlists(alist, blist, &printmembs);
+						//printf("finding a place for %d, max is %d, min is %d\n", alist->pivot->data, blist->max, blist->min);
+						find_b_place(blist, alist->pivot->data);
+						pslist_push_top(blist, alist, "pb");
+						counter++;
+						//ps_printlists(alist, blist, &printmembs);
+					}
+				}
+				else if (alist->pivot->data > alist->pivot->next->data && alist->pivot->data < alist->pivot->next->next->data)
+				{
+					if (blist->len >= 2)
+					{
+						if (blist->pivot->data < blist->pivot->next->data  && !(blist->pivot->data == blist->min && blist->pivot->next->data == blist->max))
+						{
+							pslist_swap_top(alist, NULL);
+							pslist_swap_top(blist, "ss");
+							counter++;
+							//ps_printlists(alist, blist, &printmembs);
+						}
+						else
+						{
+							pslist_swap_top(alist, "sa");
+							counter++;
+							//ps_printlists(alist, blist, &printmembs);
+						}
+					}
+					else
+					{
+						pslist_swap_top(alist, "sa");
+						counter++;
+					}
 				}
 				else
 				{
-					pslist_swap_top(alist, "sa");
+					pslist_rotate(alist, 1, "ra");
 					counter++;
 					//ps_printlists(alist, blist, &printmembs);
 				}
+			}
+			ps_printlists(alist, blist, &printmembs);
+			ac -= blist->len;
+			find_b_place(blist, blist->max);
+			ps_printlists(alist, blist, &printmembs);
+			if (prev_max != -1)
+			{
+				
+				if (is_ordered(alist))
+				{
+					ft_printf("alist ios ordered\n");
+					while (alist->pivot->data != alist->min)
+						pslist_rotate(alist, 1, "ra");
+				}
+				else
+				{
+					while (alist->pivot->prev->data != prev_max)
+					pslist_rotate(alist, -1, "rra");
+				}
+				ps_merge_stacks(alist, blist, prev_min);
+				ft_printf("after merge\n");
+				ps_printlists(alist, blist, &printmembs);
+				if (prev_max < blist->max)
+					prev_max = blist->max;
+				if (prev_min < blist->min)
+					prev_min = blist->min;
 			}
 			else
 			{
-				pslist_swap_top(alist, "sa");
-				counter++;
+				ps_printlists(alist, blist, &printmembs);
+				if (is_ordered(alist))
+				{
+					while (alist->pivot->data != alist->min)
+						pslist_rotate(alist, 1, "ra");
+				}
+				ps_merge_stacks(alist, blist, prev_min);
+				ft_printf("after merge\n");
+				ps_printlists(alist, blist, &printmembs);
+				prev_max = blist->max;
+				prev_min = blist->min;
 			}
-		}
-		else
-		{
-			pslist_rotate(alist, 1, "ra");
-			counter++;
-			//ps_printlists(alist, blist, &printmembs);
-		}
+			totalplaced += save / 10;
+			i = 0;
+			//while (i++ < totalplaced)
+			//	pslist_rotate(alist,1, "ra");
+			ps_printlists(alist, blist, &printmembs);
+			ft_printf("number of operations was %d\n", counter);
+			if (is_ordered(alist))
+				break ;
 	}
-	//ps_printlists(alist, blist, &printmembs);
+			
+			//ps_printlists(alist, blist, &printmembs);
 }
 
 
@@ -237,6 +247,32 @@ void	closest_gap(t_pslist *list)
 	count_front = closest_gap_forward(list);
 	count_back = closest_gap_backward(list);
 
+}
+
+void	ps_merge_stacks(t_pslist *alist, t_pslist *blist, int prev_min)
+{
+	while (blist->len)
+	{
+		while (blist->len && alist->pivot->prev->data < blist->pivot->data)
+		{
+			//ps_printlists(alist, blist, &printmembs);
+			pslist_push_top(alist, blist, "pa");
+			counter++;
+		}
+
+		while (blist->len && alist->pivot->data != prev_min && alist->pivot->prev->data > blist->pivot->data)
+		{
+			//ps_printlists(alist, blist, &printmembs);
+			pslist_rotate(alist, -1, "rra");
+			counter++;
+		}
+		if (alist->pivot->data == prev_min)
+			break;
+	}
+	if (blist->len)
+		dumpable(alist, blist);
+	ft_printf("number of operations was %d\n", counter);
+	//ps_printlists(alist, blist, &printmembs);
 }
 
 void	ps_merge_swap(t_pslist *alist, t_pslist *blist)
