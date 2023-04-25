@@ -335,13 +335,35 @@ void ps_buckets(t_pslist *alist, t_pslist *blist, int bucksize, int total)
     if (start + bucksize > total)
         end = total;
 	
-    //pushbucket(alist, blist, start, end);
+    pushbucket(alist, blist, start, end);
     //dumpbucket(alist, blist, start, end);
     start += bucksize;
     //ps_printlists(alist, blist, &printmembs);
     ft_printf("total ops is %d\n", counter);
     ft_printf("total radix %d\n", total_radix_ops(total));
     ps_buckets(alist, blist, bucksize, total);
+
+
+}
+
+void ps_buckets_2(t_pslist *alist, t_pslist *blist, int bucksize, int total)
+{
+    static int start;
+    int end;
+
+    if (start >= total)
+        return ;
+    end = start + bucksize;
+    if (start + bucksize > total)
+        end = total;
+	
+    pushbucket(alist, blist, start, end);
+    //dumpbucket(alist, blist, start, end);
+    start += bucksize;
+    //ps_printlists(alist, blist, &printmembs);
+    ft_printf("total ops is %d\n", counter);
+    ft_printf("total radix %d\n", total_radix_ops(total));
+    ps_buckets_2(alist, blist, bucksize, total);
 
 
 }
@@ -363,7 +385,7 @@ void ps_buckets_to_a(t_pslist *alist, t_pslist *blist, int bucksize, int total)
     if (end - bucksize < 0)
         begin = 0;
 
-	printf("pushing bucketsize %d, min %d, max %d\n", bucksize, buckets_placed, end);
+	printf("pushing bucketsize %d, min %d, max %d\n", bucksize, begin, end);
     pushbucket(alist, blist, begin, end);
     //dumpbucket(alist, blist, start, end);
     buckets_placed++;
@@ -375,10 +397,43 @@ void ps_buckets_to_a(t_pslist *alist, t_pslist *blist, int bucksize, int total)
 
 }
 
+void ps_buckets_to_a_2(t_pslist *alist, t_pslist *blist, int bucksize, int total)
+{
+    
+	static int buckets_placed;
+	int begin;
+    int end;
+
+    if (total - (buckets_placed) * bucksize < 0)
+	{
+		printf("start %d, total %d", buckets_placed, total);
+        return ;
+	}
+    end = total - (buckets_placed * bucksize);
+	begin = end - bucksize;
+    if (end - bucksize < 0)
+        begin = 0;
+
+	printf("pushing bucketsize %d, min %d, max %d\n", bucksize, begin, end);
+    pushbucket(alist, blist, begin, end);
+    //dumpbucket(alist, blist, start, end);
+    buckets_placed++;
+    //ps_printlists(alist, blist, &printmembs);
+    ft_printf("total ops is %d\n", counter);
+    ft_printf("total radix %d\n", total_radix_ops(total));
+    ps_buckets_to_a_2(alist, blist, bucksize, total);
+
+
+}
 
 void test_bench(t_pslist *alist, t_pslist *blist, int total)
 {
-	ps_buckets_dumpfast(alist, blist, total / 5, total);
-	//ps_buckets(alist, blist, total / 15, total);
-	//ps_buckets_to_a(blist, alist, 1, total);
+	//ps_buckets_dumpfast(alist, blist, total / 5, total);
+	ps_buckets(alist, blist, total / 4, total);
+	printf("pushing to a 1st time\n");
+	ps_buckets_to_a(blist, alist, total / 8, total);
+	printf("pushing to B 2nd time\n");
+	ps_buckets_2(alist, blist, total / 16, total);
+	printf("pushing to a 2nd time\n");
+	ps_buckets_to_a_2(blist, alist, 1, total);
 }
