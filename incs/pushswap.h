@@ -31,32 +31,6 @@ number 0 and above"
 
 */
 
-typedef struct s_psnode
-{
-    int					data;
-    struct s_psnode	*next;
-    struct s_psnode	*prev;
-} t_psnode;
-
-typedef struct s_pslist
-{
-    t_psnode	*pivot;
-    t_mpool		*pool;
-    int			len;
-	int			min;
-	int			max;
-} t_pslist;
-
-t_pslist	*pslist_new(int elements, t_mpool *shared_pool);
-void		pslist_in_head(t_pslist* list, int data);
-void		pslist_in_tail(t_pslist* list, int data);
-void		pslist_del_head(t_pslist* list);
-void		pslist_del_tail(t_pslist* list);
-void		pslist_head_print(t_pslist *list, void (*pnt)(int));
-void		pslist_tail_print(t_pslist *list, void (*pnt)(int));
-void		pslist_destroy(t_pslist **list, int keep_pool);
-
-
 /* ps_preprocess.c*/
 int		ps_preprocess(int **res, int ac, char **av);
 
@@ -64,47 +38,47 @@ int		ps_preprocess(int **res, int ac, char **av);
 int		ps_normalize(int **arr, int size);
 
 /* ps_arr_to_cdlist.c*/
-int		ps_arr_to_cdlist(t_pslist **list, int **arr, int size);
+int		ps_arr_to_cdlist(t_icplist **list, int **arr, int size);
 
 /* ps_plays.c*/
-void	pslist_swap_top(t_pslist *list, char *print);
-void	pslist_push_top(t_pslist *to, t_pslist *from, char *print);
-int		pslist_rotate_multi(t_pslist *list, int rotate, char *print);
-void    pslist_rotate(t_pslist *list, int rotate, char *print);
+void	icplist_swap_top(t_icplist *list, char *print);
+void	icplist_push_top(t_icplist *to, t_icplist *from, char *print);
+int		icplist_rotate_multi(t_icplist *list, int rotate, char *print);
+void    icplist_rotate(t_icplist *list, int rotate, char *print);
 
 /* ps_printlists.c*/
-void	ps_printlists(t_pslist *a_list, t_pslist *b_list, void (*pnt)(int));
+void	ps_printlists(t_icplist *a_list, t_icplist *b_list, void (*pnt)(int));
 void	printmembs(int num);
 
 /* minmax functions to update the list as numbers move*/
 
-void minmax_add(t_pslist *list, int data);
-void minmax_del(t_pslist *list, int data);
+void minmax_add(t_icplist *list, int data);
+void minmax_del(t_icplist *list, int data);
 
 
 /* algos */
 
-void 	ps_bubble_sort(t_pslist *list);
+void 	ps_bubble_sort(t_icplist *list);
 
-void	ps_merge_swap(t_pslist *a_list, t_pslist *blist);
+void	ps_merge_swap(t_icplist *a_list, t_icplist *blist);
 
-void ps_split_list(t_pslist *alist, t_pslist *blist, int ac);
+void ps_split_list(t_icplist *alist, t_icplist *blist, int ac);
 
-void dumpable (t_pslist *alist, t_pslist *blist);
+void dumpable (t_icplist *alist, t_icplist *blist);
 
-void	ps_merge_stacks(t_pslist *alist, t_pslist *blist, int prev_min);
+void	ps_merge_stacks(t_icplist *alist, t_icplist *blist, int prev_min);
 
-int is_ordered(t_pslist *list);
+int is_ordered(t_icplist *list);
 
 int total_radix_ops(int size);
-void	get_b_max_on_top(t_pslist *blist);
-void 	find_b_place(t_pslist *blist, int target);
-void pushbucket(t_pslist *alist, t_pslist *blist, int min, int max);
-void dumpbucket(t_pslist *alist, t_pslist *blist, int start, int end);
-void ps_buckets(t_pslist *alist, t_pslist *blist, int bucksize, int total);
+void	get_b_max_on_top(t_icplist *blist);
+void 	find_b_place(t_icplist *blist, int target);
+void pushbucket(t_icplist *alist, t_icplist *blist, int min, int max);
+void dumpbucket(t_icplist *alist, t_icplist *blist, int start, int end);
+void ps_buckets(t_icplist *alist, t_icplist *blist, int bucksize, int total);
 
-void ps_buckets_to_a(t_pslist *alist, t_pslist *blist, int bucksize, int total);
+void ps_buckets_to_a(t_icplist *alist, t_icplist *blist, int bucksize, int total);
 
-void test_bench(t_pslist *alist, t_pslist *blist, int total);
+void test_bench(t_icplist *alist, t_icplist *blist, int total);
 
 #endif
