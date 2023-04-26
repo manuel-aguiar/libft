@@ -19,9 +19,9 @@ int     in_bucket(int target, int min, int max)
     return ((target >= min && target < max));
 }
 
-void 	put_target_to_bottom(t_pslist *blist, int target)
+void 	put_target_to_bottom(t_icplist *blist, int target)
 {
-	t_psnode *cur;
+	t_icpnode *cur;
 	int i;
 
     i = 0;
@@ -35,7 +35,7 @@ void 	put_target_to_bottom(t_pslist *blist, int target)
     {
         while (i--)
         {
-            pslist_rotate(blist, 1, "ra");
+            icplist_rotate(blist, 1, "ra");
             counter++;
         }
     }
@@ -44,15 +44,15 @@ void 	put_target_to_bottom(t_pslist *blist, int target)
         i = blist->len - i;
         while (i--)
         {
-            pslist_rotate(blist, -1, "rra");
+            icplist_rotate(blist, -1, "rra");
             counter++;
         }
     }
 }
 
-void 	put_target_to_top(t_pslist *blist, int target)
+void 	put_target_to_top(t_icplist *blist, int target)
 {
-	t_psnode *cur;
+	t_icpnode *cur;
 	int i;
 
     i = 0;
@@ -66,7 +66,7 @@ void 	put_target_to_top(t_pslist *blist, int target)
     {
         while (i--)
         {
-            pslist_rotate(blist, 1, "ra");
+            icplist_rotate(blist, 1, "ra");
             counter++;
         }
     }
@@ -75,15 +75,15 @@ void 	put_target_to_top(t_pslist *blist, int target)
         i = blist->len - i;
         while (i--)
         {
-            pslist_rotate(blist, -1, "rra");
+            icplist_rotate(blist, -1, "rra");
             counter++;
         }
     }
 }
 
-int find_closest_in_bucket(t_pslist *list, int min, int max)
+int find_closest_in_bucket(t_icplist *list, int min, int max)
 {
-	t_psnode *cur;
+	t_icpnode *cur;
 	int countpos;
 	int countneg;
 
@@ -106,7 +106,7 @@ int find_closest_in_bucket(t_pslist *list, int min, int max)
 	return (countneg);
 }
 
-void pushbucket_to_b(t_pslist *alist, t_pslist *blist, int min, int max)
+void pushbucket_to_b(t_icplist *alist, t_icplist *blist, int min, int max)
 {
     int size;
 	int closest;
@@ -119,7 +119,7 @@ void pushbucket_to_b(t_pslist *alist, t_pslist *blist, int min, int max)
 		{
 			while (closest++ < 0)
 			{
-				pslist_rotate(alist, -1, "rra");
+				icplist_rotate(alist, -1, "rra");
 				counter++;
 			}
 		}
@@ -127,11 +127,11 @@ void pushbucket_to_b(t_pslist *alist, t_pslist *blist, int min, int max)
 		{
 			while (closest-- > 0)
 			{
-				pslist_rotate(alist, 1, "ra");
+				icplist_rotate(alist, 1, "ra");
 				counter++;
 			}
 		}
-        pslist_push_top(blist, alist, "pb");
+        icplist_push_top(blist, alist, "pb");
 		//ps_printlists(alist, blist, &printmembs);
         counter++;
     }
@@ -139,7 +139,7 @@ void pushbucket_to_b(t_pslist *alist, t_pslist *blist, int min, int max)
 
 /* SE LEN = SIZE, NUNCA FOI PARTIDO, ENCHE O BUCKET ASAP E VAI PARA O PONTO ONDE O COMPLEMENTO TERMINA*/
 
-void pushbucket_to_a(t_pslist *alist, t_pslist *blist, int min, int max)
+void pushbucket_to_a(t_icplist *alist, t_icplist *blist, int min, int max)
 {
     int size;
 	int closest;
@@ -152,7 +152,7 @@ void pushbucket_to_a(t_pslist *alist, t_pslist *blist, int min, int max)
 		{
 			while (closest++ < 0)
 			{
-				pslist_rotate(blist, -1, "rrb");
+				icplist_rotate(blist, -1, "rrb");
 				counter++;
 			}
 		}
@@ -160,16 +160,16 @@ void pushbucket_to_a(t_pslist *alist, t_pslist *blist, int min, int max)
 		{
 			while (closest-- > 0)
 			{
-				pslist_rotate(blist, 1, "rb");
+				icplist_rotate(blist, 1, "rb");
 				counter++;
 			}
 		}
-        pslist_push_top(alist, blist, "pa");
+        icplist_push_top(alist, blist, "pa");
 		counter++;
 	}
 }
 
-void insertion_sort_to_b(t_pslist *to, t_pslist *from, int start, int end)
+void insertion_sort_to_b(t_icplist *to, t_icplist *from, int start, int end)
 {
 	int size;
 
@@ -177,12 +177,12 @@ void insertion_sort_to_b(t_pslist *to, t_pslist *from, int start, int end)
 	while (size--)
 	{
 		put_target_to_top(from, start++);
-		pslist_push_top(to, from, "pb");
+		icplist_push_top(to, from, "pb");
 		counter++;
 	}
 }
 
-void	insertion_sort_to_a(t_pslist *to, t_pslist *from, int start, int end)
+void	insertion_sort_to_a(t_icplist *to, t_icplist *from, int start, int end)
 {
 	int size;
 
@@ -190,66 +190,17 @@ void	insertion_sort_to_a(t_pslist *to, t_pslist *from, int start, int end)
 	while (size--)
 	{
 		put_target_to_top(from, --end);
-		pslist_push_top(to, from, "pa");
+		icplist_push_top(to, from, "pa");
 		counter++;
 	}
 }
 
-int find_end_of_bucket(t_pslist *list, int min, int max)
-{
-	int countpos;
-	int countneg;
-	t_psnode *cur;
-
-	countpos = 0;
-	countneg = 0;
-	cur = list->pivot;
-	while (!(in_bucket(cur->data, min, max) && !in_bucket(cur->prev->data, min, max))
-	&& countpos < list->len + 1)
-	{
-		cur = cur->next;
-		countpos++;
-	}
-	if (countpos >= list->len)
-		return (0);
-	if (countpos > list->len / 2)
-		return (countpos - list->len);
-	return (countpos);
-}
-
-void move_to_end_of_bucket(t_pslist *list, int min, int max)
-{
-	int move;
 
 
-	move = find_end_of_bucket(list, min, max);
-	printf("calling bucket move, move is %d\n", move);
-	if (!move)
-		return ;
-	if (move > 0)
-	{
-		while (move--)
-		{
-			pslist_rotate(list, 1, "rb");
-			printf("end of bucket rotate\n");
-			counter++;
-		}
-	}
-	if (move < 0)
-	{
-		while (move++)
-		{
-			pslist_rotate(list, -1, "rrb");
-			printf("end of bucket reverse rotate\n");
-			counter++;
-		}
-	}
-}
+void quick_sort_a(t_icplist *alist, t_icplist *blist, int start, int end);
+void quick_sort_b(t_icplist *alist, t_icplist *blist, int start, int end);
 
-void quick_sort_a(t_pslist *alist, t_pslist *blist, int start, int end);
-void quick_sort_b(t_pslist *alist, t_pslist *blist, int start, int end);
-
-void quick_sort_b(t_pslist *alist, t_pslist *blist, int start, int end)
+void quick_sort_b(t_icplist *alist, t_icplist *blist, int start, int end)
 {
 	int mid;
 
@@ -275,7 +226,7 @@ void quick_sort_b(t_pslist *alist, t_pslist *blist, int start, int end)
 
 }
 
-void quick_sort_a(t_pslist *alist, t_pslist *blist, int start, int end)
+void quick_sort_a(t_icplist *alist, t_icplist *blist, int start, int end)
 {
 	int mid;
 
@@ -302,7 +253,7 @@ void quick_sort_a(t_pslist *alist, t_pslist *blist, int start, int end)
 }
 
 
-void test_bench(t_pslist *alist, t_pslist *blist, int total)
+void test_bench(t_icplist *alist, t_icplist *blist, int total)
 {
 	quick_sort_a(alist, blist, 0, total);
 

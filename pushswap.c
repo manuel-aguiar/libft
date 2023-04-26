@@ -18,8 +18,8 @@
 void solver(int ac, char **av)
 {
 	int			*arr;
-	t_pslist	*alist;
-	t_pslist	*blist;
+	t_icplist	*alist;
+	t_icplist	*blist;
 
 	blist = NULL;
 	//ps_preprocess(&arr, ac, av);
@@ -27,19 +27,16 @@ void solver(int ac, char **av)
 
 	ps_normalize(&arr, ac);
 	ps_arr_to_cdlist(&alist, &arr, ac);
-	blist = pslist_new(ac, alist->pool);
+	blist = icplist_new(ac, alist->pool);
 	ps_printlists(alist, blist, &printmembs);
+
 
 	test_bench(alist, blist, ac);
 
-	//ps_buckets(alist, blist, 10, ac);
-	//ps_split_list(alist, blist, ac);
 
-	//ps_merge_swap(alist, blist);
-	//ps_bubble_sort(alist);
 	ps_printlists(alist, blist, &printmembs);
-	pslist_destroy(&blist, 1);
-	pslist_destroy(&alist, 0);
+	icplist_destroy(&blist, 1);
+	icplist_destroy(&alist, 0);
 }
 
 int main(int ac, char **av)

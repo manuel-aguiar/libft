@@ -12,19 +12,19 @@
 
 #include "pushswap.h"
 
-int	ps_arr_to_cdlist(t_pslist **list, int **arr, int size)
+int	ps_arr_to_cdlist(t_icplist **list, int **arr, int size)
 {
-	t_pslist *new;
+	t_icplist *new;
 	int i;
 	int *array;
 
-	new = pslist_new(size, NULL);
+	new = icplist_new(size, NULL);
 	if (new)
 	{
 		array = *arr;
 		i = -1;
 		while (++i < size)
-			pslist_in_tail(new, array[i]);
+			icplist_in_tail(new, array[i]);
 	}
 	*list = new;
 	free(array);
@@ -34,12 +34,12 @@ int	ps_arr_to_cdlist(t_pslist **list, int **arr, int size)
 	return (0);
 }
 
-void	ps_printlists(t_pslist *a_list, t_pslist *b_list, void (*pnt)(int))
+void	ps_printlists(t_icplist *a_list, t_icplist *b_list, void (*pnt)(int))
 {
 	ft_printf("list B: ");
-	pslist_head_print(b_list, pnt);
+	icplist_head_print(b_list, pnt);
 	ft_printf("\nlist A: ");
-	pslist_head_print(a_list, pnt);
+	icplist_head_print(a_list, pnt);
 	ft_printf("\n");
 }
 
