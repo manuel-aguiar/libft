@@ -20,7 +20,13 @@
 # include <stdlib.h>
 # include <stdint.h>
 
-#include <stdio.h>
+# define MAGIC_SIZE 200
+# define MAGIC_NORM 50
+# define INSORT_TO_A 15
+# define INSORT_TO_B INSORT_TO_A / 2
+
+
+# include <stdio.h>
 
 /* pushswap list is a circular doubly linekd list with a memory pool
 all functions i ahve on libft apply except the structs and initializers will
@@ -51,9 +57,6 @@ void	ps_printlists(t_icplist *a_list, t_icplist *b_list, void (*pnt)(int));
 void	printmembs(int num);
 
 /* minmax functions to update the list as numbers move*/
-
-void minmax_add(t_icplist *list, int data);
-void minmax_del(t_icplist *list, int data);
 
 
 /* algos */
