@@ -49,8 +49,6 @@ t_pslist *pslist_new(int elements, t_mpool *shared_pool)
     list->pivot = NULL;
     list->pool = pool;
     list->len = 0;
-	list->min = -1;
-	list->max = -1;
     return (list);
 }
 
@@ -83,5 +81,4 @@ void pslist_in_tail(t_pslist* list, int data)
         list->pivot = new_node;
     }
     ++(list->len);
-	minmax_add(list, data);
 }

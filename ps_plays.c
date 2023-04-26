@@ -86,8 +86,6 @@ void    pslist_push_top(t_pslist *to, t_pslist *from, char *print)
     if (move)
 	{
         pslist_add_top(to, move);
-		minmax_add(to, move->data);
-		minmax_del(from, move->data);
 	}
 	if (print)
 		ft_printf("%s\n", print);
