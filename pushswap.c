@@ -15,6 +15,25 @@
 
 #include "pushswap.h"
 
+int is_sorted(t_icplist *alist, t_icplist *blist)
+{
+	t_icpnode *cur;
+
+	cur = alist->pivot;
+	if (cur->data != 0)
+		return (0);
+	cur = cur->next;
+	while (cur != alist->pivot)
+	{
+		if ((cur->data != cur->prev->data + 1))
+			return (0);
+		cur = cur->next;
+	}
+	if (blist->len)
+		return (0);
+	return (1);
+}
+
 void solver(int ac, char **av)
 {
 	int			*arr;
@@ -33,8 +52,12 @@ void solver(int ac, char **av)
 
 	test_bench(alist, blist, ac);
 
-
+	
 	ps_printlists(alist, blist, &printmembs);
+	if (is_sorted(alist, blist))
+		printf("SORTED\n");
+	else
+		printf("WRONG\n");
 	icplist_destroy(&blist, 1);
 	icplist_destroy(&alist, 0);
 }
