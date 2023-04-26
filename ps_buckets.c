@@ -330,7 +330,10 @@ void ps_buckets(t_pslist *alist, t_pslist *blist, int bucksize, int total)
     int end;
 
     if (start >= total)
+	{
+		start = 0;
         return ;
+	}
     end = start + bucksize;
     if (start + bucksize > total)
         end = total;
@@ -377,6 +380,7 @@ void ps_buckets_to_a(t_pslist *alist, t_pslist *blist, int bucksize, int total)
 
     if (total - (buckets_placed) * bucksize < 0)
 	{
+		buckets_placed = 0;
 		printf("start %d, total %d", buckets_placed, total);
         return ;
 	}
@@ -429,11 +433,50 @@ void ps_buckets_to_a_2(t_pslist *alist, t_pslist *blist, int bucksize, int total
 void test_bench(t_pslist *alist, t_pslist *blist, int total)
 {
 	//ps_buckets_dumpfast(alist, blist, total / 5, total);
-	ps_buckets(alist, blist, total / 4, total);
-	printf("pushing to a 1st time\n");
-	ps_buckets_to_a(blist, alist, total / 8, total);
-	printf("pushing to B 2nd time\n");
-	ps_buckets_2(alist, blist, total / 16, total);
+	int div;
+	int stop;
+
+	stop = 0;
+	div = 4;
+	while (total / div > 30 && !stop)
+	{
+		ps_buckets(alist, blist, total / div, total);
+		printf("pushing to a 1st time\n");
+		div *= 2;
+		ps_buckets_to_a(blist, alist, total / div, total);
+		printf("pushing to B 2nd time\n");
+		div *= 2;
+	}
+	ps_buckets(alist, blist, total / div, total);
 	printf("pushing to a 2nd time\n");
-	ps_buckets_to_a_2(blist, alist, 1, total);
+	ps_buckets_to_a(blist, alist, 1, total);
 }
+
+/*
+void test_bench(t_pslist *alist, t_pslist *blist, int total)
+{
+	//ps_buckets_dumpfast(alist, blist, total / 5, total);
+	int div;
+	int stop;
+
+	stop = 0;
+	div = 2;
+	while (total / div > 30 && !stop)
+	{
+		printf("pushing to B 1st time\n");
+		ps_buckets(alist, blist, total / div, total);
+		printf("pushing to A 1st time\n");
+		div *= 2;
+		if (total / div > 30)
+		{
+			ps_buckets_to_a(blist, alist, total / div, total);
+			div *= 2;
+		}
+		else
+		{
+			ps_buckets_to_a(blist, alist, 1, total);
+			stop = 1;
+		}
+	}
+}
+*/
