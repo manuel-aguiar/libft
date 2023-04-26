@@ -12,8 +12,6 @@
 
 #include "pushswap.h"
 
-#define MAGIC_SIZE 200
-
 static int checkdups(int size, int *arr, int target)
 {
 	int i;

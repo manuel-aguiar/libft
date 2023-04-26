@@ -19,38 +19,7 @@ int     in_bucket(int target, int min, int max)
     return ((target >= min && target < max));
 }
 
-void 	put_target_to_bottom(t_icplist *blist, int target)
-{
-	t_icpnode *cur;
-	int i;
-
-    i = 0;
-    cur = blist->pivot;
-    while(cur->prev->data != target)
-    {
-        cur = cur->next;
-        i++;
-    }
-    if (i <= blist->len / 2)
-    {
-        while (i--)
-        {
-            icplist_rotate(blist, 1, "ra");
-            counter++;
-        }
-    }
-    else
-    {
-        i = blist->len - i;
-        while (i--)
-        {
-            icplist_rotate(blist, -1, "rra");
-            counter++;
-        }
-    }
-}
-
-void 	put_target_to_top(t_icplist *blist, int target)
+void 	put_target_to_top_a(t_icplist *blist, int target)
 {
 	t_icpnode *cur;
 	int i;
@@ -76,6 +45,37 @@ void 	put_target_to_top(t_icplist *blist, int target)
         while (i--)
         {
             icplist_rotate(blist, -1, "rra");
+            counter++;
+        }
+    }
+}
+
+void 	put_target_to_top_b(t_icplist *blist, int target)
+{
+	t_icpnode *cur;
+	int i;
+
+    i = 0;
+    cur = blist->pivot;
+    while(cur->data != target)
+    {
+        cur = cur->next;
+        i++;
+    }
+    if (i <= blist->len / 2)
+    {
+        while (i--)
+        {
+            icplist_rotate(blist, 1, "rb");
+            counter++;
+        }
+    }
+    else
+    {
+        i = blist->len - i;
+        while (i--)
+        {
+            icplist_rotate(blist, -1, "rrb");
             counter++;
         }
     }
@@ -132,12 +132,10 @@ void pushbucket_to_b(t_icplist *alist, t_icplist *blist, int min, int max)
 			}
 		}
         icplist_push_top(blist, alist, "pb");
-		//ps_printlists(alist, blist, &printmembs);
         counter++;
     }
 }
 
-/* SE LEN = SIZE, NUNCA FOI PARTIDO, ENCHE O BUCKET ASAP E VAI PARA O PONTO ONDE O COMPLEMENTO TERMINA*/
 
 void pushbucket_to_a(t_icplist *alist, t_icplist *blist, int min, int max)
 {
@@ -176,7 +174,7 @@ void insertion_sort_to_b(t_icplist *to, t_icplist *from, int start, int end)
 	size = end - start;
 	while (size--)
 	{
-		put_target_to_top(from, start++);
+		put_target_to_top_a(from, start++);
 		icplist_push_top(to, from, "pb");
 		counter++;
 	}
@@ -189,7 +187,7 @@ void	insertion_sort_to_a(t_icplist *to, t_icplist *from, int start, int end)
 	size = end - start;
 	while (size--)
 	{
-		put_target_to_top(from, --end);
+		put_target_to_top_b(from, --end);
 		icplist_push_top(to, from, "pa");
 		counter++;
 	}
@@ -205,23 +203,23 @@ void quick_sort_b(t_icplist *alist, t_icplist *blist, int start, int end)
 	int mid;
 
 	mid = (start + end) / 2;
-	if (end - start < 15)
+	if (end - start < INSORT_TO_A)
 	{
-		printf("calling INSERTION SORT to A to finish, start %d, mid %d, counter %d\n", start, end, counter);
-		ps_printlists(alist, blist, &printmembs);
+		//printf("calling INSERTION SORT to A to finish, start %d, mid %d, counter %d\n", start, end, counter);
+		//ps_printlists(alist, blist, &printmembs);
 		insertion_sort_to_a(alist, blist, start, end);
-		ps_printlists(alist, blist, &printmembs);
+		//ps_printlists(alist, blist, &printmembs);
 		return ;
 	}
-	printf("pushing to A, mid %d, end %d, counter %d\n", mid, end, counter);
+	//printf("pushing to A, mid %d, end %d, counter %d\n", mid, end, counter);
 	pushbucket_to_a(alist, blist, mid, end);
 
-	ps_printlists(alist, blist, &printmembs);
+	//ps_printlists(alist, blist, &printmembs);
 
-	printf("calling quicksort A, sending inputs mid %d, end %d\n", mid, end);
+	//printf("calling quicksort A, sending inputs mid %d, end %d\n", mid, end);
 	quick_sort_a(alist, blist, mid, end);
 
-	printf("calling quicksort B recursively, sending inputs mid %d, end %d\n", start, mid);
+	//printf("calling quicksort B recursively, sending inputs mid %d, end %d\n", start, mid);
 	quick_sort_b(alist, blist, start, mid);
 
 }
@@ -232,22 +230,22 @@ void quick_sort_a(t_icplist *alist, t_icplist *blist, int start, int end)
 
 	mid = (start + end) / 2;
 
-	if (end - start < 15)
+	if (end - start < INSORT_TO_B)
 	{
-		printf("calling INSERTION SORT to B to finish, start %d, mid %d, counter %d\n", start, end, counter);
-		ps_printlists(alist, blist, &printmembs);
+		//printf("calling INSERTION SORT to B to finish, start %d, mid %d, counter %d\n", start, end, counter);
+		//ps_printlists(alist, blist, &printmembs);
 		insertion_sort_to_b(blist, alist, start, end);
 		pushbucket_to_a(alist, blist, start, end);
-		ps_printlists(alist, blist, &printmembs);
+		//ps_printlists(alist, blist, &printmembs);
 		return ;
 	}
-	printf("pushing to B, start %d, mid %d, counter %d\n", start, (start + end) / 2, counter);
-	pushbucket_to_b(alist, blist, start, (start + end) / 2);
-	ps_printlists(alist, blist, &printmembs);
+	//printf("pushing to B, start %d, mid %d, counter %d\n", start, mid, counter);
+	pushbucket_to_b(alist, blist, start, mid);
+	//ps_printlists(alist, blist, &printmembs);
 
-	printf("calling quicksort A recursively to sort the second half, sending inputs start %d, mid %d\n", mid, end);
+	//printf("calling quicksort A recursively to sort the second half, sending inputs start %d, mid %d\n", mid, end);
 	quick_sort_a(alist, blist, mid, end);
-	printf("calling quicksort B, sending inputs start %d, mid %d\n", start, mid);
+	//printf("calling quicksort B, sending inputs start %d, mid %d\n", start, mid);
 	quick_sort_b(alist, blist, start, mid);
 
 }
@@ -256,43 +254,6 @@ void quick_sort_a(t_icplist *alist, t_icplist *blist, int start, int end)
 void test_bench(t_icplist *alist, t_icplist *blist, int total)
 {
 	quick_sort_a(alist, blist, 0, total);
-
-/*
-	printf("pushing to B from %d, to %d, counter %d\n",  50, 75, counter);
-	pushbucket_to_b(alist, blist,  50, 75);
-	ps_printlists(alist, blist, &printmembs);
-
-	printf("pushing to B from %d, to %d, counter %d\n",  75, 87, counter);
-	pushbucket_to_b(alist, blist, 75, 87);
-	ps_printlists(alist, blist, &printmembs);
-
-	printf("pushing to B from %d, to %d, counter %d\n",  87, 94, counter);
-	pushbucket_to_b(alist, blist, 87, 94);
-	ps_printlists(alist, blist, &printmembs);
-
-	printf("insertion sort to B from %d, to %d, counter %d\n",  94, 100, counter);
-	insertion_sort_to_b(blist, alist, 94, 100);
-	ps_printlists(alist, blist, &printmembs);
-
-	printf("pushing to A from %d, to %d, counter %d\n",  25, 50, counter);
-	pushbucket_to_a(alist, blist, 25, 50);
-	ps_printlists(alist, blist, &printmembs);*/
-
-
-/*
-	printf("pushing to A from %d, to %d, counter %d\n",  0, 25, counter);
-	pushbucket_to_a(alist, blist, 0, 25);
-	ps_printlists(alist, blist, &printmembs);
-
-	printf("pushing to A from %d, to %d, counter %d\n",  25, 37, counter);
-	pushbucket_to_a(alist, blist,  25, 37);
-	ps_printlists(alist, blist, &printmembs);
-
-	printf("pushing to B from %d, to %d, counter %d\n",  75, 87, counter);
-	pushbucket_to_b(alist, blist, 75, 87);*/
-
-
-
 	printf("counter %d\n", counter);
 }
 

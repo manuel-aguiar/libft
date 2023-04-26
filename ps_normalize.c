@@ -12,7 +12,7 @@
 
 #include "pushswap.h"
 
-#define MAGIC_NORM 50
+
 
 static int ascending(int a, int b)
 {
