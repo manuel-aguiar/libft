@@ -94,7 +94,7 @@ static int	helper_tern(int a, int b)
     return (a);
 }
 
-int			*tim_sort(int *arr, int n, int (*cmp)(int, int))
+int			tim_sort(int *arr, int n, int (*cmp)(int, int))
 {
     int i;
     int size;
@@ -110,7 +110,7 @@ int			*tim_sort(int *arr, int n, int (*cmp)(int, int))
     if ((size = TIM_SORT_RUN) < n)
         copy = malloc(sizeof(*copy) * n);
     if (!copy)
-        return (NULL);
+        return (0);
     while (size < n)
     {
         lmr[0] = 0;
@@ -125,5 +125,5 @@ int			*tim_sort(int *arr, int n, int (*cmp)(int, int))
         size *= 2;
     }
     free(copy);
-    return (arr);
+    return (1);
 }
