@@ -25,8 +25,14 @@
 # define INSORT_TO_A 20
 # define INSORT_TO_B INSORT_TO_A / 2
 
-
-# include <stdio.h>
+#include <stdio.h>  //DELEEEEEEEEETE
+/* GLOBAL VARIABLES TO DELETE*/
+typedef int t_ps_counter;
+t_ps_counter counter;
+t_ps_counter ss_counter;
+t_ps_counter sa_counter;
+t_ps_counter sb_counter;
+/* DELEEEEEEEETEEEEEEEEEEEEEEEEEEEEEE*/
 
 /* pushswap list is a circular doubly linekd list with a memory pool
 all functions i ahve on libft apply except the structs and initializers will
@@ -43,45 +49,48 @@ int		ps_preprocess(int **res, int ac, char **av);
 /* ps_normalize.c*/
 int		ps_normalize(int **arr, int size);
 
-/* ps_arr_to_cdlist.c*/
-int		ps_arr_to_cdlist(t_icplist **list, int **arr, int size);
-
 /* ps_plays.c*/
 void	pslist_swap_top(t_icplist *list, char *print);
 void	pslist_push_top(t_icplist *to, t_icplist *from, char *print);
 int		pslist_rotate_multi(t_icplist *list, int rotate, char *print);
-void    pslist_rotate(t_icplist *list, int rotate, char *print);
+void	pslist_rotate(t_icplist *list, int rotate, char *print);
 
-/* ps_printlists.c*/
+/* ps_list_utils.c*/
+int		ps_arr_to_cdlist(t_icplist **list, int **arr, int size);
 void	ps_printlists(t_icplist *a_list, t_icplist *b_list, void (*pnt)(int));
 void	printmembs(int num);
-
-/* minmax functions to update the list as numbers move*/
-
+int		is_sorted(t_icplist *alist, t_icplist *blist);
 
 /* algos */
 
-void 	ps_bubble_sort(t_icplist *list);
+/*ps_sorting_pushswap.c*/
+void	pushswap(t_icplist *alist, t_icplist *blist, int total);
+void	quick_sort_a(t_icplist *alist, t_icplist *blist, int start, int end);
+void	quick_sort_b(t_icplist *alist, t_icplist *blist, int start, int end);
 
-void	ps_merge_swap(t_icplist *a_list, t_icplist *blist);
+/*ps_sorting_common.c*/
+int		in_bucket(int target, int min, int max);
+int		is_target(int target, int test);
+int		find_exact_target(t_icplist *list, int target);
+int		find_closest_in_bucket(t_icplist *list, int min, int max);
+void	super_swap(t_icplist *alist, t_icplist *blist, int min, int max);
 
-void ps_split_list(t_icplist *alist, t_icplist *blist, int ac);
+/*ps_sorting_a_stack.c*/
+void	pushbucket_from_a(t_icplist *alist, t_icplist *blist, int min, int max);
+void	insertion_sort_from_a(t_icplist *to, t_icplist *from, int start, int end);
 
-void dumpable (t_icplist *alist, t_icplist *blist);
+/*ps_sorting_b_stack.c*/
+void	pushbucket_from_b(t_icplist *alist, t_icplist *blist, int min, int max);
+void	insertion_sort_from_b(t_icplist *to, t_icplist *from, int start, int end);
 
-void	ps_merge_stacks(t_icplist *alist, t_icplist *blist, int prev_min);
+/*ps_sorting_small.c*/
+void	pushswap_sort_three(t_icplist *list);
+void	pushswap_sort_small(t_icplist *alist, t_icplist *blist, int min, int max);
 
-int is_ordered(t_icplist *list);
+/*ps_sorting_medium.c*/
 
-int total_radix_ops(int size);
-void	get_b_max_on_top(t_icplist *blist);
-void 	find_b_place(t_icplist *blist, int target);
-void pushbucket(t_icplist *alist, t_icplist *blist, int min, int max);
-void dumpbucket(t_icplist *alist, t_icplist *blist, int start, int end);
-void ps_buckets(t_icplist *alist, t_icplist *blist, int bucksize, int total);
-
-void ps_buckets_to_a(t_icplist *alist, t_icplist *blist, int bucksize, int total);
-
-void test_bench(t_icplist *alist, t_icplist *blist, int total);
+/*ps_errors.c - error messages and functions*/
+int		error_msg(void);
+int		malloc_failed(void);
 
 #endif

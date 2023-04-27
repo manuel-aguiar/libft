@@ -25,5 +25,6 @@
 # include "hashset_int.h"
 # include "linked_lists.h"
 # include "ft_math.h"
+# include "get_next_line.h"
 
 #endif

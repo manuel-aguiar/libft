@@ -22,7 +22,7 @@
 
 int	*mergesort(int *arr, int len, int (*cmp)(int, int));
 int	*quicksort(int *arr, int size, int (*cmp)(int, int));
-int	*tim_sort(int *arr, int n, int (*cmp)(int, int));
+int	tim_sort(int *arr, int n, int (*cmp)(int, int));
 int	*cocktail_sort(int *arr, int len, int (*cmp)(int, int));
 //int *insertion_sort(int arr[], int left, int (*cmp)(int, int));
 //int *mysort(int *arr, int len, int (*cmp)(int, int));
