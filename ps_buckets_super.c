@@ -13,6 +13,9 @@
 #include "pushswap.h"
 
 static int counter;
+static int ss_counter;
+static int sa_counter;
+static int sb_counter;
 
 int     in_bucket(int target, int min, int max)
 {
@@ -28,7 +31,62 @@ int find_exact_target(t_icplist *list, int target);
 
 int find_closest_in_bucket(t_icplist *list, int min, int max);
 
-void 	put_target_to_top_a(t_icplist *blist, int target)
+void 	swap_on_insertion_from_a(t_icplist *alist, int target, int min, int max)
+{
+	if (alist->len <= 1)
+		return ;
+	if (alist->pivot->data == alist->pivot->next->data + 1 \
+	&& !is_target(alist->pivot->data, target) \
+	&& !is_target(alist->pivot->next->data, target) \
+	&& in_bucket(alist->pivot->data, min, max) \
+	&& in_bucket(alist->pivot->next->data, min, max))
+	{
+		icplist_swap_top(alist, "sa");
+		sa_counter++;
+	}
+}
+
+void 	put_target_to_top_a(t_icplist *alist, int target, int min, int max)
+{
+	int i;
+
+	i = find_exact_target(alist, target);
+    if (i > 0)
+    {
+        while (i--)
+        {
+            icplist_rotate(alist, 1, "ra");
+            counter++;
+			swap_on_insertion_from_a(alist, target, min, max);
+        }
+    }
+    else
+    {
+        while (i++)
+        {
+            icplist_rotate(alist, -1, "rra");
+            counter++;
+			swap_on_insertion_from_a(alist, target, min, max);
+        }
+    }
+}
+
+void 	swap_on_insertion_from_b(t_icplist *blist, int target, int min, int max)
+{
+	if (blist->len <= 1)
+		return ;
+	if (blist->pivot->data == blist->pivot->next->data - 1 \
+	&& !is_target(blist->pivot->data, target) \
+	&& !is_target(blist->pivot->next->data, target) \
+	&& in_bucket(blist->pivot->data, min, max) \
+	&& in_bucket(blist->pivot->next->data, min, max))
+	{
+		icplist_swap_top(blist, "sb");
+		sb_counter++;
+	}
+}
+
+void 	put_target_to_top_b(t_icplist *blist, int target, int min, int max)
 {
 	int i;
 
@@ -37,45 +95,24 @@ void 	put_target_to_top_a(t_icplist *blist, int target)
     {
         while (i--)
         {
-            icplist_rotate(blist, 1, "ra");
+			icplist_rotate(blist, 1, "rb");
             counter++;
+			swap_on_insertion_from_b(blist, target, min, max);
         }
     }
     else
     {
         while (i++)
         {
-            icplist_rotate(blist, -1, "rra");
+			icplist_rotate(blist, -1, "rrb");
             counter++;
-        }
-    }
-}
-
-void 	put_target_to_top_b(t_icplist *blist, int target)
-{
-	int i;
-
-	i = find_exact_target(blist, target);
-    if (i > 0)
-    {
-        while (i--)
-        {
-            icplist_rotate(blist, 1, "rb");
-            counter++;
-        }
-    }
-    else
-    {
-        while (i++)
-        {
-            icplist_rotate(blist, -1, "rrb");
-            counter++;
+			swap_on_insertion_from_b(blist, target, min, max);
         }
     }
 }
 
 
-/*reverse rotation is twice as costly as positive, positive already 
+/*reverse rotation is twice as costly as positive, positive already
 moves the array forward, 20 savings on 100, 100 savings on 500
 1000 savings on 5000*/
 
@@ -114,7 +151,7 @@ int find_exact_target(t_icplist *list, int target)
 }
 
 
-int find_closest_in_bucket_newone(t_icplist *list, int min, int max)
+int find_closest_in_bucket(t_icplist *list, int min, int max)
 {
 	t_icpnode *forward;
 	t_icpnode *backward;
@@ -154,29 +191,35 @@ int find_closest_in_bucket_newone(t_icplist *list, int min, int max)
 	return (countneg);
 }
 
-int find_closest_in_bucket(t_icplist *list, int min, int max)
+void super_swap(t_icplist *alist, t_icplist *blist, int min, int max)
 {
-	t_icpnode *cur;
-	int countpos;
-	int countneg;
+	if (alist->len <= 1 || blist->len <= 1)
+		return ;
+	if (!in_bucket(alist->pivot->data, min, max) \
+	|| !in_bucket(blist->pivot->data, min, max) \
+	|| !in_bucket(alist->pivot->next->data, min, max) \
+	|| !in_bucket(blist->pivot->next->data, min, max))
+		return ;
+	if (alist->pivot->data == alist->pivot->next->data + 1\
+	&& blist->pivot->data == blist->pivot->next->data - 1)
+	{
+		icplist_swap_top(alist, NULL);
+		icplist_swap_top(blist, NULL);
+		ft_printf("ss\n");
+		counter++;
+		ss_counter++;
+	}
+}
 
-	countpos = 0;
-	countneg = 0;
-	cur = list->pivot;
-	while (!in_bucket(cur->data, min, max))
+void 	swap_on_pushing_from_a(t_icplist *alist, int min, int max)
+{
+	if (alist->pivot->data == alist->pivot->next->data + 1 \
+	&& !in_bucket(alist->pivot->data, min, max) \
+	&& !in_bucket(alist->pivot->next->data, min, max))
 	{
-		cur = cur->next;
-		countpos++;
+		icplist_swap_top(alist, "sa");
+		sa_counter++;
 	}
-	cur = list->pivot;
-	while (!in_bucket(cur->data, min, max) && -countneg < countpos)
-	{
-		cur = cur->prev;
-		countneg--;
-	}
-	if (-countneg >= countpos)
-		return (countpos);
-	return (countneg);
 }
 
 void pushbucket_to_b(t_icplist *alist, t_icplist *blist, int min, int max)
@@ -192,23 +235,39 @@ void pushbucket_to_b(t_icplist *alist, t_icplist *blist, int min, int max)
 		{
 			while (closest++ < 0)
 			{
+				swap_on_pushing_from_a(alist, min, max);
 				icplist_rotate(alist, -1, "rra");
 				counter++;
+
 			}
 		}
 		else if (closest > 0)
 		{
 			while (closest-- > 0)
 			{
+				swap_on_pushing_from_a(alist, min, max);
 				icplist_rotate(alist, 1, "ra");
 				counter++;
+
 			}
 		}
+		super_swap(alist, blist, min, max);
         icplist_push_top(blist, alist, "pb");
         counter++;
     }
 }
 
+
+void 	swap_on_pushing_from_b(t_icplist *blist, int min, int max)
+{
+	if (blist->pivot->data == blist->pivot->next->data - 1 \
+	&& !in_bucket(blist->pivot->data, min, max) \
+	&& !in_bucket(blist->pivot->next->data, min, max))
+	{
+		icplist_swap_top(blist, "sb");
+		sb_counter++;
+	}
+}
 
 void pushbucket_to_a(t_icplist *alist, t_icplist *blist, int min, int max)
 {
@@ -223,18 +282,23 @@ void pushbucket_to_a(t_icplist *alist, t_icplist *blist, int min, int max)
 		{
 			while (closest++ < 0)
 			{
+				swap_on_pushing_from_b(blist, min, max);
 				icplist_rotate(blist, -1, "rrb");
 				counter++;
+
 			}
 		}
 		else if (closest > 0)
 		{
 			while (closest-- > 0)
 			{
+				swap_on_pushing_from_b(blist, min, max);
 				icplist_rotate(blist, 1, "rb");
 				counter++;
+
 			}
 		}
+		super_swap(alist, blist, min, max);
         icplist_push_top(alist, blist, "pa");
 		counter++;
 	}
@@ -250,7 +314,7 @@ void insertion_sort_to_b(t_icplist *to, t_icplist *from, int start, int end)
 	size = end - start;
 	while (size--)
 	{
-		put_target_to_top_a(from, start++);
+		put_target_to_top_a(from, start++, start, end);
 		icplist_push_top(to, from, "pb");
 		counter++;
 	}
@@ -263,7 +327,7 @@ void	insertion_sort_to_a(t_icplist *to, t_icplist *from, int start, int end)
 	size = end - start;
 	while (size--)
 	{
-		put_target_to_top_b(from, --end);
+		put_target_to_top_b(from, --end, start, end);
 		icplist_push_top(to, from, "pa");
 		counter++;
 	}
@@ -330,6 +394,9 @@ void quick_sort_a(t_icplist *alist, t_icplist *blist, int start, int end)
 void test_bench(t_icplist *alist, t_icplist *blist, int total)
 {
 	quick_sort_a(alist, blist, 0, total);
-	printf("counter %d\n", counter);
+	printf("counter %d\n", counter + ss_counter + sa_counter + sb_counter);
+	printf("ss_counter %d\n", ss_counter);
+	printf("sa_counter %d\n", sa_counter);
+	printf("sb_counter %d\n", sb_counter);
 }
 
