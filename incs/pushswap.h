@@ -47,10 +47,10 @@ int		ps_normalize(int **arr, int size);
 int		ps_arr_to_cdlist(t_icplist **list, int **arr, int size);
 
 /* ps_plays.c*/
-void	icplist_swap_top(t_icplist *list, char *print);
-void	icplist_push_top(t_icplist *to, t_icplist *from, char *print);
-int		icplist_rotate_multi(t_icplist *list, int rotate, char *print);
-void    icplist_rotate(t_icplist *list, int rotate, char *print);
+void	pslist_swap_top(t_icplist *list, char *print);
+void	pslist_push_top(t_icplist *to, t_icplist *from, char *print);
+int		pslist_rotate_multi(t_icplist *list, int rotate, char *print);
+void    pslist_rotate(t_icplist *list, int rotate, char *print);
 
 /* ps_printlists.c*/
 void	ps_printlists(t_icplist *a_list, t_icplist *b_list, void (*pnt)(int));
