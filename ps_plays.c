@@ -91,6 +91,17 @@ void    pslist_push_top(t_icplist *to, t_icplist *from, char *print)
 		ft_printf("%s\n", print);
 }
 
+void    pslist_rotate(t_icplist *list, int rotate, char *print)
+{
+	if (rotate == 1)
+		list->pivot = list->pivot->next;
+	if (rotate == -1)
+		list->pivot = list->pivot->prev;
+	if (print)
+		ft_printf("%s\n", print);
+}
+
+/*
 int    pslist_rotate_multi(t_icplist *list, int rotate, char *print)
 {
     t_icpnode    *pivot;
@@ -118,14 +129,4 @@ int    pslist_rotate_multi(t_icplist *list, int rotate, char *print)
     }
     list->pivot = pivot;
     return (nbr);
-}
-
-void    pslist_rotate(t_icplist *list, int rotate, char *print)
-{
-	if (rotate == 1)
-		list->pivot = list->pivot->next;
-	if (rotate == -1)
-		list->pivot = list->pivot->prev;
-	if (print)
-		ft_printf("%s\n", print);
-}
+}*/

@@ -10,61 +10,45 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-//gcc *.c -L. -lft -Iincs
-
-
 #include "pushswap.h"
 
-int is_sorted(t_icplist *alist, t_icplist *blist)
-{
-	t_icpnode *cur;
 
-	cur = alist->pivot;
-	if (cur->data != 0)
-		return (0);
-	cur = cur->next;
-	while (cur != alist->pivot)
-	{
-		if ((cur->data != cur->prev->data + 1))
-			return (0);
-		cur = cur->next;
-	}
-	if (blist->len)
-		return (0);
-	return (1);
-}
 
-void solver(int ac, char **av)
+int solver(int ac, char **av)
 {
 	int			*arr;
 	t_icplist	*alist;
 	t_icplist	*blist;
 
-	blist = NULL;
-	//ps_preprocess(&arr, ac, av);
-	ft_atoi_arr(&arr, ac, av);
-
-	ps_normalize(&arr, ac);
-	ps_arr_to_cdlist(&alist, &arr, ac);
+	if (!ps_preprocess(&arr, ac, av) \
+	|| !ps_normalize(&arr, ac) \
+	|| !ps_arr_to_cdlist(&alist, &arr, ac))
+		return error_msg();
 	blist = icplist_new(ac, alist->pool);
-	ps_printlists(alist, blist, &printmembs);
-
-
-	test_bench(alist, blist, ac);
-
-	
-	ps_printlists(alist, blist, &printmembs);
-	if (is_sorted(alist, blist))
-		printf("SORTED\n");
-	else
-		printf("WRONG\n");
+	if (!blist)
+	{
+		icplist_destroy(&alist, 0);
+		return (malloc_failed());
+	}
+	if (!is_sorted(alist, blist))
+		pushswap(alist, blist, ac);
 	icplist_destroy(&blist, 1);
 	icplist_destroy(&alist, 0);
+	//printf("counter %d\n", counter + ss_counter + sa_counter + sb_counter);         //DELEEEEEEEEETE
+	//printf("ss_counter %d\n", ss_counter);											//DELEEEEEEEEETE
+	//printf("sa_counter %d\n", sa_counter);											//DELEEEEEEEEETE
+	//printf("sb_counter %d\n", sb_counter);											//DELEEEEEEEEETE
+	return (1);
 }
 
 int main(int ac, char **av)
 {
-	if (ac > 2)
+	if (ac > 1)
 		solver(--ac, ++av);
+	else
+		ft_printf("\n");
 	return (0);
 }
+
+
+//gcc *.c -L. -lft -Iincs

@@ -67,12 +67,17 @@ int	normalize_fast(int **arr, int size)
     sorted = malloc(sizeof(int) * size);
     if (!sorted)
 	{
-		*arr = NULL;
-        return (0);
+		ft_free_set_null(arr);
+        return (malloc_failed());
 	}
 	array = *arr;
     ft_memcpy(sorted, array, sizeof(int) * size);
-    tim_sort(sorted, size, &ascending);
+    if(!tim_sort(sorted, size, &ascending))
+	{
+		ft_free_set_null(arr);
+		ft_free_set_null(&sorted);
+		return (malloc_failed());
+	}
     i = -1;
     while (++i < size)
         array[i] = bin_srch(sorted, size, array[i], &ascending);

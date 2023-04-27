@@ -26,6 +26,7 @@ static int checkdups(int size, int *arr, int target)
 	return (1);
 }
 
+/*
 static void set_and_sort_check(int *arr, int index, int target, int *check)
 {
 	arr[index] = target;
@@ -33,7 +34,7 @@ static void set_and_sort_check(int *arr, int index, int target, int *check)
 		return ;
 	if (arr[index] < arr[index - 1])
 		*check = 1;
-}
+}*/
 
 static int arrtoi_naivedups(int **res, int size, char **args)
 {
@@ -44,13 +45,13 @@ static int arrtoi_naivedups(int **res, int size, char **args)
 
 	arr = malloc(size * sizeof(*arr));
 	if (!arr)
-		return (0);
-	check = 0;
+		return (malloc_failed());
+	check = 1;
 	i = 0;
 	while (i < size)
 	{
 		if (ft_atoiable(args[i], &num) && checkdups(i, arr, num))
-			set_and_sort_check(arr, i++, num, &check);
+			arr[i++] = num;
 		else
 		{
 			check = 0;
@@ -67,12 +68,12 @@ static int prepare_arr_and_hash(int **arr, t_ihs_table **table, int size)
 {
 	*arr = malloc(size * sizeof(*arr));
 	if (!*arr)
-		return (0);
+		return (malloc_failed());
 	*table = ihs_init_table(size);
 	if (!*table)
 	{
 		ft_free_set_null(arr);
-		return (0);
+		return (malloc_failed());
 	}
 	return (1);
 }
@@ -86,13 +87,13 @@ static int arrtoi_tabledups(int **res, int size, char **args)
 	int			check;
 
 	if (!prepare_arr_and_hash(&arr, &table, size))
-		return (0);
-	check = 0;
+		return (malloc_failed());
+	check = 1;
 	i = 0;
 	while (i < size)
 	{
 		if (ft_atoiable(args[i], &num) && ihs_insert(table, num))
-			set_and_sort_check(arr, i++, num, &check);
+			arr[i++] = num;
 		else
 		{
 			check = 0;
