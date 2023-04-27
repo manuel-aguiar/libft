@@ -16,8 +16,7 @@ void quick_sort_b(t_icplist *alist, t_icplist *blist, int start, int end)
 {
 	int mid;
 
-	mid = (start + end) / 2;
-	if (end - start < INSORT_TO_A)
+	if (end - start < INSORT_TO_A || bucket_is_sorted(blist, start, end, 0))
 	{
 		//printf("calling INSERTION SORT to A to finish, start %d, mid %d, counter %d\n", start, end, counter);
 		//ps_printlists(alist, blist, &printmembs);
@@ -25,6 +24,7 @@ void quick_sort_b(t_icplist *alist, t_icplist *blist, int start, int end)
 		//ps_printlists(alist, blist, &printmembs);
 		return ;
 	}
+	mid = (start + end) / 2;
 	//printf("pushing to A, mid %d, end %d, counter %d\n", mid, end, counter);
 	pushbucket_from_b(alist, blist, mid, end);
 
@@ -42,8 +42,9 @@ void quick_sort_a(t_icplist *alist, t_icplist *blist, int start, int end)
 {
 	int mid;
 
+	if (bucket_is_sorted(alist, start, end, 1))
+		return ;
 	mid = (start + end) / 2;
-
 	if (end - start < INSORT_TO_B)
 	{
 		//printf("calling INSERTION SORT to B to finish, start %d, mid %d, counter %d\n", start, end, counter);

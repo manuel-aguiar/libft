@@ -12,8 +12,6 @@
 
 #include "pushswap.h"
 
-
-
 int solver(int ac, char **av)
 {
 	int			*arr;
@@ -32,6 +30,7 @@ int solver(int ac, char **av)
 	}
 	if (!is_sorted(alist, blist))
 		pushswap(alist, blist, ac);
+	ft_printf("is it sorted? %d, total %d\n", bucket_is_sorted(alist, 0, ac, 1), ac);
 	icplist_destroy(&blist, 1);
 	icplist_destroy(&alist, 0);
 	//printf("counter %d\n", counter + ss_counter + sa_counter + sb_counter);         //DELEEEEEEEEETE
@@ -45,8 +44,6 @@ int main(int ac, char **av)
 {
 	if (ac > 1)
 		solver(--ac, ++av);
-	else
-		ft_printf("\n");
 	return (0);
 }
 

@@ -27,11 +27,11 @@
 
 #include <stdio.h>  //DELEEEEEEEEETE
 /* GLOBAL VARIABLES TO DELETE*/
-typedef int t_ps_counter;
-t_ps_counter counter;
-t_ps_counter ss_counter;
-t_ps_counter sa_counter;
-t_ps_counter sb_counter;
+
+//int counter;
+//int ss_counter;
+//int sa_counter;
+//int sb_counter;
 /* DELEEEEEEEETEEEEEEEEEEEEEEEEEEEEEE*/
 
 /* pushswap list is a circular doubly linekd list with a memory pool
@@ -88,6 +88,10 @@ void	pushswap_sort_three(t_icplist *list);
 void	pushswap_sort_small(t_icplist *alist, t_icplist *blist, int min, int max);
 
 /*ps_sorting_medium.c*/
+
+
+/*ps_check_sort.c*/
+int     bucket_is_sorted(t_icplist *list, int min, int max, int ascending);
 
 /*ps_errors.c - error messages and functions*/
 int		error_msg(void);
