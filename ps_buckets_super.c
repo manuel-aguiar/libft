@@ -41,7 +41,7 @@ void 	swap_on_insertion_from_a(t_icplist *alist, int target, int min, int max)
 	&& in_bucket(alist->pivot->data, min, max) \
 	&& in_bucket(alist->pivot->next->data, min, max))
 	{
-		icplist_swap_top(alist, "sa");
+		pslist_swap_top(alist, "sa");
 		sa_counter++;
 	}
 }
@@ -55,7 +55,7 @@ void 	put_target_to_top_a(t_icplist *alist, int target, int min, int max)
     {
         while (i--)
         {
-            icplist_rotate(alist, 1, "ra");
+            pslist_rotate(alist, 1, "ra");
             counter++;
 			swap_on_insertion_from_a(alist, target, min, max);
         }
@@ -64,7 +64,7 @@ void 	put_target_to_top_a(t_icplist *alist, int target, int min, int max)
     {
         while (i++)
         {
-            icplist_rotate(alist, -1, "rra");
+            pslist_rotate(alist, -1, "rra");
             counter++;
 			swap_on_insertion_from_a(alist, target, min, max);
         }
@@ -81,7 +81,7 @@ void 	swap_on_insertion_from_b(t_icplist *blist, int target, int min, int max)
 	&& in_bucket(blist->pivot->data, min, max) \
 	&& in_bucket(blist->pivot->next->data, min, max))
 	{
-		icplist_swap_top(blist, "sb");
+		pslist_swap_top(blist, "sb");
 		sb_counter++;
 	}
 }
@@ -95,7 +95,7 @@ void 	put_target_to_top_b(t_icplist *blist, int target, int min, int max)
     {
         while (i--)
         {
-			icplist_rotate(blist, 1, "rb");
+			pslist_rotate(blist, 1, "rb");
             counter++;
 			swap_on_insertion_from_b(blist, target, min, max);
         }
@@ -104,7 +104,7 @@ void 	put_target_to_top_b(t_icplist *blist, int target, int min, int max)
     {
         while (i++)
         {
-			icplist_rotate(blist, -1, "rrb");
+			pslist_rotate(blist, -1, "rrb");
             counter++;
 			swap_on_insertion_from_b(blist, target, min, max);
         }
@@ -203,8 +203,8 @@ void super_swap(t_icplist *alist, t_icplist *blist, int min, int max)
 	if (alist->pivot->data == alist->pivot->next->data + 1\
 	&& blist->pivot->data == blist->pivot->next->data - 1)
 	{
-		icplist_swap_top(alist, NULL);
-		icplist_swap_top(blist, NULL);
+		pslist_swap_top(alist, NULL);
+		pslist_swap_top(blist, NULL);
 		ft_printf("ss\n");
 		counter++;
 		ss_counter++;
@@ -217,7 +217,7 @@ void 	swap_on_pushing_from_a(t_icplist *alist, int min, int max)
 	&& !in_bucket(alist->pivot->data, min, max) \
 	&& !in_bucket(alist->pivot->next->data, min, max))
 	{
-		icplist_swap_top(alist, "sa");
+		pslist_swap_top(alist, "sa");
 		sa_counter++;
 	}
 }
@@ -236,7 +236,7 @@ void pushbucket_to_b(t_icplist *alist, t_icplist *blist, int min, int max)
 			while (closest++ < 0)
 			{
 				swap_on_pushing_from_a(alist, min, max);
-				icplist_rotate(alist, -1, "rra");
+				pslist_rotate(alist, -1, "rra");
 				counter++;
 
 			}
@@ -246,13 +246,13 @@ void pushbucket_to_b(t_icplist *alist, t_icplist *blist, int min, int max)
 			while (closest-- > 0)
 			{
 				swap_on_pushing_from_a(alist, min, max);
-				icplist_rotate(alist, 1, "ra");
+				pslist_rotate(alist, 1, "ra");
 				counter++;
 
 			}
 		}
 		super_swap(alist, blist, min, max);
-        icplist_push_top(blist, alist, "pb");
+        pslist_push_top(blist, alist, "pb");
         counter++;
     }
 }
@@ -264,7 +264,7 @@ void 	swap_on_pushing_from_b(t_icplist *blist, int min, int max)
 	&& !in_bucket(blist->pivot->data, min, max) \
 	&& !in_bucket(blist->pivot->next->data, min, max))
 	{
-		icplist_swap_top(blist, "sb");
+		pslist_swap_top(blist, "sb");
 		sb_counter++;
 	}
 }
@@ -283,7 +283,7 @@ void pushbucket_to_a(t_icplist *alist, t_icplist *blist, int min, int max)
 			while (closest++ < 0)
 			{
 				swap_on_pushing_from_b(blist, min, max);
-				icplist_rotate(blist, -1, "rrb");
+				pslist_rotate(blist, -1, "rrb");
 				counter++;
 
 			}
@@ -293,13 +293,13 @@ void pushbucket_to_a(t_icplist *alist, t_icplist *blist, int min, int max)
 			while (closest-- > 0)
 			{
 				swap_on_pushing_from_b(blist, min, max);
-				icplist_rotate(blist, 1, "rb");
+				pslist_rotate(blist, 1, "rb");
 				counter++;
 
 			}
 		}
 		super_swap(alist, blist, min, max);
-        icplist_push_top(alist, blist, "pa");
+        pslist_push_top(alist, blist, "pa");
 		counter++;
 	}
 }
@@ -315,7 +315,7 @@ void insertion_sort_to_b(t_icplist *to, t_icplist *from, int start, int end)
 	while (size--)
 	{
 		put_target_to_top_a(from, start++, start, end);
-		icplist_push_top(to, from, "pb");
+		pslist_push_top(to, from, "pb");
 		counter++;
 	}
 }
@@ -328,7 +328,7 @@ void	insertion_sort_to_a(t_icplist *to, t_icplist *from, int start, int end)
 	while (size--)
 	{
 		put_target_to_top_b(from, --end, start, end);
-		icplist_push_top(to, from, "pa");
+		pslist_push_top(to, from, "pa");
 		counter++;
 	}
 }
