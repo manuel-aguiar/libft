@@ -19,7 +19,7 @@ static void 	swap_on_pushing_from_a(t_icplist *alist, int min, int max)
 	&& !in_bucket(alist->pivot->next->data, min, max))
 	{
 		pslist_swap_top(alist, "sa");
-		//sa_counter++;
+		sa_counter++;
 	}
 }
 
@@ -38,7 +38,7 @@ void pushbucket_from_a(t_icplist *alist, t_icplist *blist, int min, int max)
 			{
 				swap_on_pushing_from_a(alist, min, max);
 				pslist_rotate(alist, -1, "rra");
-				//counter++;
+				counter++;
 
 			}
 		}
@@ -48,13 +48,13 @@ void pushbucket_from_a(t_icplist *alist, t_icplist *blist, int min, int max)
 			{
 				swap_on_pushing_from_a(alist, min, max);
 				pslist_rotate(alist, 1, "ra");
-				//counter++;
+				counter++;
 
 			}
 		}
 		super_swap(alist, blist, min, max);
         pslist_push_top(blist, alist, "pb");
-        //counter++;
+        counter++;
     }
 }
 
@@ -69,7 +69,7 @@ static void 	swap_on_insertion_from_a(t_icplist *alist, int target, int min, int
 	&& in_bucket(alist->pivot->next->data, min, max))
 	{
 		pslist_swap_top(alist, "sa");
-		//sa_counter++;
+		sa_counter++;
 	}
 }
 
@@ -83,7 +83,7 @@ static void 	put_target_to_top_a(t_icplist *alist, int target, int min, int max)
         while (i--)
         {
             pslist_rotate(alist, 1, "ra");
-            //counter++;
+            counter++;
 			swap_on_insertion_from_a(alist, target, min, max);
         }
     }
@@ -92,7 +92,7 @@ static void 	put_target_to_top_a(t_icplist *alist, int target, int min, int max)
         while (i++)
         {
             pslist_rotate(alist, -1, "rra");
-            //counter++;
+            counter++;
 			swap_on_insertion_from_a(alist, target, min, max);
         }
     }
@@ -107,6 +107,6 @@ void insertion_sort_from_a(t_icplist *to, t_icplist *from, int start, int end)
 	{
 		put_target_to_top_a(from, start++, start, end);
 		pslist_push_top(to, from, "pb");
-		//counter++;
+		counter++;
 	}
 }

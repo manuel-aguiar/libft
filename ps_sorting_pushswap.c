@@ -18,10 +18,7 @@ void quick_sort_b(t_icplist *alist, t_icplist *blist, int start, int end)
 
 	if (end - start < INSORT_TO_A || bucket_is_sorted(blist, start, end, 0))
 	{
-		//printf("calling INSERTION SORT to A to finish, start %d, mid %d, counter %d\n", start, end, counter);
-		//ps_printlists(alist, blist, &printmembs);
 		insertion_sort_from_b(alist, blist, start, end);
-		//ps_printlists(alist, blist, &printmembs);
 		return ;
 	}
 	mid = (start + end) / 2;

@@ -36,11 +36,11 @@ int	ps_arr_to_cdlist(t_icplist **list, int **arr, int size)
 
 void	ps_printlists(t_icplist *a_list, t_icplist *b_list, void (*pnt)(int))
 {
-	ft_printf("list B: ");
+	ft_printf("\nlist B: ");
 	icplist_head_print(b_list, pnt);
-	ft_printf("\nlist A: ");
+	ft_printf("\n\nlist A: ");
 	icplist_head_print(a_list, pnt);
-	ft_printf("\n");
+	ft_printf("\n\n");
 }
 
 void	printmembs(int num)

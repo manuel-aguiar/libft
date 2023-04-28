@@ -31,21 +31,23 @@ int solver(int ac, char **av)
 	if (!is_sorted(alist, blist))
 		pushswap(alist, blist, ac);
 	ft_printf("is it sorted? %d, total %d\n", bucket_is_sorted(alist, 0, ac, 1), ac);
+	//ps_printlists(alist, blist, &printmembs);
 	icplist_destroy(&blist, 1);
 	icplist_destroy(&alist, 0);
-	//printf("counter %d\n", counter + ss_counter + sa_counter + sb_counter);         //DELEEEEEEEEETE
-	//printf("ss_counter %d\n", ss_counter);											//DELEEEEEEEEETE
-	//printf("sa_counter %d\n", sa_counter);											//DELEEEEEEEEETE
-	//printf("sb_counter %d\n", sb_counter);											//DELEEEEEEEEETE
+	printf("counter %d\n", counter + ss_counter + sa_counter + sb_counter);         //DELEEEEEEEEETE
+	printf("ss_counter %d\n", ss_counter);											//DELEEEEEEEEETE
+	printf("sa_counter %d\n", sa_counter);											//DELEEEEEEEEETE
+	printf("sb_counter %d\n", sb_counter);											//DELEEEEEEEEETE
 	return (1);
 }
 
+/*
 int main(int ac, char **av)
 {
 	if (ac > 1)
 		solver(--ac, ++av);
 	return (0);
-}
+}*/
 
 
 //gcc *.c -L. -lft -Iincs

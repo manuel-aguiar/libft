@@ -111,7 +111,6 @@ void super_swap(t_icplist *alist, t_icplist *blist, int min, int max)
 		pslist_swap_top(alist, NULL);
 		pslist_swap_top(blist, NULL);
 		ft_printf("ss\n");
-		//counter++;
-		//ss_counter++;
+		ss_counter++;
 	}
 }
