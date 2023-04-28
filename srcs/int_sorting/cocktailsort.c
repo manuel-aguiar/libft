@@ -32,7 +32,6 @@ static int	frontrun(int *arr, int len, int swapn, int (*cmp)(int, int))
     {
         if (cmp(arr[i],arr[i + 1]))
             swap(&arr[i],&arr[i + 1]);
-
         if(i > 0 && !keep_sorting)
             if(cmp(arr[i - 1], arr[i]))
                 keep_sorting = 1;

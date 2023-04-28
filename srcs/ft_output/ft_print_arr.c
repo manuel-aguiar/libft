@@ -24,4 +24,5 @@ void	ft_print_arr(int *arr, int size, void (*pnt)(int))
 		pnt(arr[i]);
 		i++;
 	}
+	ft_printf("\n");
 }

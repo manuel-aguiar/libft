@@ -22,16 +22,17 @@
 
 # define MAGIC_SIZE 200
 # define MAGIC_NORM 50
+# define SORT_SMALL 30
 # define INSORT_TO_A 20
 # define INSORT_TO_B INSORT_TO_A / 2
 
 #include <stdio.h>  //DELEEEEEEEEETE
 /* GLOBAL VARIABLES TO DELETE*/
 
-//int counter;
-//int ss_counter;
-//int sa_counter;
-//int sb_counter;
+int counter;
+int ss_counter;
+int sa_counter;
+int sb_counter;
 /* DELEEEEEEEETEEEEEEEEEEEEEEEEEEEEEE*/
 
 /* pushswap list is a circular doubly linekd list with a memory pool
@@ -92,9 +93,15 @@ void	pushswap_sort_small(t_icplist *alist, t_icplist *blist, int min, int max);
 
 /*ps_check_sort.c*/
 int     bucket_is_sorted(t_icplist *list, int min, int max, int ascending);
+int	bucket_is_sorted_debug(t_icplist *list, int min, int max, int ascending);
 
 /*ps_errors.c - error messages and functions*/
 int		error_msg(void);
 int		malloc_failed(void);
+
+/*ps_array_cocktail.c*/
+int	ps_array_cocktail_counter(int *arr, int len);
+int	ps_array_insertion_counter(int *arr, int len, int min, int max);
+
 
 #endif
