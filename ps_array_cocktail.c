@@ -321,7 +321,7 @@ void	ps_sort_really_small_arr(int *arr, int len, int min, int max)
 	printf("\n");
 }
 
-
+/*
 int main(void)
 {
 	int arr[] = {17, 10, 23, 11, 6, 2, 1, 7, 15, 18, 14, 21, 3, 22, 8, 24, 16, 5, 12, 9, 19, 25, 4, 20, 13};
@@ -332,5 +332,5 @@ int main(void)
 	ft_print_arr(arr, len, &printmembs);
 	printf("\n");
 	return (0);
-}
+}*/
 

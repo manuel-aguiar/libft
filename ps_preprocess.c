@@ -5,117 +5,112 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/20 11:28:31 by marvin            #+#    #+#             */
-/*   Updated: 2023/04/20 11:28:31 by marvin           ###   ########.fr       */
+/*   Created: 2023/05/02 15:34:32 by marvin            #+#    #+#             */
+/*   Updated: 2023/05/02 15:34:32 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pushswap.h"
 
-static int checkdups(int size, int *arr, int target)
+static int prepare_lists_and_hashset(t_idmlist ***all_lists, t_ihs_table **table, int size)
 {
-	int i;
-
-	i = 0;
-	while (i < size)
-	{
-		if (target == arr[i])
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-/*
-static void set_and_sort_check(int *arr, int index, int target, int *check)
-{
-	arr[index] = target;
-	if (!index)
-		return ;
-	if (arr[index] < arr[index - 1])
-		*check = 1;
-}*/
-
-static int arrtoi_naivedups(int **res, int size, char **args)
-{
-	int	*arr;
-	int	i;
-	int	num;
-	int	check;
-
-	arr = malloc(size * sizeof(*arr));
-	if (!arr)
-		return (malloc_failed());
-	check = 1;
-	i = 0;
-	while (i < size)
-	{
-		if (ft_atoiable(args[i], &num) && checkdups(i, arr, num))
-			arr[i++] = num;
-		else
-		{
-			check = 0;
-			break ;
-		}
-	}
-	if (!check)
-		ft_free_set_null(&arr);
-	*res = arr;
-	return (check);
-}
-
-static int prepare_arr_and_hash(int **arr, t_ihs_table **table, int size)
-{
-	*arr = malloc(size * sizeof(*arr));
-	if (!*arr)
+	*all_lists = ft_calloc(size, sizeof(**all_lists));
+	if (!*all_lists)
 		return (malloc_failed());
 	*table = ihs_init_table(size);
 	if (!*table)
 	{
-		ft_free_set_null(arr);
+		ft_free_set_null(all_lists);
 		return (malloc_failed());
 	}
 	return (1);
 }
 
-static int arrtoi_tabledups(int **res, int size, char **args)
+static int free_all_lists(t_idmlist ***all_lists, int size)
 {
-	int			*arr;
 	int			i;
-	int			num;
-	t_ihs_table	*table;
-	int			check;
+	t_idmlist	**cur_list;
 
-	if (!prepare_arr_and_hash(&arr, &table, size))
-		return (malloc_failed());
+	if (*all_lists)
+	{
+		cur_list = *all_lists;
+		i = 0;
+		while (i < size && cur_list[i])
+			idmlist_destroy(&cur_list[i++]);
+		ft_free_set_null(all_lists);
+	}
+}
+
+static int join_all_list_splits(t_idmlist ***all_lists, int size, char **args, int *total_args)
+{
+	int			check;
+	int			split_count;
+	int			i;
+	t_idmlist	**cur_list;
+	t_ihs_table	*table;
+
 	check = 1;
+	if(!prepare_lists_and_hashset(all_lists, &table, size))
+		return (malloc_failed());
+	cur_list = *all_lists;
 	i = 0;
 	while (i < size)
 	{
-		if (ft_atoiable(args[i], &num) && ihs_insert(table, num))
-			arr[i++] = num;
-		else
+		split_count = split_to_list(args[i], table, &cur_list[i]);
+		if (split_count == -1)
 		{
 			check = 0;
-			break ;
+			break;
 		}
+		else
+			(*total_args) += split_count;
+		i++;
 	}
 	ihs_free_table(&table);
-	if (!check)
-		ft_free_set_null(&arr);
-	*res = arr;
 	return (check);
 }
 
-int ps_preprocess(int **res, int ac, char **av)
+static int lists_to_array(t_idmlist **all_lists, int **res, int total_count, int ac)
 {
-	int check;
+	t_idmnode	*cur;
+	int			*arr;
+	int			i;
+	int			j;
 
-	if (ac > MAGIC_SIZE)
-		check = arrtoi_tabledups(res, ac, av);
-	else
-		check = arrtoi_naivedups(res, ac, av);
-	if (!check)
-		ft_free_set_null(res);
+	arr = malloc(sizeof(*arr) * total_count);
+	if (!arr)
+		return (0);
+	i = 0;
+	j = 0;
+	while (i < ac)
+	{
+		cur = all_lists[i++]->head;
+		while (cur)
+		{
+			arr[j++] = cur->data;
+			cur = cur->next;
+		}
+	}
+	*res = arr;
+	return (1);
+}
+
+int ps_preprocess(int **res, int ac, char **av, int *true_count)
+{
+	t_idmlist	**all_lists;
+	int			*array;
+	int			total_count;
+	int			check;
+
+	total_count = 0;
+	check = 0;
+	if (join_all_list_splits(&all_lists, ac, av, &total_count) \
+	&& lists_to_array(all_lists, &array, total_count, ac))
+	{
+		check = 1;
+		*true_count = total_count;
+		*res = array;
+	}
+	free_all_lists(&all_lists, ac);
 	return (check);
 }

@@ -15,29 +15,31 @@
 int solver(int ac, char **av)
 {
 	int			*arr;
+	int			true_count;
 	t_icplist	*alist;
 	t_icplist	*blist;
 
-	if (!ps_preprocess(&arr, ac, av) \
-	|| !ps_normalize(&arr, ac) \
-	|| !ps_arr_to_cdlist(&alist, &arr, ac))
-		return error_msg();
-	blist = icplist_new(ac, alist->pool);
+	if (!ps_preprocess(&arr, ac, av, &true_count) \
+	|| !ps_normalize(&arr, true_count) \
+	|| !ps_arr_to_cdlist(&alist, &arr, true_count))
+		return (error_msg());
+	blist = icplist_new(true_count, alist->pool);
 	if (!blist)
 	{
 		icplist_destroy(&alist, 0);
 		return (malloc_failed());
 	}
+
 	if (!is_sorted(alist, blist))
-		pushswap(alist, blist, ac);
-	ft_printf("is it sorted? %d, total %d\n", bucket_is_sorted(alist, 0, ac, 1), ac);
+		pushswap(alist, blist, true_count);
+	//ft_printf("is it sorted? %d, total %d\n", bucket_is_sorted(alist, 0, true_count, 1), true_count);
 	//ps_printlists(alist, blist, &printmembs);
 	icplist_destroy(&blist, 1);
 	icplist_destroy(&alist, 0);
-	printf("counter %d\n", counter + ss_counter + sa_counter + sb_counter);         //DELEEEEEEEEETE
-	printf("ss_counter %d\n", ss_counter);											//DELEEEEEEEEETE
-	printf("sa_counter %d\n", sa_counter);											//DELEEEEEEEEETE
-	printf("sb_counter %d\n", sb_counter);											//DELEEEEEEEEETE
+	//printf("counter %d\n", counter + ss_counter + sa_counter + sb_counter);         //DELEEEEEEEEETE
+	//printf("ss_counter %d\n", ss_counter);											//DELEEEEEEEEETE
+	//printf("sa_counter %d\n", sa_counter);											//DELEEEEEEEEETE
+	//printf("sb_counter %d\n", sb_counter);											//DELEEEEEEEEETE
 	return (1);
 }
 
@@ -50,4 +52,4 @@ int main(int ac, char **av)
 }*/
 
 
-//gcc *.c -L. -lft -Iincs
+//gcc *.c -L. -lft -Iincs -o push_swap.exe
