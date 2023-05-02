@@ -44,8 +44,12 @@ number 0 and above"
 
 */
 
+/* ps_atoi_split.c*/
+int		split_to_list(char *arg, t_ihs_table	*table, t_idmlist **placelist);
+
+
 /* ps_preprocess.c*/
-int		ps_preprocess(int **res, int ac, char **av);
+int		ps_preprocess(int **res, int ac, char **av, int *true_count);
 
 /* ps_normalize.c*/
 int		ps_normalize(int **arr, int size);
@@ -95,7 +99,9 @@ void	pushswap_sort_small(t_icplist *alist, t_icplist *blist, int min, int max);
 int     bucket_is_sorted(t_icplist *list, int min, int max, int ascending);
 int	bucket_is_sorted_debug(t_icplist *list, int min, int max, int ascending);
 
-/*ps_errors.c - error messages and functions*/
+/*ps_messages.c - error messages and functions*/
+int		ok_message(void);
+int		ko_message(void);
 int		error_msg(void);
 int		malloc_failed(void);
 
