@@ -12,15 +12,17 @@
 
 #include "pushswap.h"
 
-void    pslist_swap_top(t_icplist *list, char *print)
+void    pslist_swap_top(t_ps_stack *stack, int print)
 {
-    t_icpnode *old_top;
+    t_icplist *list;
+	t_icpnode *old_top;
     t_icpnode *new_top;
 
+	list = stack->list;
     if (!list || list->len <= 1)
         return;
     list->pivot = list->pivot->next;
-    if (list->len > 1)
+    if (stack->list->len > 1)
     {
         old_top = list->pivot->prev;
         new_top = list->pivot;
@@ -32,13 +34,15 @@ void    pslist_swap_top(t_icplist *list, char *print)
         new_top->next = old_top;
     }
 	if (print)
-		ft_printf("%s\n", print);
+		ft_printf("%s", stack->swap_name);
 }
 
-static t_icpnode    *pslist_retrieve_top(t_icplist *list)
+static t_icpnode    *pslist_retrieve_top(t_ps_stack *stack)
 {
-    t_icpnode *ret;
+    t_icplist *list;
+	t_icpnode *ret;
 
+	list = stack->list;
     if (!list || !(list->pivot))
         return (NULL);
     ret = list->pivot;
@@ -54,8 +58,11 @@ static t_icpnode    *pslist_retrieve_top(t_icplist *list)
     return (ret);
 }
 
-static int    pslist_add_top(t_icplist *list, t_icpnode *newtop)
+static int    pslist_add_top(t_ps_stack *stack, t_icpnode *newtop)
 {
+	t_icplist *list;
+
+	list = stack->list;
     if (!list || !newtop)
         return (0);
     if (!(list->pivot))
@@ -76,57 +83,34 @@ static int    pslist_add_top(t_icplist *list, t_icpnode *newtop)
 }
 
 
-void    pslist_push_top(t_icplist *to, t_icplist *from, char *print)
+void    pslist_push_top(t_ps_stack *to, t_ps_stack *from, int print)
 {
     t_icpnode *move;
 
-    if (!to || !from || !from->pivot)
+    if (!to->list || !from->list || !from->list->pivot)
         return ;
     move = pslist_retrieve_top(from);
     if (move)
-	{
         pslist_add_top(to, move);
-	}
+
 	if (print)
-		ft_printf("%s\n", print);
+		ft_printf("%s", from->push_name);
 }
 
-void    pslist_rotate(t_icplist *list, int rotate, char *print)
+void    pslist_rotate(t_ps_stack *stack, int rotate, int print)
 {
+	t_icplist *list;
+
+	list = stack->list;
 	if (rotate == 1)
 		list->pivot = list->pivot->next;
 	if (rotate == -1)
 		list->pivot = list->pivot->prev;
 	if (print)
-		ft_printf("%s\n", print);
+	{
+		if (rotate > 0)
+			ft_printf("%s", stack->rotate_name);
+		else
+			ft_printf("%s", stack->revrot_name);
+	}
 }
-
-/*
-int    pslist_rotate_multi(t_icplist *list, int rotate, char *print)
-{
-    t_icpnode    *pivot;
-    int     nbr;
-    int     i;
-
-    nbr = rotate % (list->len);
-    if (!list || !nbr)
-        return (nbr);
-    if (ABS(nbr) > list->len / 2)
-        nbr = (nbr - list->len * SIGN(nbr));
-    pivot = list->pivot;
-    i = nbr;
-    while (i > 0)
-    {
-        pivot = pivot->next;
-		ft_printf("%s\n", print);
-        i--;
-    }
-    while (i < 0)
-    {
-        pivot = pivot->prev;
-		ft_printf("%s\n", print);
-        i++;
-    }
-    list->pivot = pivot;
-    return (nbr);
-}*/

@@ -12,44 +12,57 @@
 
 #include "pushswap.h"
 
+void setup_stack_b(t_ps_stack *b)
+{
+	ft_memcpy(b->push_name, "pa\n\0", sizeof(b->push_name));
+	ft_memcpy(b->swap_name, "sb\n\0", sizeof(b->swap_name));
+	ft_memcpy(b->rotate_name, "rb\n\0", sizeof(b->rotate_name));
+	ft_memcpy(b->revrot_name, "rrb\n\0", sizeof(b->revrot_name));
+	b->ascending = 0;
+}
+
+void setup_stack_a(t_ps_stack *a)
+{
+	ft_memcpy(a->push_name, "pb\n\0", sizeof(a->push_name));
+	ft_memcpy(a->swap_name, "sa\n\0", sizeof(a->swap_name));
+	ft_memcpy(a->rotate_name, "ra\n\0", sizeof(a->rotate_name));
+	ft_memcpy(a->revrot_name, "rra\n\0", sizeof(a->revrot_name));
+	a->ascending = 1;
+}
+
 int solver(int ac, char **av)
 {
-	int			*arr;
-	int			true_count;
-	t_icplist	*alist;
-	t_icplist	*blist;
+	t_ps_stack	a_stack;
+	t_ps_stack	b_stack;
 
-	if (!ps_preprocess(&arr, ac, av, &true_count) \
-	|| !ps_normalize(&arr, true_count) \
-	|| !ps_arr_to_cdlist(&alist, &arr, true_count))
+	if (!ps_preprocess(&(a_stack.list), ac, av) \
+	|| !ps_normalize(&(a_stack.list)))
 		return (error_msg());
-	blist = icplist_new(true_count, alist->pool);
-	if (!blist)
+	b_stack.list = icplist_new((a_stack.list)->len, (a_stack.list)->pool);
+	if (!b_stack.list)
 	{
-		icplist_destroy(&alist, 0);
+		icplist_destroy(&(a_stack.list), 0);
 		return (malloc_failed());
 	}
-
-	if (!is_sorted(alist, blist))
-		pushswap(alist, blist, true_count);
-	//ft_printf("is it sorted? %d, total %d\n", bucket_is_sorted(alist, 0, true_count, 1), true_count);
-	//ps_printlists(alist, blist, &printmembs);
-	icplist_destroy(&blist, 1);
-	icplist_destroy(&alist, 0);
-	//printf("counter %d\n", counter + ss_counter + sa_counter + sb_counter);         //DELEEEEEEEEETE
-	//printf("ss_counter %d\n", ss_counter);											//DELEEEEEEEEETE
-	//printf("sa_counter %d\n", sa_counter);											//DELEEEEEEEEETE
-	//printf("sb_counter %d\n", sb_counter);											//DELEEEEEEEEETE
+	setup_stack_a(&a_stack);
+	setup_stack_b(&b_stack);
+	if (!is_sorted(&a_stack, &b_stack))
+		pushswap(&a_stack, &b_stack, a_stack.list->len);
+	icplist_destroy(&(b_stack.list), 1);
+	icplist_destroy(&(a_stack.list), 0);
 	return (1);
 }
 
-/*
+
+
 int main(int ac, char **av)
 {
 	if (ac > 1)
 		solver(--ac, ++av);
 	return (0);
-}*/
-
+}
 
 //gcc *.c -L. -lft -Iincs -o push_swap.exe
+
+
+//$args="    "; ./push_swap.exe $args | ./checker.exe $args

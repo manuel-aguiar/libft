@@ -23,30 +23,29 @@ static int	wordnum(char *str)
 {
 	int	count;
 	int	i;
+	int has_digits;
 
 	i = 0;
 	count = 0;
+	has_digits = 0;
 	if (str[i] && !ft_isspace(str[i]))
 		count++;
-	while (str[i] && !ft_isspace(str[i]))
+	while (str[i] && !ft_isspace(str[i]) && ps_valid_char(str[i]))
 	{
-		if (!ps_valid_char(str[i]))
-
-			return (-1);
-
+		if (ft_isdigit(str[i]))
+			has_digits = 1;
 		i++;
 	}
-	while (str[i])
+	while (str[i] && ps_valid_char(str[i]))
 	{
 		if (!ft_isspace(str[i]) && ft_isspace(str[i - 1]))
 			count++;
-		if (!ps_valid_char(str[i]))
-
-
-			return (-1);
-
+		if (ft_isdigit(str[i]))
+			has_digits = 1;
 		i++;
 	}
+	if ((str[i] && !ps_valid_char(str[i])) || !has_digits)
+		return (0);
 	return (count);
 }
 
@@ -104,31 +103,22 @@ static int	ps_atoiable(char **arg, int *placenum)
     return (1);
 }
 
-int		split_to_list(char *arg, t_ihs_table *table, t_idmlist **placelist)
+int		split_to_list(t_idmlist *list, char *arg)
 {
-	t_idmlist	*new_list;
 	int			total_nums;
 	int			i;
 	int			num;
 
-	if (!arg || (total_nums = wordnum(arg)) == -1)
-		return (-1);
-	new_list = idmlist_new();
-	if (new_list)
+	if (!arg || !*arg || !(total_nums = wordnum(arg)))
+		return (0);
+	i = 0;
+	while (i < total_nums)
 	{
-		i = 0;
-		while (i < total_nums)
-		{
-			if(ps_atoiable(&arg, &num) && ihs_insert(table, num))
-				idmlist_in_tail(new_list, num);
-			else
-				return (-1);
+		if(ps_atoiable(&arg, &num) && idmlist_in_tail(list, num))
 			i++;
-		}
+		else
+			return (0);
 	}
-	else
-		return (-1);
-	*placelist = new_list;
 	return (total_nums);
 }
 

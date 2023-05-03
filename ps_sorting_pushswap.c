@@ -12,60 +12,78 @@
 
 #include "pushswap.h"
 
-void quick_sort_b(t_icplist *alist, t_icplist *blist, int start, int end)
+void quick_sort_b(t_ps_stack *a_stack, t_ps_stack *b_stack, int start, int end)
 {
 	int mid;
 
-	if (end - start < INSORT_TO_A || bucket_is_sorted(blist, start, end, 0))
+	if (end - start < INSORT_TO_A || bucket_is_sorted(b_stack, start, end, 0))
 	{
-		insertion_sort_from_b(alist, blist, start, end);
+		insertion_sort_push(a_stack, b_stack, start, end);
 		return ;
 	}
 	mid = (start + end) / 2;
 	//printf("pushing to A, mid %d, end %d, counter %d\n", mid, end, counter);
-	pushbucket_from_b(alist, blist, mid, end);
+	pushbucket(b_stack, a_stack, mid, end);
 
 	//ps_printlists(alist, blist, &printmembs);
 
 	//printf("calling quicksort A, sending inputs mid %d, end %d\n", mid, end);
-	quick_sort_a(alist, blist, mid, end);
+	quick_sort_a(a_stack, b_stack, mid, end);
 
 	//printf("calling quicksort B recursively, sending inputs mid %d, end %d\n", start, mid);
-	quick_sort_b(alist, blist, start, mid);
+	quick_sort_b(a_stack, b_stack, start, mid);
 
 }
 
-void quick_sort_a(t_icplist *alist, t_icplist *blist, int start, int end)
+void quick_sort_a(t_ps_stack *a_stack, t_ps_stack *b_stack, int start, int end)
 {
 	int mid;
 
-	if (bucket_is_sorted(alist, start, end, 1))
+	if (bucket_is_sorted(a_stack, start, end, 1))
 		return ;
 	mid = (start + end) / 2;
 	if (end - start < INSORT_TO_B)
 	{
 		//printf("calling INSERTION SORT to B to finish, start %d, mid %d, counter %d\n", start, end, counter);
 		//ps_printlists(alist, blist, &printmembs);
-		insertion_sort_from_a(blist, alist, start, end);
-		pushbucket_from_b(alist, blist, start, end);
+		insertion_sort_push(b_stack, a_stack, start, end);
+		pushbucket(b_stack, a_stack, start, end);
 		//ps_printlists(alist, blist, &printmembs);
 		return ;
 	}
 	//printf("pushing to B, start %d, mid %d, counter %d\n", start, mid, counter);
-	pushbucket_from_a(alist, blist, start, mid);
+	pushbucket(a_stack, b_stack, start, mid);
 	//ps_printlists(alist, blist, &printmembs);
 
 	//printf("calling quicksort A recursively to sort the second half, sending inputs start %d, mid %d\n", mid, end);
-	quick_sort_a(alist, blist, mid, end);
+	quick_sort_a(a_stack, b_stack, mid, end);
 	//printf("calling quicksort B, sending inputs start %d, mid %d\n", start, mid);
-	quick_sort_b(alist, blist, start, mid);
+	quick_sort_b(a_stack, b_stack, start, mid);
 
 }
 
 
-void pushswap(t_icplist *alist, t_icplist *blist, int total)
+void pushswap(t_ps_stack *a_stack, t_ps_stack *b_stack, int total)
 {
-	quick_sort_a(alist, blist, 0, total);
+	t_icplist *alist;
+	t_icplist *blist;
+
+	alist = a_stack->list;
+	blist = b_stack->list;
+
+	if (total <= 2)
+		pushswap_sort_two(a_stack, 1);
+	else if (total <= 18)
+	{
+		insertion_sort_push(b_stack, a_stack, 0, total);
+		insertion_sort_push(a_stack, b_stack, 0, total);
+	}
+	else if (total <= 20)
+		stack_cocktail(a_stack, 1);
+	else if (total <= 222)
+		pushswap_super_small(a_stack, b_stack);
+	else
+		quick_sort_a(a_stack, b_stack, 0, total);
 	/*
 	if (total == 2)
 		pslist_swap_top(alist, "sa");

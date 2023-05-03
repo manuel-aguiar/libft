@@ -12,28 +12,6 @@
 
 #include "pushswap.h"
 
-int	ps_arr_to_cdlist(t_icplist **list, int **arr, int size)
-{
-	t_icplist *new;
-	int i;
-	int *array;
-
-	new = icplist_new(size, NULL);
-	if (new)
-	{
-		array = *arr;
-		i = -1;
-		while (++i < size)
-			icplist_in_tail(new, array[i]);
-	}
-	*list = new;
-	free(array);
-	*arr = NULL;
-	if (new)
-		return (1);
-	return (malloc_failed());
-}
-
 void	ps_printlists(t_icplist *a_list, t_icplist *b_list, void (*pnt)(int))
 {
 	ft_printf("\nlist B: ");
@@ -48,23 +26,23 @@ void	printmembs(int num)
 	ft_printf("%d   ", num);
 }
 
-int is_sorted(t_icplist *alist, t_icplist *blist)
+int is_sorted(t_ps_stack *a_stack, t_ps_stack *b_stack)
 {
 	t_icpnode *cur;
 
-	if (alist->len == 1)
+	if (a_stack->list->len == 1)
 		return (1);
-	cur = alist->pivot;
+	cur = a_stack->list->pivot;
 	if (cur->data != 0)
 		return (0);
 	cur = cur->next;
-	while (cur != alist->pivot)
+	while (cur != a_stack->list->pivot)
 	{
 		if ((cur->data != cur->prev->data + 1))
 			return (0);
 		cur = cur->next;
 	}
-	if (blist->len)
+	if (b_stack->list->len)
 		return (0);
 	return (1);
 }

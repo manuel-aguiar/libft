@@ -22,17 +22,17 @@ int		is_target(int target, int test)
 	return (target == test);
 }
 
-int find_exact_target(t_icplist *list, int target)
+int find_exact_target(t_ps_stack *stack, int target)
 {
-	t_icpnode *forward;
-	t_icpnode *backward;
-	int countpos;
-	int countneg;
+	t_icpnode	*forward;
+	t_icpnode	*backward;
+	int			countpos;
+	int			countneg;
 
 	countpos = 0;
 	countneg = 0;
-	forward = list->pivot;
-	backward = list->pivot;
+	forward = stack->list->pivot;
+	backward = stack->list->pivot;
 	while (1)
 	{
 		if (!is_target(forward->data, target))
@@ -56,17 +56,17 @@ int find_exact_target(t_icplist *list, int target)
 }
 
 
-int find_closest_in_bucket(t_icplist *list, int min, int max)
+int find_closest_in_bucket(t_ps_stack *stack, int min, int max)
 {
-	t_icpnode *forward;
-	t_icpnode *backward;
-	int countpos;
-	int countneg;
+	t_icpnode	*forward;
+	t_icpnode	*backward;
+	int			countpos;
+	int			countneg;
 
 	countpos = 0;
 	countneg = 0;
-	forward = list->pivot;
-	backward = list->pivot;
+	forward = stack->list->pivot;
+	backward = stack->list->pivot;
 	while (1)
 	{
 		if (!in_bucket(forward->data, min, max))
@@ -96,21 +96,27 @@ int find_closest_in_bucket(t_icplist *list, int min, int max)
 	return (countneg);
 }
 
-void super_swap(t_icplist *alist, t_icplist *blist, int min, int max)
+void super_swap(t_ps_stack *a_stack, t_ps_stack *b_stack, int min, int max)
 {
-	if (alist->len <= 1 || blist->len <= 1)
+	t_icpnode *a_cur;
+	t_icpnode *b_cur;
+
+	a_cur = a_stack->list->pivot;
+	b_cur = b_stack->list->pivot;
+	if (a_stack->list->len <= 1 || b_stack->list->len <= 1)
 		return ;
-	if (!in_bucket(alist->pivot->data, min, max) \
-	|| !in_bucket(blist->pivot->data, min, max) \
-	|| !in_bucket(alist->pivot->next->data, min, max) \
-	|| !in_bucket(blist->pivot->next->data, min, max))
+	if (!in_bucket(a_cur->data, min, max) \
+	|| !in_bucket(b_cur->data, min, max) \
+	|| !in_bucket(a_cur->next->data, min, max) \
+	|| !in_bucket(b_cur->next->data, min, max))
 		return ;
-	if (alist->pivot->data == alist->pivot->next->data + 1\
-	&& blist->pivot->data == blist->pivot->next->data - 1)
+	if (((a_cur->data == a_cur->next->data + 1 && a_stack->ascending) \
+	|| (a_cur->data == a_cur->next->data - 1 && !a_stack->ascending)) \
+	&& ((b_cur->data == b_cur->next->data + 1 && b_stack->ascending) \
+	|| (b_cur->data == b_cur->next->data - 1 && !b_stack->ascending)))
 	{
-		pslist_swap_top(alist, NULL);
-		pslist_swap_top(blist, NULL);
+		pslist_swap_top(a_stack, 0);
+		pslist_swap_top(b_stack, 0);
 		ft_printf("ss\n");
-		ss_counter++;
 	}
 }

@@ -1,12 +1,12 @@
 #include "pushswap.h"
 
-int	bucket_is_sorted(t_icplist *list, int min, int max, int ascending)
+int	bucket_is_sorted(t_ps_stack *stack, int min, int max, int ascending)
 {
     t_icpnode *cur;
 
-    if (list->len == 1)
+    if (stack->list->len == 1)
         return (1);
-    cur = list->pivot;
+    cur = stack->list->pivot;
     if (ascending)
 	{
 		while(cur->data == min && min < max)

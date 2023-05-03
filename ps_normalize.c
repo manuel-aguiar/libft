@@ -12,83 +12,66 @@
 
 #include "pushswap.h"
 
-
-
 static int ascending(int a, int b)
 {
     return (a > b);
 }
 
-static int countbigger(int *arr, int size, int target)
+static int copy_icplist_to_array(t_icplist *list, int **place)
 {
-    int	i;
-    int	res;
+	t_icpnode	*cur;
+	int			*arr;
+	int			len;
+	int			i;
 
-    i = 0;
-    res = 0;
-    while (i < size)
-    {
-        if (arr[i] > target)
-            res++;
-        i++;
-    }
-    return (res);
+	len = list->len;
+	arr = malloc(sizeof(int) * list->len);
+	if (!arr)
+		return (0);
+	cur = list->pivot;
+	i = 0;
+	while (i < len)
+	{
+		arr[i] = cur->data;
+		cur = cur->next;
+		i++;
+	}
+	*place = arr;
+	return (1);
 }
 
-int normalize_slow(int **arr, int size)
+static int	normalize_list(t_icplist *list)
 {
-    int	*new;
-    int	i;
-	int	*array;
+    t_icpnode	*cur;
+	int			*sorted;
+	int			len;
+    int			i;
 
-    new = malloc(sizeof(*new) * size);
-    if (!new)
+    if (!copy_icplist_to_array(list, &sorted))
+		return (0);
+	len = list->len;
+    if(!tim_sort(sorted, len, &ascending))
 	{
-		*arr = NULL;
-        return (0);
-	}
-	array = *arr;
-    i = -1;
-    while (++i < size)
-	{
-        new[i] = (size - 1 - countbigger(array, size, array[i]));
-	}
-	ft_memcpy(array, new, sizeof(*array) * size);
-	free(new);
-    return (1);
-}
-
-int	normalize_fast(int **arr, int size)
-{
-    int	*sorted;
-    int	i;
-	int	*array;
-
-    sorted = malloc(sizeof(int) * size);
-    if (!sorted)
-	{
-		ft_free_set_null(arr);
-        return (malloc_failed());
-	}
-	array = *arr;
-    ft_memcpy(sorted, array, sizeof(int) * size);
-    if(!tim_sort(sorted, size, &ascending))
-	{
-		ft_free_set_null(arr);
 		ft_free_set_null(&sorted);
-		return (malloc_failed());
+		return (0);
 	}
-    i = -1;
-    while (++i < size)
-        array[i] = bin_srch(sorted, size, array[i], &ascending);
+	cur = list->pivot;
+    i = 0;
+    while (i++ < len)
+	{
+		cur->data = bin_srch(sorted, len, cur->data, &ascending);
+		cur = cur->next;
+	}
     free(sorted);
     return (1);
 }
 
-int	ps_normalize(int **arr, int size)
+int	ps_normalize(t_icplist **final)
 {
-	if (size > 50)
-		return (normalize_fast(arr, size));
-	else
-		return (normalize_slow(arr, size));
+	if (!normalize_list(*final))
+	{
+		icplist_destroy(final, 0);
+		return (0);
+	}
+	return (1);
 }

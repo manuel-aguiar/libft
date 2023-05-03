@@ -12,105 +12,88 @@
 
 #include "pushswap.h"
 
-static int prepare_lists_and_hashset(t_idmlist ***all_lists, t_ihs_table **table, int size)
-{
-	*all_lists = ft_calloc(size, sizeof(**all_lists));
-	if (!*all_lists)
-		return (malloc_failed());
-	*table = ihs_init_table(size);
-	if (!*table)
-	{
-		ft_free_set_null(all_lists);
-		return (malloc_failed());
-	}
-	return (1);
-}
-
-static int free_all_lists(t_idmlist ***all_lists, int size)
-{
-	int			i;
-	t_idmlist	**cur_list;
-
-	if (*all_lists)
-	{
-		cur_list = *all_lists;
-		i = 0;
-		while (i < size && cur_list[i])
-			idmlist_destroy(&cur_list[i++]);
-		ft_free_set_null(all_lists);
-	}
-}
-
-static int join_all_list_splits(t_idmlist ***all_lists, int size, char **args, int *total_args)
+static int join_all_splits(t_idmlist **list, int size, char **args)
 {
 	int			check;
-	int			split_count;
 	int			i;
-	t_idmlist	**cur_list;
-	t_ihs_table	*table;
 
 	check = 1;
-	if(!prepare_lists_and_hashset(all_lists, &table, size))
-		return (malloc_failed());
-	cur_list = *all_lists;
+	*list = idmlist_new();
+	if (!*list)
+		return (0);
 	i = 0;
 	while (i < size)
 	{
-		split_count = split_to_list(args[i], table, &cur_list[i]);
-		if (split_count == -1)
+		if (!split_to_list(*list, args[i]))
 		{
 			check = 0;
+			idmlist_destroy(list);
 			break;
 		}
-		else
-			(*total_args) += split_count;
 		i++;
 	}
-	ihs_free_table(&table);
 	return (check);
 }
 
-static int lists_to_array(t_idmlist **all_lists, int **res, int total_count, int ac)
+static int list_dmalloc_to_cpool(t_icplist **final, t_idmlist **list)
 {
-	t_idmnode	*cur;
-	int			*arr;
+	t_icplist	*new;
+	t_idmlist	*old;
 	int			i;
-	int			j;
 
-	arr = malloc(sizeof(*arr) * total_count);
-	if (!arr)
-		return (0);
-	i = 0;
-	j = 0;
-	while (i < ac)
+	new = icplist_new((*list)->len, NULL);
+	if (!new)
 	{
-		cur = all_lists[i++]->head;
-		while (cur)
-		{
-			arr[j++] = cur->data;
-			cur = cur->next;
-		}
+		idmlist_destroy(list);
+		return (0);
 	}
-	*res = arr;
+	old = *list;
+	while (old->head)
+	{
+		icplist_in_tail(new, old->head->data);
+		idmlist_del_head(old);
+	}
+	idmlist_destroy(list);
+	*final = new;
 	return (1);
 }
 
-int ps_preprocess(int **res, int ac, char **av, int *true_count)
+static int check_duplicates(t_icplist **final)
 {
-	t_idmlist	**all_lists;
-	int			*array;
-	int			total_count;
-	int			check;
+	t_ihs_table	*table;
+	t_icpnode	*cur;
+	int			i;
 
-	total_count = 0;
-	check = 0;
-	if (join_all_list_splits(&all_lists, ac, av, &total_count) \
-	&& lists_to_array(all_lists, &array, total_count, ac))
+
+	if (!*final)
+		return (0);
+	table = ihs_init_table((*final)->len);
+	if (!table)
+		return (0);
+	cur = (*final)->pivot;
+	i = 0;
+	while (i < (*final)->len)
 	{
-		check = 1;
-		*true_count = total_count;
-		*res = array;
+		if (!ihs_insert(table, cur->data))
+		{
+			icplist_destroy(final, 0);
+			ihs_free_table(&table);
+			return (0);
+		}
+		i++;
+		cur = cur->next;
 	}
-	free_all_lists(&all_lists, ac);
-	return (check);
+	ihs_free_table(&table);
+	return (1);
+}
+
+int ps_preprocess(t_icplist **final, int ac, char **av)
+{
+	t_idmlist	*list;
+
+	if (join_all_splits(&list, ac, av) \
+	&& list_dmalloc_to_cpool(final, &list) \
+	&& check_duplicates(final))
+		return (1);
+	return (0);
 }
