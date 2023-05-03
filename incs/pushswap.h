@@ -26,13 +26,19 @@
 # define INSORT_TO_A 20
 # define INSORT_TO_B INSORT_TO_A / 2
 
-#include <stdio.h>  //DELEEEEEEEEETE
-/* GLOBAL VARIABLES TO DELETE*/
+#include <stdio.h>
 
-int counter;
-int ss_counter;
-int sa_counter;
-int sb_counter;
+
+typedef struct s_ps_stack
+{
+	t_icplist	*list;
+	char		push_name[4];
+	char		swap_name[4];
+	char		rotate_name[4];
+	char		revrot_name[5];
+	int			ascending;
+} t_ps_stack;
+
 /* DELEEEEEEEETEEEEEEEEEEEEEEEEEEEEEE*/
 
 /* pushswap list is a circular doubly linekd list with a memory pool
@@ -45,59 +51,55 @@ number 0 and above"
 */
 
 /* ps_atoi_split.c*/
-int		split_to_list(char *arg, t_ihs_table	*table, t_idmlist **placelist);
+int		split_to_list(t_idmlist *list, char *arg);
 
 
 /* ps_preprocess.c*/
-int		ps_preprocess(int **res, int ac, char **av, int *true_count);
+int		ps_preprocess(t_icplist **final, int ac, char **av);
 
 /* ps_normalize.c*/
-int		ps_normalize(int **arr, int size);
+int		ps_normalize(t_icplist **final);
 
 /* ps_plays.c*/
-void	pslist_swap_top(t_icplist *list, char *print);
-void	pslist_push_top(t_icplist *to, t_icplist *from, char *print);
-int		pslist_rotate_multi(t_icplist *list, int rotate, char *print);
-void	pslist_rotate(t_icplist *list, int rotate, char *print);
+void    pslist_swap_top(t_ps_stack *stack, int print);
+void    pslist_push_top(t_ps_stack *to, t_ps_stack *from, int print);
+void    pslist_rotate(t_ps_stack *stack, int rotate, int print);
 
 /* ps_list_utils.c*/
 int		ps_arr_to_cdlist(t_icplist **list, int **arr, int size);
 void	ps_printlists(t_icplist *a_list, t_icplist *b_list, void (*pnt)(int));
 void	printmembs(int num);
-int		is_sorted(t_icplist *alist, t_icplist *blist);
+int		is_sorted(t_ps_stack *a_stack, t_ps_stack *b_stack);
 
 /* algos */
 
 /*ps_sorting_pushswap.c*/
-void	pushswap(t_icplist *alist, t_icplist *blist, int total);
-void	quick_sort_a(t_icplist *alist, t_icplist *blist, int start, int end);
-void	quick_sort_b(t_icplist *alist, t_icplist *blist, int start, int end);
+void	pushswap(t_ps_stack *a_stack, t_ps_stack *b_stack, int total);
+void	quick_sort_a(t_ps_stack *a_stack, t_ps_stack *b_stack, int start, int end);
+void	quick_sort_b(t_ps_stack *a_stack, t_ps_stack *b_stack, int start, int end);
 
 /*ps_sorting_common.c*/
 int		in_bucket(int target, int min, int max);
 int		is_target(int target, int test);
-int		find_exact_target(t_icplist *list, int target);
-int		find_closest_in_bucket(t_icplist *list, int min, int max);
-void	super_swap(t_icplist *alist, t_icplist *blist, int min, int max);
+int		find_exact_target(t_ps_stack *stack, int target);
+int		find_closest_in_bucket(t_ps_stack *stack, int min, int max);
+void	super_swap(t_ps_stack *a_stack, t_ps_stack *b_stack, int min, int max);
 
-/*ps_sorting_a_stack.c*/
-void	pushbucket_from_a(t_icplist *alist, t_icplist *blist, int min, int max);
-void	insertion_sort_from_a(t_icplist *to, t_icplist *from, int start, int end);
-
-/*ps_sorting_b_stack.c*/
-void	pushbucket_from_b(t_icplist *alist, t_icplist *blist, int min, int max);
-void	insertion_sort_from_b(t_icplist *to, t_icplist *from, int start, int end);
+/*ps_quicksort_moves.c*/
+void	pushbucket(t_ps_stack *from, t_ps_stack *to, int min, int max);
+void	insertion_sort_push(t_ps_stack *to, t_ps_stack *from, int start, int end);
 
 /*ps_sorting_small.c*/
-void	pushswap_sort_three(t_icplist *list);
+void 	pushswap_sort_two(t_ps_stack *stack, int print);
+void 	pushswap_sort_three(t_ps_stack *stack);
 void	pushswap_sort_small(t_icplist *alist, t_icplist *blist, int min, int max);
 
 /*ps_sorting_medium.c*/
 
 
 /*ps_check_sort.c*/
-int     bucket_is_sorted(t_icplist *list, int min, int max, int ascending);
-int	bucket_is_sorted_debug(t_icplist *list, int min, int max, int ascending);
+int		bucket_is_sorted(t_ps_stack *stack, int min, int max, int ascending);
+int		bucket_is_sorted_debug(t_icplist *list, int min, int max, int ascending);
 
 /*ps_messages.c - error messages and functions*/
 int		ok_message(void);
@@ -109,5 +111,14 @@ int		malloc_failed(void);
 int	ps_array_cocktail_counter(int *arr, int len);
 int	ps_array_insertion_counter(int *arr, int len, int min, int max);
 
+
+/* pushswap.c*/
+
+void	setup_stack_a(t_ps_stack *a);
+void	setup_stack_b(t_ps_stack *b);
+
+void	stack_cocktail(t_ps_stack *stack, int print);
+
+void pushswap_super_small(t_ps_stack *a_stack, t_ps_stack *b_stack);
 
 #endif

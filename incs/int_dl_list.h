@@ -35,8 +35,8 @@ typedef struct s_idmlist
 } t_idmlist;
 
 t_idmlist	*idmlist_new(void);
-void	idmlist_in_head(t_idmlist* list, int data);
-void	idmlist_in_tail(t_idmlist* list, int data);
+int		idmlist_in_head(t_idmlist* list, int data);
+int		idmlist_in_tail(t_idmlist* list, int data);
 int		idmlist_find(t_idmlist *list, int target);
 void	idmlist_remove_if(t_idmlist *list, int target);
 void	idmlist_del_head(t_idmlist* list);
