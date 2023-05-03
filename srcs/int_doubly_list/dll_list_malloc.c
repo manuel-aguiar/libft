@@ -38,15 +38,15 @@ t_idmlist *idmlist_new(void)
     return (list);
 }
 
-void idmlist_in_head(t_idmlist* list, int data)
+int idmlist_in_head(t_idmlist* list, int data)
 {
     t_idmnode* new_node;
 
     if (!list)
-        return ;
+        return (0);
     new_node = new_idmnode(data);
     if (!new_node)
-        return ;
+        return (0);
     if (list->head)
     {
         new_node->next = list->head;
@@ -56,17 +56,18 @@ void idmlist_in_head(t_idmlist* list, int data)
         list->tail = new_node;
     list->head = new_node;
     ++(list->len);
+	return (1);
 }
 
-void idmlist_in_tail(t_idmlist* list, int data)
+int idmlist_in_tail(t_idmlist* list, int data)
 {
     t_idmnode* new_node;
 
     if (!list)
-        return ;
+        return (0);
     new_node = new_idmnode(data);
     if (!new_node)
-        return ;
+        return (0);
     if (list->tail)
     {
         new_node->prev = list->tail;
@@ -76,4 +77,5 @@ void idmlist_in_tail(t_idmlist* list, int data)
         list->head = new_node;
     list->tail = new_node;
     ++(list->len);
+	return (1);
 }

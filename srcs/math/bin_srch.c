@@ -18,6 +18,10 @@ int	bin_srch(int *arr, int size, int target, int (*cmp)(int, int))
 
     low = 0;
     high = size - 1;
+	if (arr[low] == target)
+		return (low);
+	if (arr[high] == target)
+		return (high);
     while (high - low > 1)
     {
         if (arr[low] == target)

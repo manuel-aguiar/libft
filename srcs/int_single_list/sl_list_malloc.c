@@ -25,36 +25,38 @@ t_ismlist *ismlist_new(void)
     return (list);
 }
 
-void ismlist_in_head(t_ismlist* list, int data)
+int ismlist_in_head(t_ismlist* list, int data)
 {
     t_ismnode* new_node;
 
     if (!list)
-        return ;
+        return (0);
     new_node = ismnode_new(data);
     if (!new_node)
-        return ;
+        return (0);
     if (list->head)
         new_node->next = list->head;
     else
         list->tail = new_node;
     list->head = new_node;
     ++(list->len);
+	return (1);
 }
 
-void ismlist_in_tail(t_ismlist* list, int data)
+int ismlist_in_tail(t_ismlist* list, int data)
 {
     t_ismnode* new_node;
 
     if (!list)
-        return ;
+        return (0);
     new_node = ismnode_new(data);
     if (!new_node)
-        return ;
+        return (0);
     if (list->tail)
         list->tail->next = new_node;
     else
         list->head = new_node;
     list->tail = new_node;
     ++(list->len);
+	return (1);
 }
