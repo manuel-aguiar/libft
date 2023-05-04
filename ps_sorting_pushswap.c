@@ -46,8 +46,14 @@ void quick_sort_a(t_ps_stack *a_stack, t_ps_stack *b_stack, int start, int end)
 	{
 		//printf("calling INSERTION SORT to B to finish, start %d, mid %d, counter %d\n", start, end, counter);
 		//ps_printlists(alist, blist, &printmembs);
-		insertion_sort_push(b_stack, a_stack, start, end);
-		pushbucket(b_stack, a_stack, start, end);
+		//insertion_sort_push(b_stack, a_stack, start, end);
+		//pushbucket(b_stack, a_stack, start, end);
+		//printf("using cocktail on a, from %d to %d\n", start, end);
+		//ps_printlists(a_stack->list, b_stack->list, &printmembs);
+		//stack_cocktail(a_stack, start, end, O_PRINT | O_COUNT);
+		pushswap_super_small(a_stack, b_stack, start, end);
+		//printf("after cocktail on a, from %d to %d\n", start, end);
+		//ps_printlists(a_stack->list, b_stack->list, &printmembs);
 		//ps_printlists(alist, blist, &printmembs);
 		return ;
 	}
@@ -73,17 +79,17 @@ void pushswap(t_ps_stack *a_stack, t_ps_stack *b_stack, int total)
 
 	if (total <= 2)
 		pushswap_sort_two(a_stack, 1);
-	else if (total <= 18)
+	else if (total <= 10)
+		stack_cocktail(a_stack, 0, total, O_PRINT | O_COUNT);
+	/*else if (total <= 18)
 	{
 		insertion_sort_push(b_stack, a_stack, 0, total);
 		insertion_sort_push(a_stack, b_stack, 0, total);
-	}
-	else if (total <= 20)
-		stack_cocktail(a_stack, 1);
-	else if (total <= 222)
-		pushswap_super_small(a_stack, b_stack);
+	}*/
+
 	else
 		quick_sort_a(a_stack, b_stack, 0, total);
+	//ps_printlists(a_stack->list, b_stack->list, &printmembs);
 	/*
 	if (total == 2)
 		pslist_swap_top(alist, "sa");

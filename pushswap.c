@@ -19,6 +19,8 @@ void setup_stack_b(t_ps_stack *b)
 	ft_memcpy(b->rotate_name, "rb\n\0", sizeof(b->rotate_name));
 	ft_memcpy(b->revrot_name, "rrb\n\0", sizeof(b->revrot_name));
 	b->ascending = 0;
+	b->op_counter = 0;
+	b->trial_mode = 0;
 }
 
 void setup_stack_a(t_ps_stack *a)
@@ -28,6 +30,8 @@ void setup_stack_a(t_ps_stack *a)
 	ft_memcpy(a->rotate_name, "ra\n\0", sizeof(a->rotate_name));
 	ft_memcpy(a->revrot_name, "rra\n\0", sizeof(a->revrot_name));
 	a->ascending = 1;
+	a->op_counter = 0;
+	a->trial_mode = 0;
 }
 
 int solver(int ac, char **av)

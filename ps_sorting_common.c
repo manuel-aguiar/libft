@@ -115,8 +115,8 @@ void super_swap(t_ps_stack *a_stack, t_ps_stack *b_stack, int min, int max)
 	&& ((b_cur->data == b_cur->next->data + 1 && b_stack->ascending) \
 	|| (b_cur->data == b_cur->next->data - 1 && !b_stack->ascending)))
 	{
-		pslist_swap_top(a_stack, 0);
-		pslist_swap_top(b_stack, 0);
+		pslist_swap_top(a_stack, FALSE);
+		pslist_swap_top(b_stack, O_COUNT);
 		ft_printf("ss\n");
 	}
 }

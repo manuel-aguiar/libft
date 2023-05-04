@@ -40,6 +40,8 @@ static int copy_icplist_to_array(t_icplist *list, int **place)
 	return (1);
 }
 
+int			new_tim_sort(int *arr, int n, int (*cmp)(int, int));
+
 static int	normalize_list(t_icplist *list)
 {
     t_icpnode	*cur;

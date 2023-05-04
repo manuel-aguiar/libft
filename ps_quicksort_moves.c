@@ -21,7 +21,7 @@ static void 	swap_when_pushing(t_ps_stack *stack, int min, int max)
 	|| ((cur->data == cur->next->data - 1 && !stack->ascending)))
 	&& !in_bucket(cur->data, min, max) \
 	&& !in_bucket(cur->next->data, min, max))
-		pslist_swap_top(stack, 1);
+		pslist_swap_top(stack, O_PRINT | O_COUNT);
 
 }
 
@@ -39,7 +39,7 @@ void pushbucket(t_ps_stack *from, t_ps_stack *to, int min, int max)
 			while (closest++ < 0)
 			{
 				swap_when_pushing(from, min, max);
-				pslist_rotate(from, -1, 1);
+				pslist_rotate(from, -1, O_PRINT | O_COUNT);
 			}
 		}
 		else if (closest > 0)
@@ -47,11 +47,11 @@ void pushbucket(t_ps_stack *from, t_ps_stack *to, int min, int max)
 			while (closest-- > 0)
 			{
 				swap_when_pushing(from, min, max);
-				pslist_rotate(from, 1, 1);
+				pslist_rotate(from, 1, O_PRINT | O_COUNT);
 			}
 		}
 		super_swap(from, to, min, max);
-        pslist_push_top(to, from, 1);
+        pslist_push_top(to, from, O_PRINT | O_COUNT);
     }
 }
 
@@ -69,11 +69,11 @@ static void 	swap_when_inserting(t_ps_stack *stack, int target, int min, int max
 	&& in_bucket(cur->data, min, max) \
 	&& in_bucket(cur->next->data, min, max))
 	{
-		pslist_swap_top(stack, 1);
+		pslist_swap_top(stack, O_PRINT | O_COUNT);
 	}
 }
 
-static void 	put_target_to_top(t_ps_stack *stack, int target, int min, int max)
+void 	put_target_to_top(t_ps_stack *stack, int target, int min, int max)
 {
 	int i;
 
@@ -82,7 +82,7 @@ static void 	put_target_to_top(t_ps_stack *stack, int target, int min, int max)
     {
         while (i--)
         {
-            pslist_rotate(stack, 1, 1);
+            pslist_rotate(stack, 1, O_PRINT | O_COUNT);
 			swap_when_inserting(stack, target, min, max);
         }
     }
@@ -90,7 +90,7 @@ static void 	put_target_to_top(t_ps_stack *stack, int target, int min, int max)
     {
         while (i++)
         {
-            pslist_rotate(stack, -1, 1);
+            pslist_rotate(stack, -1, O_PRINT | O_COUNT);
 			swap_when_inserting(stack, target, min, max);
         }
     }
@@ -106,7 +106,7 @@ void insertion_sort_push(t_ps_stack *to, t_ps_stack *from, int start, int end)
 		while (size--)
 		{
 			put_target_to_top(from, start++, start, end);
-			pslist_push_top(to, from, 1);
+			pslist_push_top(to, from, O_PRINT | O_COUNT);
 		}
 	}
 	else
@@ -114,7 +114,7 @@ void insertion_sort_push(t_ps_stack *to, t_ps_stack *from, int start, int end)
 		while (size--)
 		{
 			put_target_to_top(from, --end, start, end);
-			pslist_push_top(to, from, 1);
+			pslist_push_top(to, from, O_PRINT | O_COUNT);
 		}
 	}
 }

@@ -12,7 +12,7 @@
 
 #include "pushswap.h"
 
-void    pslist_swap_top(t_ps_stack *stack, int print)
+void    pslist_swap_top(t_ps_stack *stack, int options)
 {
     t_icplist *list;
 	t_icpnode *old_top;
@@ -33,8 +33,10 @@ void    pslist_swap_top(t_ps_stack *stack, int print)
         old_top->prev = new_top;
         new_top->next = old_top;
     }
-	if (print)
+	if (options & O_PRINT)
 		ft_printf("%s", stack->swap_name);
+	if (options & O_COUNT)
+		(stack->op_counter)++;
 }
 
 static t_icpnode    *pslist_retrieve_top(t_ps_stack *stack)
@@ -83,7 +85,7 @@ static int    pslist_add_top(t_ps_stack *stack, t_icpnode *newtop)
 }
 
 
-void    pslist_push_top(t_ps_stack *to, t_ps_stack *from, int print)
+void    pslist_push_top(t_ps_stack *to, t_ps_stack *from, int options)
 {
     t_icpnode *move;
 
@@ -92,25 +94,36 @@ void    pslist_push_top(t_ps_stack *to, t_ps_stack *from, int print)
     move = pslist_retrieve_top(from);
     if (move)
         pslist_add_top(to, move);
-
-	if (print)
+	if (options & O_PRINT)
 		ft_printf("%s", from->push_name);
+	if (options & O_COUNT)
+		(from->op_counter)++;
 }
 
-void    pslist_rotate(t_ps_stack *stack, int rotate, int print)
+void    pslist_rotate(t_ps_stack *stack, int rotate, int options)
 {
 	t_icplist *list;
 
+	if (rotate == 0)
+		return ;
 	list = stack->list;
-	if (rotate == 1)
+	if (rotate > 0)
 		list->pivot = list->pivot->next;
-	if (rotate == -1)
+	if (rotate < 0)
+
 		list->pivot = list->pivot->prev;
-	if (print)
+	if (options & O_PRINT)
 	{
 		if (rotate > 0)
 			ft_printf("%s", stack->rotate_name);
 		else
 			ft_printf("%s", stack->revrot_name);
 	}
+	if (options & O_COUNT)
+		(stack->op_counter)++;
+	if (rotate > 0)
+		rotate--;
+	else
+		rotate++;
+	pslist_rotate(stack, rotate, options);
 }

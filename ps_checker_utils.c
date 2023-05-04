@@ -16,18 +16,18 @@ int op_swap(t_ps_stack *a_stack, t_ps_stack *b_stack, char *op, t_pscount *count
 {
 	if (!ft_strncmp(op, "sa\n", 3))
 	{
-		pslist_swap_top(a_stack, 0);
+		pslist_swap_top(a_stack, FALSE);
 		(counter->sa_count)++;
 	}
 	else if (!ft_strncmp(op, "sb\n", 3))
 	{
-		pslist_swap_top(b_stack, 0);
+		pslist_swap_top(b_stack, FALSE);
 		(counter->sb_count)++;
 	}
 	else if (!ft_strncmp(op, "ss\n", 3))
 	{
-		pslist_swap_top(a_stack, 0);
-		pslist_swap_top(b_stack, 0);
+		pslist_swap_top(a_stack, FALSE);
+		pslist_swap_top(b_stack, FALSE);
 		(counter->ss_count)++;
 	}
 	else
@@ -39,18 +39,18 @@ int op_reverse_rotation(t_ps_stack *a_stack, t_ps_stack *b_stack, char *op, t_ps
 {
 	if (!ft_strncmp(op, "rra\n", 4))
 	{
-		pslist_rotate(a_stack, -1, 0);
+		pslist_rotate(a_stack, -1, FALSE);
 		(counter->rra_count)++;
 	}
 	else if (!ft_strncmp(op, "rrb\n", 4))
 	{
-		pslist_rotate(b_stack, -1, 0);
+		pslist_rotate(b_stack, -1, FALSE);
 		(counter->rrb_count)++;
 	}
 	else if (!ft_strncmp(op, "rrr\n", 4))
 	{
-		pslist_rotate(a_stack, -1, 0);
-		pslist_rotate(b_stack, -1, 0);
+		pslist_rotate(a_stack, -1, FALSE);
+		pslist_rotate(b_stack, -1, FALSE);
 		(counter->rrr_count)++;
 	}
 	else
@@ -62,18 +62,18 @@ int op_rotation(t_ps_stack *a_stack, t_ps_stack *b_stack, char *op, t_pscount *c
 {
 	if (!ft_strncmp(op, "ra\n", 3))
 	{
-		pslist_rotate(a_stack, 1, 0);
+		pslist_rotate(a_stack, 1, FALSE);
 		(counter->ra_count)++;
 	}
 	else if (!ft_strncmp(op, "rb\n", 3))
 	{
-		pslist_rotate(b_stack, 1, 0);
+		pslist_rotate(b_stack, 1, FALSE);
 		(counter->rb_count)++;
 	}
 	else if (!ft_strncmp(op, "rr\n", 3))
 	{
-		pslist_rotate(a_stack, 1, 0);
-		pslist_rotate(b_stack, 1, 0);
+		pslist_rotate(a_stack, 1, FALSE);
+		pslist_rotate(b_stack, 1, FALSE);
 		(counter->rr_count)++;
 	}
 	else
@@ -92,12 +92,12 @@ int distribute_operations(t_ps_stack *a_stack, t_ps_stack *b_stack, char *op, t_
 		op_swap(a_stack, b_stack, op, counter);
 	else if(!ft_strncmp(op, "pa\n", 3))
 	{
-		pslist_push_top(a_stack, b_stack,0);
+		pslist_push_top(a_stack, b_stack, FALSE);
 		(counter->pa_count)++;
 	}
 	else if(!ft_strncmp(op, "pb\n", 3))
 	{
-		pslist_push_top(b_stack, a_stack, 0);
+		pslist_push_top(b_stack, a_stack, FALSE);
 		(counter->pb_count)++;
 	}
 	else
