@@ -25,6 +25,9 @@
 # define SORT_SMALL 30
 # define INSORT_TO_A 20
 # define INSORT_TO_B INSORT_TO_A / 2
+# define TRUE 1
+# define FALSE 0
+
 
 #include <stdio.h>
 
@@ -32,12 +35,22 @@
 typedef struct s_ps_stack
 {
 	t_icplist	*list;
+	t_vdmlist 	*save_plays;
 	char		push_name[4];
 	char		swap_name[4];
 	char		rotate_name[4];
 	char		revrot_name[5];
 	int			ascending;
+	int			op_counter;
+	int			trial_mode;
 } t_ps_stack;
+
+enum e_play_options
+{
+	O_PRINT = 1 << 0,
+	O_COUNT = 1 << 1,
+	O_SAVE = 1 << 2,
+};
 
 /* DELEEEEEEEETEEEEEEEEEEEEEEEEEEEEEE*/
 
@@ -61,9 +74,9 @@ int		ps_preprocess(t_icplist **final, int ac, char **av);
 int		ps_normalize(t_icplist **final);
 
 /* ps_plays.c*/
-void    pslist_swap_top(t_ps_stack *stack, int print);
-void    pslist_push_top(t_ps_stack *to, t_ps_stack *from, int print);
-void    pslist_rotate(t_ps_stack *stack, int rotate, int print);
+void    pslist_swap_top(t_ps_stack *stack, int options);
+void    pslist_push_top(t_ps_stack *to, t_ps_stack *from, int options);
+void    pslist_rotate(t_ps_stack *stack, int rotate, int options);
 
 /* ps_list_utils.c*/
 int		ps_arr_to_cdlist(t_icplist **list, int **arr, int size);
@@ -88,6 +101,7 @@ void	super_swap(t_ps_stack *a_stack, t_ps_stack *b_stack, int min, int max);
 /*ps_quicksort_moves.c*/
 void	pushbucket(t_ps_stack *from, t_ps_stack *to, int min, int max);
 void	insertion_sort_push(t_ps_stack *to, t_ps_stack *from, int start, int end);
+void 	put_target_to_top(t_ps_stack *stack, int target, int min, int max);
 
 /*ps_sorting_small.c*/
 void 	pushswap_sort_two(t_ps_stack *stack, int print);
@@ -117,8 +131,10 @@ int	ps_array_insertion_counter(int *arr, int len, int min, int max);
 void	setup_stack_a(t_ps_stack *a);
 void	setup_stack_b(t_ps_stack *b);
 
-void	stack_cocktail(t_ps_stack *stack, int print);
+void	stack_cocktail(t_ps_stack *stack, int min, int max, int options);
 
-void pushswap_super_small(t_ps_stack *a_stack, t_ps_stack *b_stack);
+void pushswap_super_small(t_ps_stack *a_stack, t_ps_stack *b_stack, int min, int max);
+
+int test_best_entry(t_ps_stack *stack);
 
 #endif
