@@ -101,6 +101,7 @@ int			tim_sort(int *arr, int n, int (*cmp)(int, int))
     int lmr[3];
     int *copy;
 
+	copy = NULL;
     i = 0;
     while (i < n)
     {
@@ -108,22 +109,26 @@ int			tim_sort(int *arr, int n, int (*cmp)(int, int))
         i += TIM_SORT_RUN;
     }
     if ((size = TIM_SORT_RUN) < n)
+	{
         copy = malloc(sizeof(*copy) * n);
-    if (!copy)
-        return (0);
-    while (size < n)
-    {
-        lmr[0] = 0;
-        while (lmr[0] < n)
-        {
-            lmr[1] = lmr[0] + size - 1;
-            lmr[2] = helper_tern((lmr[0] + 2 * size - 1), (n - 1));
-            if (lmr[1] < lmr[2])
-                tim_merge(arr, copy, lmr, cmp);
-            lmr[0] += 2 * size;
-        }
-        size *= 2;
-    }
-    free(copy);
+    	if (!copy)
+		{
+        	return (0);
+		}
+		while (size < n)
+		{
+			lmr[0] = 0;
+			while (lmr[0] < n)
+			{
+				lmr[1] = lmr[0] + size - 1;
+				lmr[2] = helper_tern((lmr[0] + 2 * size - 1), (n - 1));
+				if (lmr[1] < lmr[2])
+					tim_merge(arr, copy, lmr, cmp);
+				lmr[0] += 2 * size;
+			}
+			size *= 2;
+		}
+    	free(copy);
+	}
     return (1);
 }

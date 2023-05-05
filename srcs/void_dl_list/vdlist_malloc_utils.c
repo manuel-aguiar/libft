@@ -137,7 +137,7 @@ void    vdmlist_destroy(t_vdmlist **list, void(*del)(void *))
     if (!list || !*list)
         return ;
     delete = (*list)->head;
-	while (del)
+	while (delete)
 	{
 		next = delete->next;
 		if (del)
