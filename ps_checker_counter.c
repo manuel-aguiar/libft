@@ -12,8 +12,9 @@
 
 #include "pushswap_checker.h"
 
-void	set_counter_on_stack(t_pscount *counter)
+void	set_counter_on_stack(t_pscount *counter, int len)
 {
+	counter->total_numbers = len;
 	counter->total_count = 0;
 	counter->sa_count = 0;
 	counter->sb_count = 0;
@@ -46,6 +47,7 @@ void set_counter_total(t_pscount *counter)
 void print_counter(t_pscount *counter)
 {
 	set_counter_total(counter);
+	ft_printf("total size: %d\n", counter->total_numbers);
 	ft_printf("total operations: %d\n", counter->total_count);
 	ft_printf("sa count: %d\n", counter->sa_count);
 	ft_printf("sb count: %d\n", counter->sb_count);

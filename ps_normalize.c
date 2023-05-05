@@ -40,7 +40,19 @@ static int copy_icplist_to_array(t_icplist *list, int **place)
 	return (1);
 }
 
-int			new_tim_sort(int *arr, int n, int (*cmp)(int, int));
+static int check_sorted_dups(int *sorted, int len)
+{
+	int i;
+
+	i = 0;
+	while (i < len - 1)
+	{
+		if (sorted[i] == sorted[i + 1])
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 static int	normalize_list(t_icplist *list)
 {
@@ -52,7 +64,7 @@ static int	normalize_list(t_icplist *list)
     if (!copy_icplist_to_array(list, &sorted))
 		return (0);
 	len = list->len;
-    if(!tim_sort(sorted, len, &ascending))
+    if(!tim_sort(sorted, len, &ascending) || !check_sorted_dups(sorted, len))
 	{
 		ft_free_set_null(&sorted);
 		return (0);

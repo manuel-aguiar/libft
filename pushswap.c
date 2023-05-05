@@ -14,10 +14,14 @@
 
 void setup_stack_b(t_ps_stack *b)
 {
+	b->save_plays = NULL;
 	ft_memcpy(b->push_name, "pa\n\0", sizeof(b->push_name));
 	ft_memcpy(b->swap_name, "sb\n\0", sizeof(b->swap_name));
 	ft_memcpy(b->rotate_name, "rb\n\0", sizeof(b->rotate_name));
 	ft_memcpy(b->revrot_name, "rrb\n\0", sizeof(b->revrot_name));
+	ft_memcpy(b->swap_combo, "ss\n\0", sizeof(b->swap_combo));
+	ft_memcpy(b->rotate_combo, "rr\n\0", sizeof(b->rotate_combo));
+	ft_memcpy(b->revrot_combo, "rrr\n\0", sizeof(b->revrot_combo));
 	b->ascending = 0;
 	b->op_counter = 0;
 	b->trial_mode = 0;
@@ -25,10 +29,14 @@ void setup_stack_b(t_ps_stack *b)
 
 void setup_stack_a(t_ps_stack *a)
 {
+	a->save_plays = NULL;
 	ft_memcpy(a->push_name, "pb\n\0", sizeof(a->push_name));
 	ft_memcpy(a->swap_name, "sa\n\0", sizeof(a->swap_name));
 	ft_memcpy(a->rotate_name, "ra\n\0", sizeof(a->rotate_name));
 	ft_memcpy(a->revrot_name, "rra\n\0", sizeof(a->revrot_name));
+	ft_memcpy(a->swap_combo, "ss\n\0", sizeof(a->swap_combo));
+	ft_memcpy(a->rotate_combo, "rr\n\0", sizeof(a->rotate_combo));
+	ft_memcpy(a->revrot_combo, "rrr\n\0", sizeof(a->revrot_combo));
 	a->ascending = 1;
 	a->op_counter = 0;
 	a->trial_mode = 0;
@@ -50,7 +58,7 @@ int solver(int ac, char **av)
 	}
 	setup_stack_a(&a_stack);
 	setup_stack_b(&b_stack);
-	if (!is_sorted(&a_stack, &b_stack))
+	//if (!is_sorted(&a_stack, &b_stack))
 		pushswap(&a_stack, &b_stack, a_stack.list->len);
 	icplist_destroy(&(b_stack.list), 1);
 	icplist_destroy(&(a_stack.list), 0);

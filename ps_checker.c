@@ -30,7 +30,7 @@ int checker_solver(int ac, char **av)
 	}
 	setup_stack_a(&a_stack);
 	setup_stack_b(&b_stack);
-	set_counter_on_stack(&counter);
+	set_counter_on_stack(&counter, a_stack.list->len);
 	if (get_all_operations(&a_stack, &b_stack, &counter))
 	{
 		if (is_sorted(&a_stack, &b_stack))
@@ -45,6 +45,7 @@ int checker_solver(int ac, char **av)
 		return (error_msg());
 	}
 	print_counter(&counter);
+	ps_printlists(a_stack.list, b_stack.list, &printmembs);
 	icplist_destroy(&(b_stack.list), 1);
 	icplist_destroy(&(a_stack.list), 0);
 	return (1);

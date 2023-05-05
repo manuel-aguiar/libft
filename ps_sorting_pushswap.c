@@ -16,7 +16,7 @@ void quick_sort_b(t_ps_stack *a_stack, t_ps_stack *b_stack, int start, int end)
 {
 	int mid;
 
-	if (end - start < INSORT_TO_A || bucket_is_sorted(b_stack, start, end, 0))
+	if (end - start < INSORT_TO_A || bucket_is_sorted(b_stack, start, end))
 	{
 		insertion_sort_push(a_stack, b_stack, start, end);
 		return ;
@@ -39,8 +39,11 @@ void quick_sort_a(t_ps_stack *a_stack, t_ps_stack *b_stack, int start, int end)
 {
 	int mid;
 
-	if (bucket_is_sorted(a_stack, start, end, 1))
+	if (bucket_is_sorted(a_stack, start, end))
+	{
+		//go_to_bucket_begins(a_stack, start, end, 0);
 		return ;
+	}
 	mid = (start + end) / 2;
 	if (end - start < INSORT_TO_B)
 	{
@@ -71,32 +74,6 @@ void quick_sort_a(t_ps_stack *a_stack, t_ps_stack *b_stack, int start, int end)
 
 void pushswap(t_ps_stack *a_stack, t_ps_stack *b_stack, int total)
 {
-	t_icplist *alist;
-	t_icplist *blist;
-
-	alist = a_stack->list;
-	blist = b_stack->list;
-
-	if (total <= 2)
-		pushswap_sort_two(a_stack, 1);
-	else if (total <= 10)
-		stack_cocktail(a_stack, 0, total, O_PRINT | O_COUNT);
-	/*else if (total <= 18)
-	{
-		insertion_sort_push(b_stack, a_stack, 0, total);
-		insertion_sort_push(a_stack, b_stack, 0, total);
-	}*/
-
-	else
-		quick_sort_a(a_stack, b_stack, 0, total);
+	quick_sort_a(a_stack, b_stack, 0, total);
 	//ps_printlists(a_stack->list, b_stack->list, &printmembs);
-	/*
-	if (total == 2)
-		pslist_swap_top(alist, "sa");
-	else if (total == 3)
-		pushswap_sort_three(alist);
-	else if (total <= 6)
-		pushswap_sort_small(alist, blist, 0, total);
-	else
-		quick_sort_a(alist, blist, 0, total);*/
 }

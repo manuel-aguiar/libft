@@ -37,6 +37,8 @@ void    pslist_swap_top(t_ps_stack *stack, int options)
 		ft_printf("%s", stack->swap_name);
 	if (options & O_COUNT)
 		(stack->op_counter)++;
+	if (options & O_SAVE)
+		save_command(stack, stack->swap_name);
 }
 
 static t_icpnode    *pslist_retrieve_top(t_ps_stack *stack)
@@ -98,6 +100,8 @@ void    pslist_push_top(t_ps_stack *to, t_ps_stack *from, int options)
 		ft_printf("%s", from->push_name);
 	if (options & O_COUNT)
 		(from->op_counter)++;
+	if (options & O_SAVE)
+		save_command(from, from->push_name);
 }
 
 void    pslist_rotate(t_ps_stack *stack, int rotate, int options)
@@ -121,9 +125,32 @@ void    pslist_rotate(t_ps_stack *stack, int rotate, int options)
 	}
 	if (options & O_COUNT)
 		(stack->op_counter)++;
+	if (options & O_SAVE)
+	{
+		if (rotate > 0)
+			save_command(stack, stack->rotate_name);
+		else
+			save_command(stack, stack->revrot_name);
+	}
 	if (rotate > 0)
 		rotate--;
 	else
 		rotate++;
 	pslist_rotate(stack, rotate, options);
+}
+
+int save_command(t_ps_stack *stack, char *command)
+{
+	char *save;
+
+	if (!stack->save_plays)
+		stack->save_plays = vdmlist_new();
+	if (!stack->save_plays)
+		return (0);
+	save = ft_strdup(command);
+	if (!save)
+		return (0);
+	if(vdmlist_in_tail(stack->save_plays, save))
+		return (1);
+	return (0);
 }
