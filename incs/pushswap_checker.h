@@ -14,6 +14,7 @@
 
 typedef struct s_pscount
 {
+	int total_numbers;
 	int total_count;
 	int sa_count;
 	int sb_count;
@@ -40,6 +41,6 @@ int		get_all_operations(t_ps_stack *a_stack, t_ps_stack *b_stack, t_pscount *cou
 
 /*  ps_checker_counter.c */
 
-void	set_counter_on_stack(t_pscount *counter);
+void	set_counter_on_stack(t_pscount *counter, int len);
 void	set_counter_total(t_pscount *counter);
 void	print_counter(t_pscount *counter);

@@ -40,6 +40,9 @@ typedef struct s_ps_stack
 	char		swap_name[4];
 	char		rotate_name[4];
 	char		revrot_name[5];
+	char		swap_combo[4];
+	char		rotate_combo[4];
+	char		revrot_combo[5];
 	int			ascending;
 	int			op_counter;
 	int			trial_mode;
@@ -63,12 +66,16 @@ number 0 and above"
 
 */
 
-/* ps_atoi_split.c*/
-int		split_to_list(t_idmlist *list, char *arg);
-
-
 /* ps_preprocess.c*/
 int		ps_preprocess(t_icplist **final, int ac, char **av);
+
+/* ps_preprocess_utils.c*/
+
+int		ps_valid_char(char c);
+int		wordnum(char *str);
+int		ps_atoi_overf(int res, char next, int *sign);
+int		ps_atoiable(char **arg, int *placenum);
+
 
 /* ps_normalize.c*/
 int		ps_normalize(t_icplist **final);
@@ -77,6 +84,9 @@ int		ps_normalize(t_icplist **final);
 void    pslist_swap_top(t_ps_stack *stack, int options);
 void    pslist_push_top(t_ps_stack *to, t_ps_stack *from, int options);
 void    pslist_rotate(t_ps_stack *stack, int rotate, int options);
+int		save_command(t_ps_stack *stack, char *command);
+int		delete_command(t_ps_stack *stack, char *command);
+
 
 /* ps_list_utils.c*/
 int		ps_arr_to_cdlist(t_icplist **list, int **arr, int size);
@@ -112,8 +122,9 @@ void	pushswap_sort_small(t_icplist *alist, t_icplist *blist, int min, int max);
 
 
 /*ps_check_sort.c*/
-int		bucket_is_sorted(t_ps_stack *stack, int min, int max, int ascending);
+int		bucket_is_sorted(t_ps_stack *stack, int min, int max);
 int		bucket_is_sorted_debug(t_icplist *list, int min, int max, int ascending);
+void	go_to_bucket_begins(t_ps_stack *stack, int min, int max, int options);
 
 /*ps_messages.c - error messages and functions*/
 int		ok_message(void);
