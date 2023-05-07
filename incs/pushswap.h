@@ -161,5 +161,7 @@ int		execute_list(t_ps_stack *a_stack, t_ps_stack *b_stack, t_vdmlist *ops, int 
 
 
 int trial(t_ps_stack *a_stack, t_ps_stack *b_stack, int min, int max);
+void pushswap_double_ins(t_ps_stack *a_stack, t_ps_stack *b_stack, int min, int max);
+void pushswap_double_cocktail(t_ps_stack *a_stack, t_ps_stack *b_stack, int min, int max);
 
 #endif
