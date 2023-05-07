@@ -58,7 +58,7 @@ int solver(int ac, char **av)
 	}
 	setup_stack_a(&a_stack);
 	setup_stack_b(&b_stack);
-	//if (!is_sorted(&a_stack, &b_stack))
+	if (!is_sorted(&a_stack, &b_stack))
 		pushswap(&a_stack, &b_stack, a_stack.list->len);
 	icplist_destroy(&(b_stack.list), 1);
 	icplist_destroy(&(a_stack.list), 0);
