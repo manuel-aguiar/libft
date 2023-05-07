@@ -35,18 +35,76 @@ void quick_sort_b(t_ps_stack *a_stack, t_ps_stack *b_stack, int start, int end)
 
 }
 
+int	first_sorted_number(t_ps_stack *stack, int start, int end)
+{
+	int move_to_tgt;
+	t_icpnode *cur;
+
+	move_to_tgt = find_exact_target(stack, start);
+	cur = stack->list->pivot;
+	if (move_to_tgt > 0)
+	{
+		while (move_to_tgt--)
+			cur = cur->next;
+	}
+	if (move_to_tgt < 0)
+	{
+		while (move_to_tgt++)
+			cur = cur->prev;
+	}
+	while (cur->next->data == cur->data + 1)
+	{
+		start++;
+		cur = cur->next;
+	}
+	return (start);
+}
+
+int	last_sorted_number(t_ps_stack *stack, int start, int end)
+{
+	int move_to_tgt;
+	t_icpnode *cur;
+
+	move_to_tgt = find_exact_target(stack, end - 1);
+	cur = stack->list->pivot;
+	if (move_to_tgt > 0)
+	{
+		while (move_to_tgt--)
+			cur = cur->next;
+	}
+	if (move_to_tgt < 0)
+	{
+		while (move_to_tgt++)
+			cur = cur->prev;
+	}
+	if (end - start < stack->list->len && cur->next->data != end)
+		return (end);
+	while (cur->prev->data == cur->data - 1)
+	{
+		end--;
+		cur = cur->prev;
+	}
+	return (end - 1);
+}
+
+
 void quick_sort_a(t_ps_stack *a_stack, t_ps_stack *b_stack, int start, int end)
 {
 	int mid;
 
-	ps_printlists(a_stack->list, b_stack->list, &printmembs);
-	printf("quick_sort A start %d, end %d\n", start, end);
+	//ps_printlists(a_stack->list, b_stack->list, &printmembs);
+	//printf("quick_sort A start %d, end %d\n", start, end);
 
 	if (bucket_is_sorted(a_stack, start, end))
 	{
-		printf("sorted from %d to %d, dont bother\n", start, end);
+		//printf("sorted from %d to %d, dont bother\n", start, end);
 		return ;
 	}
+	//printf("original end %d\n", start);
+	//start = first_sorted_number(a_stack, start, end);
+	//printf("first sorted number is %d\n", start);
+	end = last_sorted_number(a_stack, start, end);
+	//printf("last sorted number is %d\n", end);
 	mid = (start + end) / 2;
 	if (end - start < INSORT_TO_B)
 	{
@@ -78,5 +136,5 @@ void quick_sort_a(t_ps_stack *a_stack, t_ps_stack *b_stack, int start, int end)
 void pushswap(t_ps_stack *a_stack, t_ps_stack *b_stack, int total)
 {
 	quick_sort_a(a_stack, b_stack, 0, total);
-	ps_printlists(a_stack->list, b_stack->list, &printmembs);
+	//ps_printlists(a_stack->list, b_stack->list, &printmembs);
 }
