@@ -145,6 +145,5 @@ void    vdmlist_destroy(t_vdmlist **list, void(*del)(void *))
 		free(delete);
 		delete = next;
 	}
-    free(*list);
-    *list = NULL;
+    ft_free_set_null(list);
 }
