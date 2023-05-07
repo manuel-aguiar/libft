@@ -74,7 +74,12 @@ int main(int ac, char **av)
 	return (0);
 }
 
-//gcc *.c -L. -lft -Iincs -o push_swap.exe
+//gcc *.c -L. -lft -Iincs -o push_swap
 
 
 //$args="    "; ./push_swap.exe $args | ./checker.exe $args
+
+
+
+
+//args="    "; ./push_swap $args | ./checker $args

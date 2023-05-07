@@ -23,7 +23,7 @@
 # define MAGIC_SIZE 200
 # define MAGIC_NORM 50
 # define SORT_SMALL 30
-# define INSORT_TO_A 20
+# define INSORT_TO_A 30
 # define INSORT_TO_B INSORT_TO_A / 2
 # define TRUE 1
 # define FALSE 0
@@ -53,6 +53,9 @@ enum e_play_options
 	O_PRINT = 1 << 0,
 	O_COUNT = 1 << 1,
 	O_SAVE = 1 << 2,
+	O_REVERSE = 1 << 3,
+	O_BUF = 1 << 4,
+	O_COMBO = 1 << 5,
 };
 
 /* DELEEEEEEEETEEEEEEEEEEEEEEEEEEEEEE*/
@@ -81,9 +84,9 @@ int		ps_atoiable(char **arg, int *placenum);
 int		ps_normalize(t_icplist **final);
 
 /* ps_plays.c*/
-void    pslist_swap_top(t_ps_stack *stack, int options);
-void    pslist_push_top(t_ps_stack *to, t_ps_stack *from, int options);
-void    pslist_rotate(t_ps_stack *stack, int rotate, int options);
+int    pslist_swap_top(t_ps_stack *stack, int options);
+int    pslist_push_top(t_ps_stack *to, t_ps_stack *from, int options);
+int    pslist_rotate(t_ps_stack *stack, int rotate, int options);
 int		save_command(t_ps_stack *stack, char *command);
 int		delete_command(t_ps_stack *stack, char *command);
 
@@ -147,5 +150,16 @@ void	stack_cocktail(t_ps_stack *stack, int min, int max, int options);
 void pushswap_super_small(t_ps_stack *a_stack, t_ps_stack *b_stack, int min, int max);
 
 int test_best_entry(t_ps_stack *stack);
+
+/* ps_execute_ops.c*/
+int		execute_single(t_ps_stack *stack, t_ps_stack *other, char *command, int options);
+int		execute_combo(t_ps_stack *stack, t_ps_stack *other, char *command, int options);
+char	*inst_reverse(t_ps_stack *stack, t_ps_stack *other, char *command);
+int		execute_list_rev(t_ps_stack *a_stack, t_ps_stack *b_stack, t_vdmlist *ops, int options);
+int		execute_list(t_ps_stack *a_stack, t_ps_stack *b_stack, t_vdmlist *ops, int options);
+
+
+
+int trial(t_ps_stack *a_stack, t_ps_stack *b_stack, int min, int max);
 
 #endif

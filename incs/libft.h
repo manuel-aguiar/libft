@@ -15,7 +15,6 @@
 # define LIBFT_H
 
 /* library sub-headers */
-
 # include "memory_pool.h"
 # include "ft_atoi.h"
 # include "ft_memfunc.h"
