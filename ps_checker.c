@@ -45,7 +45,7 @@ int checker_solver(int ac, char **av)
 		return (error_msg());
 	}
 	print_counter(&counter);
-	ps_printlists(a_stack.list, b_stack.list, &printmembs);
+	//ps_printlists(a_stack.list, b_stack.list, &printmembs);
 	icplist_destroy(&(b_stack.list), 1);
 	icplist_destroy(&(a_stack.list), 0);
 	return (1);
