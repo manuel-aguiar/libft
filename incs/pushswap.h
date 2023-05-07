@@ -23,7 +23,7 @@
 # define MAGIC_SIZE 200
 # define MAGIC_NORM 50
 # define SORT_SMALL 30
-# define INSORT_TO_A 30
+# define INSORT_TO_A 20
 # define INSORT_TO_B INSORT_TO_A / 2
 # define TRUE 1
 # define FALSE 0
