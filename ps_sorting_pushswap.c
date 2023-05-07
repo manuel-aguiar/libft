@@ -54,7 +54,7 @@ void quick_sort_a(t_ps_stack *a_stack, t_ps_stack *b_stack, int start, int end)
 		//printf("using cocktail on a, from %d to %d\n", start, end);
 		//ps_printlists(a_stack->list, b_stack->list, &printmembs);
 		//stack_cocktail(a_stack, start, end, O_PRINT | O_COUNT);
-		pushswap_super_small(a_stack, b_stack, start, end);
+		trial(a_stack, b_stack, start, end);
 		//printf("after cocktail on a, from %d to %d\n", start, end);
 		//ps_printlists(a_stack->list, b_stack->list, &printmembs);
 		//ps_printlists(alist, blist, &printmembs);
@@ -74,6 +74,8 @@ void quick_sort_a(t_ps_stack *a_stack, t_ps_stack *b_stack, int start, int end)
 
 void pushswap(t_ps_stack *a_stack, t_ps_stack *b_stack, int total)
 {
-	quick_sort_a(a_stack, b_stack, 0, total);
-	//ps_printlists(a_stack->list, b_stack->list, &printmembs);
+	if (total <= 15)
+		trial(a_stack, b_stack, 0, total);
+	else	
+		quick_sort_a(a_stack, b_stack, 0, total);
 }

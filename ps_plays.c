@@ -12,7 +12,7 @@
 
 #include "pushswap.h"
 
-void    pslist_swap_top(t_ps_stack *stack, int options)
+int		   pslist_swap_top(t_ps_stack *stack, int options)
 {
     t_icplist *list;
 	t_icpnode *old_top;
@@ -20,7 +20,7 @@ void    pslist_swap_top(t_ps_stack *stack, int options)
 
 	list = stack->list;
     if (!list || list->len <= 1)
-        return;
+        return (0);
     list->pivot = list->pivot->next;
     if (stack->list->len > 1)
     {
@@ -33,12 +33,13 @@ void    pslist_swap_top(t_ps_stack *stack, int options)
         old_top->prev = new_top;
         new_top->next = old_top;
     }
-	if (options & O_PRINT)
+	if (options & O_PRINT && !stack->trial_mode && !(options & O_COMBO))
 		ft_printf("%s", stack->swap_name);
-	if (options & O_COUNT)
+	if (options & O_COUNT && !stack->trial_mode && !(options & O_COMBO))
 		(stack->op_counter)++;
-	if (options & O_SAVE)
+	if (options & O_SAVE || (stack->trial_mode && (!(options & O_REVERSE))))
 		save_command(stack, stack->swap_name);
+	return (1);
 }
 
 static t_icpnode    *pslist_retrieve_top(t_ps_stack *stack)
@@ -87,45 +88,46 @@ static int    pslist_add_top(t_ps_stack *stack, t_icpnode *newtop)
 }
 
 
-void    pslist_push_top(t_ps_stack *to, t_ps_stack *from, int options)
+int    pslist_push_top(t_ps_stack *to, t_ps_stack *from, int options)
 {
     t_icpnode *move;
 
     if (!to->list || !from->list || !from->list->pivot)
-        return ;
+        return (0);
     move = pslist_retrieve_top(from);
     if (move)
         pslist_add_top(to, move);
-	if (options & O_PRINT)
+	if (options & O_PRINT && !from->trial_mode && !(options & O_COMBO))
 		ft_printf("%s", from->push_name);
-	if (options & O_COUNT)
+	if (options & O_COUNT && !from->trial_mode && !(options & O_COMBO))
 		(from->op_counter)++;
-	if (options & O_SAVE)
+	if (options & O_SAVE || (from->trial_mode && (!(options & O_REVERSE))))
 		save_command(from, from->push_name);
+	return (1);
 }
 
-void    pslist_rotate(t_ps_stack *stack, int rotate, int options)
+int    pslist_rotate(t_ps_stack *stack, int rotate, int options)
 {
 	t_icplist *list;
 
 	if (rotate == 0)
-		return ;
+		return (1);
 	list = stack->list;
 	if (rotate > 0)
 		list->pivot = list->pivot->next;
 	if (rotate < 0)
 
 		list->pivot = list->pivot->prev;
-	if (options & O_PRINT)
+	if (options & O_PRINT && !stack->trial_mode && !(options & O_COMBO))
 	{
 		if (rotate > 0)
 			ft_printf("%s", stack->rotate_name);
 		else
 			ft_printf("%s", stack->revrot_name);
 	}
-	if (options & O_COUNT)
+	if (options & O_COUNT && !stack->trial_mode && !(options & O_COMBO))
 		(stack->op_counter)++;
-	if (options & O_SAVE)
+	if (options & O_SAVE || (stack->trial_mode && (!(options & O_REVERSE))))
 	{
 		if (rotate > 0)
 			save_command(stack, stack->rotate_name);
@@ -136,7 +138,7 @@ void    pslist_rotate(t_ps_stack *stack, int rotate, int options)
 		rotate--;
 	else
 		rotate++;
-	pslist_rotate(stack, rotate, options);
+	return (pslist_rotate(stack, rotate, options));
 }
 
 int save_command(t_ps_stack *stack, char *command)

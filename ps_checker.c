@@ -59,4 +59,4 @@ int main(int ac, char **av)
 	return (0);
 }*/
 
-//gcc *.c -L. -lft -Iincs -o checker.exe
+//gcc *.c -L. -lft -Iincs -o checker

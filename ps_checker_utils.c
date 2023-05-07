@@ -105,6 +105,8 @@ int distribute_operations(t_ps_stack *a_stack, t_ps_stack *b_stack, char *op, t_
 	return (1);
 }
 
+
+
 int	get_all_operations(t_ps_stack *a_stack, t_ps_stack *b_stack, t_pscount *counter)
 {
 	char	*line;

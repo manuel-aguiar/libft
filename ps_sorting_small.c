@@ -246,7 +246,7 @@ int get_stack_to_best_entry(t_ps_stack *stack, int min, int max, int options)
 	if (best_index > len / 2)
 	{
 		//while (i++ < len - best_index)
-			pslist_rotate(stack, len - best_index, options);
+			pslist_rotate(stack, len / 2 - best_index, options);
 	}
 	else
 	{
@@ -543,30 +543,46 @@ void intersect_plays(t_vdmlist *combo, t_ps_stack *a_stack, t_ps_stack *b_stack)
 		printf("B plays destroyed, good\n");*/
 }
 
+void merge_plays(t_ps_stack *a_stack, t_ps_stack *b_stack);
+
 
 void parallel_cocktail(t_ps_stack *a_stack, t_ps_stack *b_stack, int min, int max)
 {
 	t_vdmlist *combo;
+	t_vdmlist *save_prev;
+	
 	int		mid;
-
 	mid = (min + max) / 2;
 	combo = vdmlist_new();
-	//if (max - mid > 2)
-	//printf("sending A to cocktail\n");
-		stack_cocktail(a_stack, mid, max, O_SAVE | O_COUNT);
-	//else
-	//	pushswap_sort_two(a_stack, O_SAVE | O_COUNT);
-	//if (mid - min > 2)
-	//printf("sending B to cocktail\n");
-		stack_cocktail(b_stack, min, mid, O_SAVE | O_COUNT);
-	//else
-	//	pushswap_sort_two(b_stack, O_SAVE | O_COUNT);
+	if (a_stack->trial_mode || b_stack->trial_mode)
+	{
+		merge_plays(a_stack, b_stack);
+		save_prev = a_stack->save_plays;
+		a_stack->save_plays = NULL;
+	}
+	stack_cocktail(a_stack, mid, max, O_PRINT);
+	stack_cocktail(b_stack, min, mid, O_PRINT);
+	//vdmlist_head_print(b_stack->save_plays, &void_putstr);
+	//printf("   <-b_stack list after stack cocktail\n");
 	intersect_plays(combo, a_stack, b_stack);
-	//printf("printing group:\n");
-	vdmlist_head_print(combo, &clean_putstr);
+	if (a_stack->trial_mode || b_stack->trial_mode)
+	{
+		a_stack->save_plays = save_prev;
+		if (!a_stack->save_plays)
+			a_stack->save_plays = combo;
+		else
+		{
+			a_stack->save_plays->tail->next = combo->head;
+			combo->head->prev = a_stack->save_plays->tail;
+			a_stack->save_plays->tail = combo->tail;
+			a_stack->save_plays->len += combo->len;
+			combo->head = NULL;
+			combo->tail = NULL;
+		}
+	}
+	else	
+		execute_list(a_stack, b_stack, combo, O_PRINT);
 	vdmlist_destroy(&combo, &free);
-	//printf("\nend of instructions\n");
-
 }
 
 /*	stack_cocktail(a_stack, mid, max, O_SAVE | O_COUNT);
@@ -583,28 +599,80 @@ void pushswap_super_small(t_ps_stack *a_stack, t_ps_stack *b_stack, int min, int
 	int mid;
 
 	mid = (min + max) / 2;
+
 	pushbucket(a_stack, b_stack, min, mid);
-	///ps_printlists(a_stack->list, b_stack->list, &printmembs);
+
 	parallel_cocktail(a_stack, b_stack, min, max);
-	/*if (max - mid > 2)
-		stack_cocktail(a_stack, mid, max, O_PRINT | O_COUNT);
-	else
-		pushswap_sort_two(a_stack, O_PRINT | O_COUNT);
-	if (mid - min > 2)
-		stack_cocktail(b_stack, min, mid, O_PRINT | O_COUNT);
-	else
-		pushswap_sort_two(b_stack, O_PRINT | O_COUNT);*/
-	//ps_printlists(a_stack->list, b_stack->list, &printmembs);
+	
 	insertion_sort_push(a_stack, b_stack, min, mid);
-	//ps_printlists(a_stack->list, b_stack->list, &printmembs);
+
 }
 
+void pushswap_double_ins(t_ps_stack *a_stack, t_ps_stack *b_stack, int min, int max)
+{
+	insertion_sort_push(b_stack, a_stack, min, max);
+	insertion_sort_push(a_stack, b_stack, min, max);
+}
 
-
-
-
+void merge_plays(t_ps_stack *a_stack, t_ps_stack *b_stack)
+{
+	if (!a_stack->save_plays)
+	{
+		a_stack->save_plays = b_stack->save_plays;
+		b_stack->save_plays = NULL;
+	}
+	else if(!b_stack->save_plays)
+		return ;
+	else
+	{
+		a_stack->save_plays->tail->next = b_stack->save_plays->head;
+		b_stack->save_plays->head->prev = a_stack->save_plays->tail;
+		a_stack->save_plays->tail = b_stack->save_plays->tail;
+		a_stack->save_plays->len += b_stack->save_plays->len;
+		b_stack->save_plays->head = NULL;
+		b_stack->save_plays->tail = NULL;
+		vdmlist_destroy(&(b_stack->save_plays), &free);
+	} 
+}
 
 int trial(t_ps_stack *a_stack, t_ps_stack *b_stack, int min, int max)
 {
+	t_vdmlist *best_play;
 
+	a_stack->trial_mode = 1;
+	b_stack->trial_mode = 1;
+
+	stack_cocktail(a_stack, min, max, O_SAVE);
+	best_play = a_stack->save_plays;
+	a_stack->save_plays = NULL;
+
+	execute_list_rev(a_stack, b_stack, best_play, O_REVERSE);
+	pushswap_super_small(a_stack, b_stack, min, max);
+	merge_plays(a_stack, b_stack);
+	execute_list_rev(a_stack, b_stack, a_stack->save_plays, O_REVERSE);
+
+	if (a_stack->save_plays->len < best_play->len)
+	{
+		vdmlist_destroy(&best_play, &free);
+		best_play = a_stack->save_plays;
+		a_stack->save_plays = NULL;
+	}
+	else
+		vdmlist_destroy(&(a_stack->save_plays), &free);
+
+	pushswap_double_ins(a_stack, b_stack, min, max);
+	merge_plays(a_stack, b_stack);
+	execute_list_rev(a_stack, b_stack, a_stack->save_plays, O_REVERSE);
+	if (a_stack->save_plays->len < best_play->len)
+	{
+		vdmlist_destroy(&best_play, &free);
+		best_play = a_stack->save_plays;
+		a_stack->save_plays = NULL;
+	}
+	else
+		vdmlist_destroy(&a_stack->save_plays, &free);
+	a_stack->trial_mode = 0;
+	b_stack->trial_mode = 0;
+	execute_list(a_stack, b_stack, best_play, O_PRINT);
+	vdmlist_destroy(&best_play, &free);
 }
