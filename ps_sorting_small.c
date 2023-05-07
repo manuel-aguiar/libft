@@ -256,6 +256,7 @@ int get_stack_to_best_entry(t_ps_stack *stack, int min, int max, int options)
 	return (1);
 }
 
+void void_putstr(void *str);
 
 void 	cocktail_two(t_ps_stack *stack, int min, int max, int options)
 {
@@ -560,18 +561,35 @@ void parallel_cocktail(t_ps_stack *a_stack, t_ps_stack *b_stack, int min, int ma
 		save_prev = a_stack->save_plays;
 		a_stack->save_plays = NULL;
 	}
-	stack_cocktail(a_stack, mid, max, O_SAVE);
-	stack_cocktail(b_stack, min, mid, O_SAVE);
+	//vdmlist_head_print(save_prev, &void_putstr);
+	//printf("   <-save prev  list before stack cocktail\n");
+	//vdmlist_head_print(a_stack->save_plays, &void_putstr);
+	//printf("   <-a_stack list before stack cocktail, getting ready to sort %d to %d\n", mid, max);
 	//vdmlist_head_print(b_stack->save_plays, &void_putstr);
-	//printf("   <-b_stack list after stack cocktail\n");
+	//printf("   <-b_stack list before stack cocktail, getting ready to sort %d to %d\n", min, mid);
+	stack_cocktail(a_stack, mid, max, O_SAVE);
+	
+	stack_cocktail(b_stack, min, mid, O_SAVE);
+	//vdmlist_head_print(a_stack->save_plays, &void_putstr);
+	//printf("   <-a_stack list after stack cocktail, list len\n");
+	//vdmlist_head_print(b_stack->save_plays, &void_putstr);
+	//printf("   <-b_stack list after stack cocktail, list len\n");
 	intersect_plays(combo, a_stack, b_stack);
+	//printf("seg fault?\n");
+	//vdmlist_head_print(combo, &void_putstr);
+	//printf("   <-combo after intersection\n");
 	if (a_stack->trial_mode || b_stack->trial_mode)
 	{
 		a_stack->save_plays = save_prev;
+		//vdmlist_head_print(a_stack->save_plays, &void_putstr);
+		//printf("   <-A plays, retrieving previous, list len\n");
 		if (!a_stack->save_plays)
 			a_stack->save_plays = combo;
-		else
+		else if (combo->head)
 		{
+			//printf("seg fault?\n");
+			//vdmlist_head_print(combo, &void_putstr);
+			//printf("   <-combo after intersection\n");
 			a_stack->save_plays->tail->next = combo->head;
 			combo->head->prev = a_stack->save_plays->tail;
 			a_stack->save_plays->tail = combo->tail;
@@ -581,7 +599,7 @@ void parallel_cocktail(t_ps_stack *a_stack, t_ps_stack *b_stack, int min, int ma
 		}
 	}
 	else	
-		execute_list(a_stack, b_stack, combo, O_PRINT);
+		vdmlist_head_print(combo, &clean_putstr);
 	vdmlist_destroy(&combo, &free);
 }
 
@@ -594,7 +612,7 @@ void parallel_cocktail(t_ps_stack *a_stack, t_ps_stack *b_stack, int min, int ma
 	printf("\nend of instructions\n");*/
 
 
-void pushswap_super_small(t_ps_stack *a_stack, t_ps_stack *b_stack, int min, int max)
+void pushswap_double_cocktail(t_ps_stack *a_stack, t_ps_stack *b_stack, int min, int max)
 {
 	int mid;
 
@@ -647,30 +665,68 @@ int trial(t_ps_stack *a_stack, t_ps_stack *b_stack, int min, int max)
 	a_stack->save_plays = NULL;
 
 	execute_list_rev(a_stack, b_stack, best_play, O_REVERSE);
-	pushswap_super_small(a_stack, b_stack, min, max);
-	merge_plays(a_stack, b_stack);
-	execute_list_rev(a_stack, b_stack, a_stack->save_plays, O_REVERSE);
-
-	if (a_stack->save_plays->len < best_play->len)
+	if (max - min > 2)
 	{
-		vdmlist_destroy(&best_play, &free);
-		best_play = a_stack->save_plays;
-		a_stack->save_plays = NULL;
-	}
-	else
-		vdmlist_destroy(&(a_stack->save_plays), &free);
+		//ps_printlists(a_stack->list, b_stack->list, &printmembs);
 
-	pushswap_double_ins(a_stack, b_stack, min, max);
-	merge_plays(a_stack, b_stack);
-	execute_list_rev(a_stack, b_stack, a_stack->save_plays, O_REVERSE);
-	if (a_stack->save_plays->len < best_play->len)
-	{
-		vdmlist_destroy(&best_play, &free);
-		best_play = a_stack->save_plays;
-		a_stack->save_plays = NULL;
+		//printf("before double cocktail min %d max %d\n", min, max);
+
+		pushswap_double_cocktail(a_stack, b_stack, min, max);
+		
+		//ps_printlists(a_stack->list, b_stack->list, &printmembs);
+
+		//printf("after double cocktail\n");
+
+		//printf("printing instructions:\n");
+		//vdmlist_head_print(a_stack->save_plays, &void_putstr);
+		////printf(" <- A instructions\n");
+		//vdmlist_head_print(b_stack->save_plays, &void_putstr);
+		//printf(" <- B instructions\n");
+
+		merge_plays(a_stack, b_stack);
+
+		//printf("printing instructions:\n");
+		//vdmlist_head_print(a_stack->save_plays, &void_putstr);
+		//printf(" <- A instructions\n");
+		//vdmlist_head_print(b_stack->save_plays, &void_putstr);
+		//printf(" <- B instructions\n");
+
+		execute_list_rev(a_stack, b_stack, a_stack->save_plays, O_REVERSE);
+
+		//ps_printlists(a_stack->list, b_stack->list, &printmembs);
+
+		//printf("reversing double cocktail\n");
+
+
+		//printf("broke?\n");
+
+		if (a_stack->save_plays->len < best_play->len)
+		{
+			vdmlist_destroy(&best_play, &free);
+			best_play = a_stack->save_plays;
+			a_stack->save_plays = NULL;
+		}
+		else
+			vdmlist_destroy(&(a_stack->save_plays), &free);
+		
+		//printf("printing instructions:\n");
+		//vdmlist_head_print(a_stack->save_plays, &void_putstr);
+		//printf(" <- A instructions\n");
+		//vdmlist_head_print(b_stack->save_plays, &void_putstr);
+		//printf(" <- B instructions\n");
+
+		pushswap_double_ins(a_stack, b_stack, min, max);
+		merge_plays(a_stack, b_stack);
+		execute_list_rev(a_stack, b_stack, a_stack->save_plays, O_REVERSE);
+		if (a_stack->save_plays->len < best_play->len)
+		{
+			vdmlist_destroy(&best_play, &free);
+			best_play = a_stack->save_plays;
+			a_stack->save_plays = NULL;
+		}
+		else
+			vdmlist_destroy(&a_stack->save_plays, &free);
 	}
-	else
-		vdmlist_destroy(&a_stack->save_plays, &free);
 	a_stack->trial_mode = 0;
 	b_stack->trial_mode = 0;
 	execute_list(a_stack, b_stack, best_play, O_PRINT);

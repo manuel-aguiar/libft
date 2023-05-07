@@ -117,6 +117,9 @@ void super_swap(t_ps_stack *a_stack, t_ps_stack *b_stack, int min, int max)
 	{
 		pslist_swap_top(a_stack, FALSE);
 		pslist_swap_top(b_stack, O_COUNT);
-		ft_printf("ss\n");
+		if (a_stack->trial_mode || b_stack->trial_mode)
+			save_command(a_stack, a_stack->swap_combo);
+		else
+			ft_printf("ss\n");
 	}
 }

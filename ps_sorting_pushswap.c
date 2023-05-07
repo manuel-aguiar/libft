@@ -39,9 +39,12 @@ void quick_sort_a(t_ps_stack *a_stack, t_ps_stack *b_stack, int start, int end)
 {
 	int mid;
 
+	ps_printlists(a_stack->list, b_stack->list, &printmembs);
+	printf("quick_sort A start %d, end %d\n", start, end);
+
 	if (bucket_is_sorted(a_stack, start, end))
 	{
-		go_to_bucket_begins(a_stack, start, end, 0);
+		printf("sorted from %d to %d, dont bother\n", start, end);
 		return ;
 	}
 	mid = (start + end) / 2;
@@ -74,8 +77,6 @@ void quick_sort_a(t_ps_stack *a_stack, t_ps_stack *b_stack, int start, int end)
 
 void pushswap(t_ps_stack *a_stack, t_ps_stack *b_stack, int total)
 {
-	if (total <= 15)
-		trial(a_stack, b_stack, 0, total);
-	else	
-		quick_sort_a(a_stack, b_stack, 0, total);
+	quick_sort_a(a_stack, b_stack, 0, total);
+	ps_printlists(a_stack->list, b_stack->list, &printmembs);
 }
