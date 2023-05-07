@@ -560,8 +560,8 @@ void parallel_cocktail(t_ps_stack *a_stack, t_ps_stack *b_stack, int min, int ma
 		save_prev = a_stack->save_plays;
 		a_stack->save_plays = NULL;
 	}
-	stack_cocktail(a_stack, mid, max, O_PRINT);
-	stack_cocktail(b_stack, min, mid, O_PRINT);
+	stack_cocktail(a_stack, mid, max, O_SAVE);
+	stack_cocktail(b_stack, min, mid, O_SAVE);
 	//vdmlist_head_print(b_stack->save_plays, &void_putstr);
 	//printf("   <-b_stack list after stack cocktail\n");
 	intersect_plays(combo, a_stack, b_stack);

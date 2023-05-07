@@ -41,7 +41,7 @@ void quick_sort_a(t_ps_stack *a_stack, t_ps_stack *b_stack, int start, int end)
 
 	if (bucket_is_sorted(a_stack, start, end))
 	{
-		//go_to_bucket_begins(a_stack, start, end, 0);
+		go_to_bucket_begins(a_stack, start, end, 0);
 		return ;
 	}
 	mid = (start + end) / 2;
