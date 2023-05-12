@@ -14,81 +14,81 @@
 
 t_idpnode *new_idpnode(int nbr, t_mpool *pool)
 {
-    t_idpnode *new;
+	t_idpnode *new;
 
-    if (!pool || !pool->pool_start)
-        return (NULL);
-    new = (t_idpnode *)mpool_alloc(pool);
-    if (!new)
-        return (NULL);
-    new->data = nbr;
-    new->next = NULL;
-    new->prev = NULL;
-    return (new);
+	if (!pool || !pool->pool_start)
+		return (NULL);
+	new = (t_idpnode *)mpool_alloc(pool);
+	if (!new)
+		return (NULL);
+	new->data = nbr;
+	new->next = NULL;
+	new->prev = NULL;
+	return (new);
 }
 
 t_idplist *idplist_new(int elements, t_mpool *shared_pool)
 {
-    t_idplist *list;
-    t_mpool *pool;
+	t_idplist *list;
+	t_mpool *pool;
 
-    list = malloc(sizeof(*list));
-    if (!list)
-        return (NULL);
-    if (!shared_pool || shared_pool->block_size != sizeof(t_idpnode))
-    {
-        pool = mpool_create(sizeof(t_idpnode), elements);
-        if (!pool)
-        {
-            free(list);
-            return (NULL);
-        }
-    }
-    else
-        pool = shared_pool;
-    list->head = NULL;
-    list->tail = NULL;
-    list->pool = pool;
-    list->len = 0;
-    return (list);
+	list = malloc(sizeof(*list));
+	if (!list)
+		return (NULL);
+	if (!shared_pool || shared_pool->block_size != sizeof(t_idpnode))
+	{
+		pool = mpool_create(sizeof(t_idpnode), elements);
+		if (!pool)
+		{
+			free(list);
+			return (NULL);
+		}
+	}
+	else
+		pool = shared_pool;
+	list->head = NULL;
+	list->tail = NULL;
+	list->pool = pool;
+	list->len = 0;
+	return (list);
 }
 
 void idplist_in_head(t_idplist* list, int data)
 {
-    t_idpnode* new_node;
+	t_idpnode* new_node;
 
-    if (!list)
-        return ;
-    new_node = new_idpnode(data, list->pool);
-    if (!new_node)
-        return ;
-    if (list->head)
-    {
-        new_node->next = list->head;
-        list->head->prev = new_node;
-    }
-    else
-        list->tail = new_node;
-    list->head = new_node;
-    ++(list->len);
+	if (!list)
+		return ;
+	new_node = new_idpnode(data, list->pool);
+	if (!new_node)
+		return ;
+	if (list->head)
+	{
+		new_node->next = list->head;
+		list->head->prev = new_node;
+	}
+	else
+		list->tail = new_node;
+	list->head = new_node;
+	++(list->len);
 }
 
 void idplist_in_tail(t_idplist* list, int data)
 {
-    t_idpnode* new_node;
+	t_idpnode* new_node;
 
-    if (!list)
-        return ;
-    new_node = new_idpnode(data, list->pool);
-    if (!new_node)
-        return ;
-    if (list->tail)
-    {
-        new_node->prev = list->tail;
-        list->tail->next = new_node;
-    }
-    else
-        list->head = new_node;
-    list->tail = new_node;
-    ++(list->len);
+	if (!list)
+		return ;
+	new_node = new_idpnode(data, list->pool);
+	if (!new_node)
+		return ;
+	if (list->tail)
+	{
+		new_node->prev = list->tail;
+		list->tail->next = new_node;
+	}
+	else
+		list->head = new_node;
+	list->tail = new_node;
+	++(list->len);
 }

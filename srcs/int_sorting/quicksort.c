@@ -14,50 +14,50 @@
 
 static void	swap(int *a, int *b)
 {
-    int temp;
+	int temp;
 
-    temp = *a;
-    *a = *b;
-    *b = temp;
+	temp = *a;
+	*a = *b;
+	*b = temp;
 }
 
 static int	partition(int arr[], int low, int high, int (*cmp)(int, int))
 {
-    int pivot;
-    int i;
-    int j;
+	int pivot;
+	int i;
+	int j;
 
-    pivot = arr[low];
-    i = low - 1;
-    j = high + 1;
-    while (1)
-    {
-        while (cmp(pivot, arr[++i]));
-        while (cmp(arr[--j], pivot));
-        if (i >= j)
-            return j;
-        swap(&arr[i], &arr[j]);
-    }
+	pivot = arr[low];
+	i = low - 1;
+	j = high + 1;
+	while (1)
+	{
+		while (cmp(pivot, arr[++i]));
+		while (cmp(arr[--j], pivot));
+		if (i >= j)
+			return j;
+		swap(&arr[i], &arr[j]);
+	}
 }
 
 static void	qs_recursion(int arr[], int low, int high, int (*cmp)(int, int))
 {
-    int randpivot;
-    int part;
+	int randpivot;
+	int part;
 
-    if (low < high)
-    {
-        randpivot = low;
-        swap(&arr[low], &arr[randpivot]);
+	if (low < high)
+	{
+		randpivot = low;
+		swap(&arr[low], &arr[randpivot]);
 
-        part = partition(arr, low, high, cmp);
-        qs_recursion(arr, low, part, cmp);
-        qs_recursion(arr, part + 1, high, cmp);
-    }
+		part = partition(arr, low, high, cmp);
+		qs_recursion(arr, low, part, cmp);
+		qs_recursion(arr, part + 1, high, cmp);
+	}
 }
 
 int			*quicksort(int *arr, int size, int (*cmp)(int, int))
 {
-    qs_recursion(arr, 0, size - 1, cmp);
-    return (arr);
+	qs_recursion(arr, 0, size - 1, cmp);
+	return (arr);
 }

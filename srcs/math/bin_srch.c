@@ -12,29 +12,29 @@
 
 int	bin_srch(int *arr, int size, int target, int (*cmp)(int, int))
 {
-    int	high;
-    int	low;
-    int	mid;
+	int	high;
+	int	low;
+	int	mid;
 
-    low = 0;
-    high = size - 1;
+	low = 0;
+	high = size - 1;
 	if (arr[low] == target)
 		return (low);
 	if (arr[high] == target)
 		return (high);
-    while (high - low > 1)
-    {
-        if (arr[low] == target)
-            return (low);
-        if (arr[high] == target)
-            return (high);
-        mid = low + (high - low) / 2;
-        if (arr[mid] == target)
-            return (mid);
-        if (cmp(arr[mid], target))
-            high = mid;
-        else
-            low = mid;
-    }
-    return (-1);
+	while (high - low > 1)
+	{
+		if (arr[low] == target)
+			return (low);
+		if (arr[high] == target)
+			return (high);
+		mid = low + (high - low) / 2;
+		if (arr[mid] == target)
+			return (mid);
+		if (cmp(arr[mid], target))
+			high = mid;
+		else
+			low = mid;
+	}
+	return (-1);
 }

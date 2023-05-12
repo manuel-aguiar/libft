@@ -14,119 +14,119 @@
 
 int vdmlist_find(t_vdmlist *list, void *data, int (*cmp)(void *, void *))
 {
-    t_vdmnode *cur;
+	t_vdmnode *cur;
 
-    if (!list || !(list->head) || !cmp)
-        return (0);
-    cur = list->head;
-    while (cur)
-    {
-        if (!cmp(cur->data, data))
-            return (1);
-        cur = cur->next;
-    }
-    return (0);
+	if (!list || !(list->head) || !cmp)
+		return (0);
+	cur = list->head;
+	while (cur)
+	{
+		if (!cmp(cur->data, data))
+			return (1);
+		cur = cur->next;
+	}
+	return (0);
 }
 
 void vdmlist_remove_if(t_vdmlist *list, void *data, int (*cmp)(void *, void *), void(*del)(void *))
 {
-    t_vdmnode *cur;
-    t_vdmnode *next;
+	t_vdmnode *cur;
+	t_vdmnode *next;
 
-    if (!list || !list->head)
-        return ;
-    cur = list->head;
-    while (cur)
-    {
-        next = cur->next;
-        if (!cmp(cur->data, data))
-        {
-            if (cur->prev)
-                cur->prev->next = cur->next;
-            else
-            {
-                list->head = cur->next;
-                cur->next->prev = NULL;
-            }
-            if (cur->next)
-                cur->next->prev = cur->prev;
-            else
-            {
-                list->tail = cur->prev;
-                cur->prev->next = NULL;
-            }
+	if (!list || !list->head)
+		return ;
+	cur = list->head;
+	while (cur)
+	{
+		next = cur->next;
+		if (!cmp(cur->data, data))
+		{
+			if (cur->prev)
+				cur->prev->next = cur->next;
+			else
+			{
+				list->head = cur->next;
+				cur->next->prev = NULL;
+			}
+			if (cur->next)
+				cur->next->prev = cur->prev;
+			else
+			{
+				list->tail = cur->prev;
+				cur->prev->next = NULL;
+			}
 			if (del)
 				del(cur->data);
-            free(cur);
+			free(cur);
 		--(list->len);
-        }
-        cur = next;
-    }
+		}
+		cur = next;
+	}
 }
 
 
 void vdmlist_del_head(t_vdmlist* list, void(*del)(void *))
 {
-    t_vdmnode *cur;
+	t_vdmnode *cur;
 
-    if (!list || !(list->head))
-        return ;
-    cur = list->head;
-    if (cur->next)
-        cur->next->prev = NULL;
-    else
-        list->tail = NULL;
-    list->head = cur->next;
+	if (!list || !(list->head))
+		return ;
+	cur = list->head;
+	if (cur->next)
+		cur->next->prev = NULL;
+	else
+		list->tail = NULL;
+	list->head = cur->next;
 	if (del)
 		del(cur->data);
-    free(cur);
-    --(list->len);
+	free(cur);
+	--(list->len);
 }
 
 void vdmlist_del_tail(t_vdmlist* list, void(*del)(void *))
 {
-    t_vdmnode *cur;
+	t_vdmnode *cur;
 
-    if (!list || !(list->tail))
-        return ;
-    cur = list->tail;
-    if (cur->prev)
-        cur->prev->next = NULL;
-    else
-        list->head = NULL;
-    list->tail = cur->prev;
+	if (!list || !(list->tail))
+		return ;
+	cur = list->tail;
+	if (cur->prev)
+		cur->prev->next = NULL;
+	else
+		list->head = NULL;
+	list->tail = cur->prev;
 	if (del)
 		del(cur->data);
-    free(cur);
-    --(list->len);
+	free(cur);
+	--(list->len);
 }
 
 void vdmlist_head_print(t_vdmlist *list, void (*pnt)(void *))
 {
-    t_vdmnode *cur;
+	t_vdmnode *cur;
 
-    if (!list)
-        return ;
-    cur = list->head;
-    while (cur)
-    {
-        pnt(cur->data);
-        cur = cur->next;
-    }
+	if (!list)
+		return ;
+	cur = list->head;
+	while (cur)
+	{
+		pnt(cur->data);
+		cur = cur->next;
+	}
 }
 
 void vdmlist_tail_print(t_vdmlist *list, void (*pnt)(void *))
 {
-    t_vdmnode *cur;
+	t_vdmnode *cur;
 
-    if (!list)
-        return ;
-    cur = list->tail;
-    while (cur)
-    {
-        pnt(cur->data);
-        cur = cur->prev;
-    }
+	if (!list)
+		return ;
+	cur = list->tail;
+	while (cur)
+	{
+		pnt(cur->data);
+		cur = cur->prev;
+	}
 }
 
 void    vdmlist_destroy(t_vdmlist **list, void(*del)(void *))
@@ -134,9 +134,9 @@ void    vdmlist_destroy(t_vdmlist **list, void(*del)(void *))
 	t_vdmnode *delete;
 	t_vdmnode *next;
 
-    if (!list || !*list)
-        return ;
-    delete = (*list)->head;
+	if (!list || !*list)
+		return ;
+	delete = (*list)->head;
 	while (delete)
 	{
 		next = delete->next;
@@ -145,5 +145,5 @@ void    vdmlist_destroy(t_vdmlist **list, void(*del)(void *))
 		free(delete);
 		delete = next;
 	}
-    ft_free_set_null(list);
+	ft_free_set_null(list);
 }

@@ -2,7 +2,7 @@
 
 static t_ixmnode* xor_func(t_ixmnode* prev, t_ixmnode* next)
 {
-    return ((t_ixmnode*)((uintptr_t)prev ^ (uintptr_t)next));
+	return ((t_ixmnode*)((uintptr_t)prev ^ (uintptr_t)next));
 }
 
 static t_ixmnode *new_ixmnode(int nbr)
