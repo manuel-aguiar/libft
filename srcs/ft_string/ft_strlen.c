@@ -44,19 +44,6 @@ se still don't know which one-> loop unroll (faster?)
 
 */
 
-/*
-TESTAR MACRO
-
-#if defined(__LP64__) || defined(_WIN64) || defined(__x86_64__) || defined(__aarch64__)
-# define UNSIGNED_LONG_SIZE 8
-#elif defined(__LP32__) || defined(_WIN32) || defined(__i386__) || defined(__arm__)
-# define UNSIGNED_LONG_SIZE 4
-#else
-# define UNSIGNED_LONG_SIZE 2
-#endif
-
-*/
-
 #include "ft_string.h"
 
 #define RIGHT_BIT_ONE 0x01010101
@@ -99,11 +86,11 @@ static size_t	loop_unroll(t_cchar *str, t_cchar *i, size_t size)
 
 size_t	ft_strlen(t_cchar *str)
 {
-	t_cchar			*i;
-	t_ulong		*longword_ptr;
-	t_ulong		longword;
-	t_ulong		left_one;
-	t_ulong		right_one;
+	t_cchar	*i;
+	t_ulong	*longword_ptr;
+	t_ulong	longword;
+	t_ulong	left_one;
+	t_ulong	right_one;
 
 	i = str;
 	while (((t_ulong)i & (UL_SIZE - 1)) != 0)

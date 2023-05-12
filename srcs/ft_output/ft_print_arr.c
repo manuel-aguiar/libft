@@ -14,7 +14,7 @@
 
 void	ft_print_arr(int *arr, int size, void (*pnt)(int))
 {
-	int i;
+	int	i;
 
 	if (!arr || !size || !pnt)
 		return ;

@@ -14,15 +14,16 @@
 
 void	ft_free_set_null(void *ptr)
 {
-	t_uchar **to_free;
-    to_free = (unsigned char **)ptr;
-    free(*to_free);
-    *to_free = NULL;
+	t_uchar	**to_free;
+
+	to_free = (unsigned char **)ptr;
+	free(*to_free);
+	*to_free = NULL;
 }
 
-void	ft_free_charmat(char **table, void(*del)(char *))
+void	ft_free_charmat(char **table, void (*del)(char *))
 {
-	int		i;
+	int	i;
 
 	if (!table)
 		return ;
@@ -36,7 +37,7 @@ void	ft_free_charmat(char **table, void(*del)(char *))
 	ft_free_set_null(&table);
 }
 
-void	ft_free_charmat_null(char ***table, void(*del)(char *))
+void	ft_free_charmat_null(char ***table, void (*del)(char *))
 {
 	int		i;
 	char	**split;
@@ -54,7 +55,7 @@ void	ft_free_charmat_null(char ***table, void(*del)(char *))
 	ft_free_set_null(table);
 }
 
-void	ft_free_sizemat(void **table, size_t size, void(*del)(void *))
+void	ft_free_sizemat(void **table, size_t size, void (*del)(void *))
 {
 	size_t		i;
 	t_uchar		**split;
@@ -72,7 +73,7 @@ void	ft_free_sizemat(void **table, size_t size, void(*del)(void *))
 	ft_free_set_null(&split);
 }
 
-void	ft_free_sizemat_null(void ***table, size_t size, void(*del)(void *))
+void	ft_free_sizemat_null(void ***table, size_t size, void (*del)(void *))
 {
 	size_t		i;
 	t_uchar		**split;

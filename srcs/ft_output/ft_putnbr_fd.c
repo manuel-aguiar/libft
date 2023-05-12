@@ -40,7 +40,7 @@ void	ft_putnbr_fd(int nb, int fd)
 
 void	ft_putnbr(int nb)
 {
-    ft_putnbr_fd(nb, 1);
+	ft_putnbr_fd(nb, 1);
 }
 
 /*
@@ -48,68 +48,68 @@ void	ft_putnbr(int nb)
 #include <stdio.h>
 void printit(int nbr, int fd)
 {
-    if (nbr > 10 || nbr < -10)
-        printit(nbr / 10, fd);
-    nbr %= 10;
-    if (nbr < 0)
-        nbr *= -1;
-    nbr += '0';
-    write(fd, &nbr, 1);
+	if (nbr > 10 || nbr < -10)
+		printit(nbr / 10, fd);
+	nbr %= 10;
+	if (nbr < 0)
+		nbr *= -1;
+	nbr += '0';
+	write(fd, &nbr, 1);
 }
 
 void new_putnbr(int nbr, int fd)
 {
-    if (nbr < 0)
-        write(fd, "-", 1);
-    printit(nbr, fd);
+	if (nbr < 0)
+		write(fd, "-", 1);
+	printit(nbr, fd);
 }
 
 
 int main()
 {
 
-    int times = 1000;
+	int times = 1000;
 
 
-    clock_t t;
-    t = clock();
-    int i = 0;
-    while (i < times)
-    {
-        ft_putnbr_fd(i, 1);
-        i++;
-    }
-    t = clock() - t;
-    double time_taken = ((double)t)/CLOCKS_PER_SEC;
+	clock_t t;
+	t = clock();
+	int i = 0;
+	while (i < times)
+	{
+		ft_putnbr_fd(i, 1);
+		i++;
+	}
+	t = clock() - t;
+	double time_taken = ((double)t)/CLOCKS_PER_SEC;
 
 
-    clock_t x;
-    x = clock();
-    int a = 0;
-    while (a < times)
-    {
-        printf("%d", a);
-        a++;
-    }
-    x = clock() - x;
-    double time_takenn = ((double)x)/CLOCKS_PER_SEC;
+	clock_t x;
+	x = clock();
+	int a = 0;
+	while (a < times)
+	{
+		printf("%d", a);
+		a++;
+	}
+	x = clock() - x;
+	double time_takenn = ((double)x)/CLOCKS_PER_SEC;
 
 
 
-    clock_t z;
-    z = clock();
-    int l = 0;
-    while (l < times)
-    {
-        new_putnbr(l, 1);
-        l++;
-    }
-    z = clock() - z;
-    double time_takennnn = ((double)z)/CLOCKS_PER_SEC;
+	clock_t z;
+	z = clock();
+	int l = 0;
+	while (l < times)
+	{
+		new_putnbr(l, 1);
+		l++;
+	}
+	z = clock() - z;
+	double time_takennnn = ((double)z)/CLOCKS_PER_SEC;
 
-    printf("\nmy putnbr   %f\n", time_taken);
-    printf("printf took %f\n", time_takenn);
-    printf("usual took  %f\n", time_takennnn);
+	printf("\nmy putnbr   %f\n", time_taken);
+	printf("printf took %f\n", time_takenn);
+	printf("usual took  %f\n", time_takennnn);
 
 
 }

@@ -14,50 +14,50 @@
 
 #include <limits.h>
 
-int atoi_overf(int res, char next, int *sign)
+int	atoi_overf(int res, char next, int *sign)
 {
-    int max;
+	int	max;
 
-    max = INT_MAX / 10;
-    if (res < max)
-        return (1);
-    if (res > max)
-    {
-        *sign = 0;
-        return (0);
-    }
-    else if (res == max)
-    {
-        if (*sign == 1 && next > INT_MAX % 10 + '0')
-        {
-            *sign = 0;
-            return (0);
-        }
-        if (*sign == -1 && next > -(INT_MIN % 10) + '0')
-        {
-            *sign = 0;
-            return (0);
-        }
-    }
-    return (1);
+	max = INT_MAX / 10;
+	if (res < max)
+		return (1);
+	if (res > max)
+	{
+		*sign = 0;
+		return (0);
+	}
+	else if (res == max)
+	{
+		if (*sign == 1 && next > INT_MAX % 10 + '0')
+		{
+			*sign = 0;
+			return (0);
+		}
+		if (*sign == -1 && next > -(INT_MIN % 10) + '0')
+		{
+			*sign = 0;
+			return (0);
+		}
+	}
+	return (1);
 }
 
-int ft_atoi_overf(char *str)
+int	ft_atoi_overf(char *str)
 {
-    int res;
-    int sign;
+	int	res;
+	int	sign;
 
-    while (*str && ft_isspace(*str))
-        str++;
-    sign = 1;
-    if (*str && *str == '-')
-        sign = -1;
-    if (*str && (*str == '-' || *str == '+'))
-        str++;
-    res = 0;
-    while(*str && ft_isdigit(*str) && atoi_overf(res, *str, &sign))
-        res = res * 10 - '0' + *str++;
-    if (sign == 0)
-        res = 0;
-    return (res * sign);
+	while (*str && ft_isspace(*str))
+		str++;
+	sign = 1;
+	if (*str && *str == '-')
+		sign = -1;
+	if (*str && (*str == '-' || *str == '+'))
+		str++;
+	res = 0;
+	while (*str && ft_isdigit(*str) && atoi_overf(res, *str, &sign))
+		res = res * 10 - '0' + *str++;
+	if (sign == 0)
+		res = 0;
+	return (res * sign);
 }

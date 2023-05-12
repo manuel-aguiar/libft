@@ -14,7 +14,7 @@
 
 char	*ft_strrchr(t_cchar *s, int c)
 {
-	t_cchar			*move;
+	t_cchar	*move;
 	t_uchar	cc;
 
 	cc = (t_uchar)c;
