@@ -53,44 +53,6 @@ void	ixmlist_del_tail(t_ixmlist *list)
 	--(list->len);
 }
 
-void	ixmlist_head_print(t_ixmlist *list, void (*pnt)(int))
-{
-	t_ixmnode	*cur;
-	t_ixmnode	*prev;
-	t_ixmnode	*next;
-
-	if (!list)
-		return ;
-	cur = list->head;
-	prev = NULL;
-	while (cur)
-	{
-		pnt(cur->data);
-		next = xor_func(prev, cur->xor_ptr);
-		prev = cur;
-		cur = next;
-	}
-}
-
-void	ixmlist_tail_print(t_ixmlist *list, void (*pnt)(int))
-{
-	t_ixmnode	*cur;
-	t_ixmnode	*prev;
-	t_ixmnode	*next;
-
-	if (!list)
-		return ;
-	cur = list->tail;
-	next = NULL;
-	while (cur)
-	{
-		pnt(cur->data);
-		prev = xor_func(next, cur->xor_ptr);
-		next = cur;
-		cur = prev;
-	}
-}
-
 void	ixmlist_destroy(t_ixmlist **list)
 {
 	if (!list || !*list)

@@ -87,8 +87,8 @@ FILES_HASHINT	=	hashset_int.c				\
 					hashset_int_utils.c
 
 
-FILES_LICIRC	=	cd_list_mpool.c				\
-					cd_list_mpool_utils.c
+FILES_LICIRC	=	icd_list_mpool.c			\
+					icd_list_mpool_utils.c
 
 FILES_LIDBL		=	dll_list_malloc.c			\
 					dll_list_malloc_utils.c		\
@@ -101,6 +101,7 @@ FILES_LISNGL	=	sl_list_malloc.c			\
 
 FILES_LIXOR		=	xor_list_malloc.c			\
 					xor_list_malloc_utils.c		\
+					xor_list_malloc_print.c		\
 					xor_list_mpool.c			\
 					xor_list_mpool_utils.c
 
