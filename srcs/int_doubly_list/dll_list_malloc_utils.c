@@ -62,7 +62,6 @@ void	idmlist_remove_if(t_idmlist *list, int target)
 	}
 }
 
-
 void	idmlist_del_head(t_idmlist *list)
 {
 	t_idmnode	*cur;
@@ -109,9 +108,9 @@ void	idmlist_head_print(t_idmlist *list, void (*pnt)(int))
 	}
 }
 
-void idmlist_tail_print(t_idmlist *list, void (*pnt)(int))
+void	idmlist_tail_print(t_idmlist *list, void (*pnt)(int))
 {
-	t_idmnode *cur;
+	t_idmnode	*cur;
 
 	if (!list)
 		return ;
@@ -123,10 +122,10 @@ void idmlist_tail_print(t_idmlist *list, void (*pnt)(int))
 	}
 }
 
-void    idmlist_destroy(t_idmlist **list)
+void	idmlist_destroy(t_idmlist **list)
 {
-	t_idmnode *del;
-	t_idmnode *next;
+	t_idmnode	*del;
+	t_idmnode	*next;
 
 	if (!list || !*list)
 		return ;

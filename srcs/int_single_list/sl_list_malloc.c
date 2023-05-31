@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sl_list_malloc.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmaria-d <mmaria-d@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/31 20:11:55 by mmaria-d          #+#    #+#             */
+/*   Updated: 2023/05/31 20:12:37 by mmaria-d         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "int_sl_list.h"
 
-t_ismnode *ismnode_new(int nbr)
+t_ismnode	*ismnode_new(int nbr)
 {
-	t_ismnode *new;
+	t_ismnode	*new;
 
 	new = malloc(sizeof(*new));
 	if (!new)
@@ -12,9 +24,9 @@ t_ismnode *ismnode_new(int nbr)
 	return (new);
 }
 
-t_ismlist *ismlist_new(void)
+t_ismlist	*ismlist_new(void)
 {
-	t_ismlist *list;
+	t_ismlist	*list;
 
 	list = malloc(sizeof(*list));
 	if (!list)
@@ -25,9 +37,9 @@ t_ismlist *ismlist_new(void)
 	return (list);
 }
 
-int ismlist_in_head(t_ismlist* list, int data)
+int	ismlist_in_head(t_ismlist *list, int data)
 {
-	t_ismnode* new_node;
+	t_ismnode	*new_node;
 
 	if (!list)
 		return (0);
@@ -43,9 +55,9 @@ int ismlist_in_head(t_ismlist* list, int data)
 	return (1);
 }
 
-int ismlist_in_tail(t_ismlist* list, int data)
+int	ismlist_in_tail(t_ismlist *list, int data)
 {
-	t_ismnode* new_node;
+	t_ismnode	*new_node;
 
 	if (!list)
 		return (0);

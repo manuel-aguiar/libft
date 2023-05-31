@@ -27,7 +27,7 @@ void	*ft_free_charmat(void *table, void (*del)(void *))
 	int		i;
 	char	**split;
 
-	split = *(char***)table;
+	split = *(char ***)table;
 	if (!table)
 		return (NULL);
 	i = 0;

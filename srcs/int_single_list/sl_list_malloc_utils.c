@@ -6,15 +6,15 @@
 /*   By: mmaria-d <mmaria-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:39:23 by marvin            #+#    #+#             */
-/*   Updated: 2023/05/09 20:08:29 by mmaria-d         ###   ########.fr       */
+/*   Updated: 2023/05/31 20:15:31 by mmaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "int_sl_list.h"
 
-int ismlist_find(t_ismlist *list, int target)
+int	ismlist_find(t_ismlist *list, int target)
 {
-	t_ismnode *cur;
+	t_ismnode	*cur;
 
 	if (!list || !(list->head))
 		return (0);
@@ -28,9 +28,9 @@ int ismlist_find(t_ismlist *list, int target)
 	return (0);
 }
 
-static t_ismnode    *ismlist_removeif_helper(t_ismlist *list, t_ismnode *node)
+static t_ismnode	*ismlist_removeif_helper(t_ismlist *list, t_ismnode *node)
 {
-	t_ismnode *delete;
+	t_ismnode	*delete;
 
 	delete = node;
 	node = node->next;
@@ -40,18 +40,18 @@ static t_ismnode    *ismlist_removeif_helper(t_ismlist *list, t_ismnode *node)
 	return (node);
 }
 
-int    ismlist_removeif(t_ismlist *list, int target)
+int	ismlist_removeif(t_ismlist *list, int target)
 {
-	t_ismnode *cur;
-	t_ismnode dummy;
-	size_t init_len;
+	t_ismnode	*cur;
+	t_ismnode	dummy;
+	size_t		init_len;
 
 	if (!list || !list->head || !(list->len))
 		return (0);
 	list->tail = &dummy;
 	cur = list->head;
 	init_len = list->len;
-	while(cur)
+	while (cur)
 	{
 		if (cur->data == target)
 			cur = ismlist_removeif_helper(list, cur);
@@ -67,10 +67,9 @@ int    ismlist_removeif(t_ismlist *list, int target)
 	return ((int)(init_len - list->len));
 }
 
-
-void ismlist_del_head(t_ismlist* list)
+void	ismlist_del_head(t_ismlist *list)
 {
-	t_ismnode *cur;
+	t_ismnode	*cur;
 
 	if (!list || !(list->head))
 		return ;
@@ -82,24 +81,10 @@ void ismlist_del_head(t_ismlist* list)
 	--(list->len);
 }
 
-void ismlist_head_print(t_ismlist *list, void (*pnt)(int))
+void	ismlist_destroy(t_ismlist **list)
 {
-	t_ismnode *cur;
-
-	if (!list)
-		return ;
-	cur = list->head;
-	while (cur)
-	{
-		pnt(cur->data);
-		cur = cur->next;
-	}
-}
-
-void    ismlist_destroy(t_ismlist **list)
-{
-	t_ismnode *del;
-	t_ismnode *next;
+	t_ismnode	*del;
+	t_ismnode	*next;
 
 	if (!list || !*list)
 		return ;

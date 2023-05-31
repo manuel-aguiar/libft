@@ -12,9 +12,9 @@
 
 #include "int_dl_list.h"
 
-t_idmnode *new_idmnode(int nbr)
+t_idmnode	*new_idmnode(int nbr)
 {
-	t_idmnode *new;
+	t_idmnode	*new;
 
 	new = malloc(sizeof(*new));
 	if (!new)
@@ -25,9 +25,9 @@ t_idmnode *new_idmnode(int nbr)
 	return (new);
 }
 
-t_idmlist *idmlist_new(void)
+t_idmlist	*idmlist_new(void)
 {
-	t_idmlist *list;
+	t_idmlist	*list;
 
 	list = malloc(sizeof(*list));
 	if (!list)
@@ -38,9 +38,9 @@ t_idmlist *idmlist_new(void)
 	return (list);
 }
 
-int idmlist_in_head(t_idmlist* list, int data)
+int	idmlist_in_head(t_idmlist *list, int data)
 {
-	t_idmnode* new_node;
+	t_idmnode	*new_node;
 
 	if (!list)
 		return (0);
@@ -59,9 +59,9 @@ int idmlist_in_head(t_idmlist* list, int data)
 	return (1);
 }
 
-int idmlist_in_tail(t_idmlist* list, int data)
+int	idmlist_in_tail(t_idmlist *list, int data)
 {
-	t_idmnode* new_node;
+	t_idmnode	*new_node;
 
 	if (!list)
 		return (0);

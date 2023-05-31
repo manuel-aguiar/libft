@@ -12,9 +12,9 @@
 
 #include "int_dl_list.h"
 
-t_idpnode *new_idpnode(int nbr, t_mpool *pool)
+t_idpnode	*new_idpnode(int nbr, t_mpool *pool)
 {
-	t_idpnode *new;
+	t_idpnode	*new;
 
 	if (!pool || !pool->pool_start)
 		return (NULL);
@@ -27,10 +27,10 @@ t_idpnode *new_idpnode(int nbr, t_mpool *pool)
 	return (new);
 }
 
-t_idplist *idplist_new(int elements, t_mpool *shared_pool)
+t_idplist	*idplist_new(int elements, t_mpool *shared_pool)
 {
-	t_idplist *list;
-	t_mpool *pool;
+	t_idplist	*list;
+	t_mpool		*pool;
 
 	list = malloc(sizeof(*list));
 	if (!list)
@@ -53,9 +53,9 @@ t_idplist *idplist_new(int elements, t_mpool *shared_pool)
 	return (list);
 }
 
-void idplist_in_head(t_idplist* list, int data)
+void	idplist_in_head(t_idplist *list, int data)
 {
-	t_idpnode* new_node;
+	t_idpnode	*new_node;
 
 	if (!list)
 		return ;
@@ -73,9 +73,9 @@ void idplist_in_head(t_idplist* list, int data)
 	++(list->len);
 }
 
-void idplist_in_tail(t_idplist* list, int data)
+void	idplist_in_tail(t_idplist *list, int data)
 {
-	t_idpnode* new_node;
+	t_idpnode	*new_node;
 
 	if (!list)
 		return ;

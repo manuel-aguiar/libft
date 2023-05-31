@@ -12,9 +12,9 @@
 
 #include "int_dl_list.h"
 
-void idplist_del_head(t_idplist* list)
+void	idplist_del_head(t_idplist *list)
 {
-	t_idpnode *cur;
+	t_idpnode	*cur;
 
 	if (!list || !(list->head))
 		return ;
@@ -28,9 +28,9 @@ void idplist_del_head(t_idplist* list)
 	--(list->len);
 }
 
-void idplist_del_tail(t_idplist* list)
+void	idplist_del_tail(t_idplist *list)
 {
-	t_idpnode *cur;
+	t_idpnode	*cur;
 
 	if (!list || !(list->tail))
 		return ;
@@ -44,9 +44,9 @@ void idplist_del_tail(t_idplist* list)
 	--(list->len);
 }
 
-void idplist_head_print(t_idplist *list, void (*pnt)(int))
+void	idplist_head_print(t_idplist *list, void (*pnt)(int))
 {
-	t_idpnode *cur;
+	t_idpnode	*cur;
 
 	if (!list)
 		return ;
@@ -58,9 +58,9 @@ void idplist_head_print(t_idplist *list, void (*pnt)(int))
 	}
 }
 
-void idplist_tail_print(t_idplist *list, void (*pnt)(int))
+void	idplist_tail_print(t_idplist *list, void (*pnt)(int))
 {
-	t_idpnode *cur;
+	t_idpnode	*cur;
 
 	if (!list)
 		return ;
@@ -72,7 +72,7 @@ void idplist_tail_print(t_idplist *list, void (*pnt)(int))
 	}
 }
 
-void    idplist_destroy(t_idplist **list, int keep_pool)
+void	idplist_destroy(t_idplist **list, int keep_pool)
 {
 	if (!list || !*list)
 		return ;
