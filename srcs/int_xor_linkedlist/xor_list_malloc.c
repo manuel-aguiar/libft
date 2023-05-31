@@ -12,7 +12,7 @@
 
 #include "int_xor_list.h"
 
-static t_ixmnode	*xor_func(t_ixmnode *prev, t_ixmnode *next)
+t_ixmnode	*xor_func(t_ixmnode *prev, t_ixmnode *next)
 {
 	return ((t_ixmnode *)((uintptr_t)prev ^ (uintptr_t)next));
 }

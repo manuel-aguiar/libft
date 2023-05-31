@@ -90,14 +90,15 @@ FILES_HASHINT	=	hashset_int.c				\
 FILES_LICIRC	=	icd_list_mpool.c			\
 					icd_list_mpool_utils.c
 
-FILES_LIDBL		=	dll_list_malloc.c			\
-					dll_list_malloc_utils.c		\
-					dll_list_mpool.c			\
-					dll_list_mpool_utils.c
+FILES_LIDBL		=	idl_list_malloc.c			\
+					idl_list_malloc_utils.c		\
+					idl_list_malloc_print.c		\
+					idl_list_mpool.c			\
+					idl_list_mpool_utils.c
 
-FILES_LISNGL	=	sl_list_malloc.c			\
-					sl_list_malloc_utils.c		\
-					sl_list_malloc_print.c
+FILES_LISNGL	=	isl_list_malloc.c			\
+					isl_list_malloc_utils.c		\
+					isl_list_malloc_print.c
 
 FILES_LIXOR		=	xor_list_malloc.c			\
 					xor_list_malloc_utils.c		\
