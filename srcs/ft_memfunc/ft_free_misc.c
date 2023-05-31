@@ -12,39 +12,24 @@
 
 #include "ft_memfunc.h"
 
-void	ft_free_set_null(void *ptr)
+void	*ft_free_set_null(void *ptr)
 {
 	t_uchar	**to_free;
 
 	to_free = (unsigned char **)ptr;
 	free(*to_free);
 	*to_free = NULL;
+	return (NULL);
 }
 
-void	ft_free_charmat(char **table, void (*del)(char *))
-{
-	int	i;
-
-	if (!table)
-		return ;
-	i = 0;
-	while (table[i])
-	{
-		del(table[i]);
-		table[i] = NULL;
-		i++;
-	}
-	ft_free_set_null(&table);
-}
-
-void	ft_free_charmat_null(char ***table, void (*del)(char *))
+void	*ft_free_charmat(void *table, void (*del)(char *))
 {
 	int		i;
 	char	**split;
 
-	if (!table || !*table)
-		return ;
-	split = *table;
+	split = *(char***)table;
+	if (!table)
+		return (NULL);
 	i = 0;
 	while (split[i])
 	{
@@ -52,35 +37,37 @@ void	ft_free_charmat_null(char ***table, void (*del)(char *))
 		split[i] = NULL;
 		i++;
 	}
-	ft_free_set_null(table);
+	return (ft_free_set_null(&split));
 }
 
-void	ft_free_sizemat(void **table, size_t size, void (*del)(void *))
+void	*ft_free_charmat_null(void *table, void (*del)(char *))
 {
-	size_t		i;
-	t_uchar		**split;
+	int		i;
+	char	**split;
 
 	if (!table)
-		return ;
-	split = (t_uchar **)table;
+		return (NULL);
+	split = *(char ***)table;
+	if (*split)
+		return (NULL);
 	i = 0;
-	while (i < size)
+	while (split[i])
 	{
 		del(split[i]);
 		split[i] = NULL;
 		i++;
 	}
-	ft_free_set_null(&split);
+	return (ft_free_set_null(table));
 }
 
-void	ft_free_sizemat_null(void ***table, size_t size, void (*del)(void *))
+void	*ft_free_sizemat(void *table, size_t size, void (*del)(void *))
 {
 	size_t		i;
-	t_uchar		**split;
+	char		**split;
 
-	if (!table || !*table)
-		return ;
-	split = *((t_uchar ***)table);
+	if (!table)
+		return (NULL);
+	split = *(char ***)table;
 	i = 0;
 	while (i < size)
 	{
@@ -88,5 +75,25 @@ void	ft_free_sizemat_null(void ***table, size_t size, void (*del)(void *))
 		split[i] = NULL;
 		i++;
 	}
-	ft_free_set_null(table);
+	return (ft_free_set_null(&split));
+}
+
+void	*ft_free_sizemat_null(void *table, size_t size, void (*del)(void *))
+{
+	size_t		i;
+	char		**split;
+
+	if (!table)
+		return (NULL);
+	split = *((char ***)table);
+	if (!split)
+		return (NULL);
+	i = 0;
+	while (i < size)
+	{
+		del(split[i]);
+		split[i] = NULL;
+		i++;
+	}
+	return (ft_free_set_null(table));
 }
