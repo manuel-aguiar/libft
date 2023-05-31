@@ -25,23 +25,23 @@ circular doubly linkedlist*/
 
 typedef struct s_icpnode
 {
-    int					data;
-    struct s_icpnode	*next;
-    struct s_icpnode	*prev;
-} t_icpnode;
+	int					data;
+	struct s_icpnode	*next;
+	struct s_icpnode	*prev;
+}	t_icpnode;
 
 typedef struct s_icplist
 {
-    t_icpnode	*pivot;
-    t_mpool		*pool;
-    int			len;
-} t_icplist;
+	t_icpnode	*pivot;
+	t_mpool		*pool;
+	int			len;
+}	t_icplist;
 
 t_icplist	*icplist_new(int elements, t_mpool *shared_pool);
-void		icplist_in_head(t_icplist* list, int data);
-void		icplist_in_tail(t_icplist* list, int data);
-void		icplist_del_head(t_icplist* list);
-void		icplist_del_tail(t_icplist* list);
+void		icplist_in_head(t_icplist *list, int data);
+void		icplist_in_tail(t_icplist *list, int data);
+void		icplist_del_head(t_icplist *list);
+void		icplist_del_tail(t_icplist *list);
 void		icplist_head_print(t_icplist *list, void (*pnt)(int));
 void		icplist_tail_print(t_icplist *list, void (*pnt)(int));
 void		icplist_destroy(t_icplist **list, int keep_pool);
