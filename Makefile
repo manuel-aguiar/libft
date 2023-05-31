@@ -105,8 +105,10 @@ FILES_LIXOR		=	xor_list_malloc.c			\
 
 FILES_LVDBL		=	vdlist_malloc.c				\
 					vdlist_malloc_utils.c		\
+					vdlist_malloc_print.c		\
 					vdlist_mpool.c				\
-					vdlist_mpool_utils.c
+					vdlist_mpool_utils.c		\
+					vdlist_mpool_print.c
 
 FILES_ISORT		=	cocktailsort.c				\
 					mergesort.c					\
@@ -142,7 +144,7 @@ $(NAME):  message $(OBJS)
 	@echo Libft is ready!!
 
 %.o : %.c
-	$(CC) $(CFLAGS) -I$(INC_PATH) -c $< -o $@
+	@$(CC) $(CFLAGS) -I$(INC_PATH) -c $< -o $@
 
 message:
 	@echo Creating object files for Libft...

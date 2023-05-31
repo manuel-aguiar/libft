@@ -12,9 +12,9 @@
 
 #include "void_dl_list.h"
 
-t_vdmnode *new_vdmnode(void *data)
+t_vdmnode	*new_vdmnode(void *data)
 {
-	t_vdmnode *new;
+	t_vdmnode	*new;
 
 	new = malloc(sizeof(*new));
 	if (!new)
@@ -25,9 +25,9 @@ t_vdmnode *new_vdmnode(void *data)
 	return (new);
 }
 
-t_vdmlist *vdmlist_new(void)
+t_vdmlist	*vdmlist_new(void)
 {
-	t_vdmlist *list;
+	t_vdmlist	*list;
 
 	list = malloc(sizeof(*list));
 	if (!list)
@@ -38,9 +38,9 @@ t_vdmlist *vdmlist_new(void)
 	return (list);
 }
 
-int vdmlist_in_head(t_vdmlist* list, void *data)
+int	vdmlist_in_head(t_vdmlist *list, void *data)
 {
-	t_vdmnode* new_node;
+	t_vdmnode	*new_node;
 
 	if (!list)
 		return (0);
@@ -59,9 +59,9 @@ int vdmlist_in_head(t_vdmlist* list, void *data)
 	return (1);
 }
 
-int vdmlist_in_tail(t_vdmlist* list, void *data)
+int	vdmlist_in_tail(t_vdmlist *list, void *data)
 {
-	t_vdmnode* new_node;
+	t_vdmnode	*new_node;
 
 	if (!list)
 		return (0);

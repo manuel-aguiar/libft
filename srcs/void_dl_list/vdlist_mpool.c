@@ -12,9 +12,9 @@
 
 #include "void_dl_list.h"
 
-t_vdpnode *new_vdpnode(void *data, t_mpool *pool)
+t_vdpnode	*new_vdpnode(void *data, t_mpool *pool)
 {
-	t_vdpnode *new;
+	t_vdpnode	*new;
 
 	if (!pool || !pool->pool_start)
 		return (NULL);
@@ -27,10 +27,10 @@ t_vdpnode *new_vdpnode(void *data, t_mpool *pool)
 	return (new);
 }
 
-t_vdplist *vdplist_new(int elements, t_mpool *shared_pool)
+t_vdplist	*vdplist_new(int elements, t_mpool *shared_pool)
 {
-	t_vdplist *list;
-	t_mpool *pool;
+	t_vdplist	*list;
+	t_mpool		*pool;
 
 	list = malloc(sizeof(*list));
 	if (!list)
@@ -53,9 +53,9 @@ t_vdplist *vdplist_new(int elements, t_mpool *shared_pool)
 	return (list);
 }
 
-void vdplist_in_head(t_vdplist* list, void *data)
+void	vdplist_in_head(t_vdplist *list, void *data)
 {
-	t_vdpnode* new_node;
+	t_vdpnode	*new_node;
 
 	if (!list)
 		return ;
@@ -73,9 +73,9 @@ void vdplist_in_head(t_vdplist* list, void *data)
 	++(list->len);
 }
 
-void vdplist_in_tail(t_vdplist* list, void *data)
+void	vdplist_in_tail(t_vdplist *list, void *data)
 {
-	t_vdpnode* new_node;
+	t_vdpnode	*new_node;
 
 	if (!list)
 		return ;

@@ -19,10 +19,8 @@
 # include "int_sl_list.h"
 # include "ft_memfunc.h"
 
-# define NEG(Value) ({__auto_type _v = (Value); (_v < 0) * -_v;})
-# define POS(Value) ({__auto_type _v = (Value); (_v > 0) * _v;})
-# define SIGN(Value) ({POS(Value) * 1 + NEG(Value) * -1;})
-# define ABS(Value) ({POS(Value) + NEG(Value);})
+# define SIGN(x) ({ __auto_type _v = (x); (_v < 0) * -1 + (_v > 0) * 1;})
+# define ABS(x) ({ __auto_type _w = (x); _w * SIGN(_w);})
 
 typedef struct s_ihs_table
 {

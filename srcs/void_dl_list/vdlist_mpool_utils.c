@@ -12,9 +12,9 @@
 
 #include "void_dl_list.h"
 
-void vdplist_del_head(t_vdplist* list, void(*del)(void *))
+void	vdplist_del_head(t_vdplist *list, void (*del)(void *))
 {
-	t_vdpnode *cur;
+	t_vdpnode	*cur;
 
 	if (!list || !(list->head))
 		return ;
@@ -30,9 +30,9 @@ void vdplist_del_head(t_vdplist* list, void(*del)(void *))
 	--(list->len);
 }
 
-void vdplist_del_tail(t_vdplist* list, void(*del)(void *))
+void	vdplist_del_tail(t_vdplist *list, void (*del)(void *))
 {
-	t_vdpnode *cur;
+	t_vdpnode	*cur;
 
 	if (!list || !(list->tail))
 		return ;
@@ -48,37 +48,9 @@ void vdplist_del_tail(t_vdplist* list, void(*del)(void *))
 	--(list->len);
 }
 
-void vdplist_head_print(t_vdplist *list, void (*pnt)(void *))
+void	vdplist_delall_content(t_vdplist *list, void (*del)(void *))
 {
-	t_vdpnode *cur;
-
-	if (!list)
-		return ;
-	cur = list->head;
-	while (cur)
-	{
-		pnt(cur->data);
-		cur = cur->next;
-	}
-}
-
-void vdplist_tail_print(t_vdplist *list, void (*pnt)(void *))
-{
-	t_vdpnode *cur;
-
-	if (!list)
-		return ;
-	cur = list->tail;
-	while (cur)
-	{
-		pnt(cur->data);
-		cur = cur->prev;
-	}
-}
-
-void	vdplist_delall_content(t_vdplist *list, void(*del)(void *))
-{
-	t_vdpnode *cur;
+	t_vdpnode	*cur;
 
 	if (!list || !del)
 		return ;
@@ -90,8 +62,7 @@ void	vdplist_delall_content(t_vdplist *list, void(*del)(void *))
 	}
 }
 
-
-void    vdplist_destroy(t_vdplist **list, int keep_pool, void(*del)(void *))
+void	vdplist_destroy(t_vdplist **list, int keep_pool, void (*del)(void *))
 {
 	if (!list || !*list)
 	{
