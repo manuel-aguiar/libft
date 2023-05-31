@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SORTING_H
+#ifndef INT_SORTING_H
 
-# define SORTING_H
+# define INT_SORTING_H
 
 # include "ft_memfunc.h"
 

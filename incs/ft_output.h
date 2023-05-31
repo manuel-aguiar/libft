@@ -30,7 +30,6 @@ void	ft_putendl_fd(char *str, int fd);
 void	ft_putnbr_fd(int nb, int fd);
 void	ft_putstr_fd(char *str, int fd);
 
-
 void	ft_print_arr(int *arr, int size, void (*pnt)(int));
 
 #endif

@@ -14,7 +14,7 @@
 
 # define FT_STRING_H
 
-#include <stdlib.h>
+# include <stdlib.h>
 
 # include "ft_memfunc.h"
 

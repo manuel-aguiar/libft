@@ -23,11 +23,10 @@ featured types:
 	- circular doubly linked list
 */
 
-#include "int_sl_list.h"
-#include "int_xor_list.h"
-#include "int_dl_list.h"
-#include "int_cd_list.h"
-
-#include "void_dl_list.h"
+# include "int_sl_list.h"
+# include "int_xor_list.h"
+# include "int_dl_list.h"
+# include "int_cd_list.h"
+# include "void_dl_list.h"
 
 #endif

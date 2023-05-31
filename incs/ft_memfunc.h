@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_memfunc.h                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmaria-d <mmaria-d@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/31 18:57:14 by mmaria-d          #+#    #+#             */
+/*   Updated: 2023/05/31 18:57:14 by mmaria-d         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef FT_MEMFUNC_H
 
 # define FT_MEMFUNC_H
@@ -6,25 +18,25 @@
 # include <stddef.h>
 # include <limits.h>
 
-#if defined(__LP64__) || defined(_WIN64)
-# define UL_SIZE 8
-# define UL_ALIGN 7
-#elif defined(__x86_64__) || defined(__aarch64__)
-# define UL_SIZE 8
-# define UL_ALIGN 7
-#elif defined(__LP32__) || defined(_WIN32)
-# define UL_SIZE 4
-# define UL_ALIGN 3
-#elif defined(__i386__) || defined(__arm__)
-# define UL_SIZE 4
-# define UL_ALIGN 3
-#else
-# define UL_SIZE 1
-# define UL_ALIGN 0
-#endif
+# if defined(__LP64__) || defined(_WIN64)
+#  define UL_SIZE 8
+#  define UL_ALIGN 7
+# elif defined(__x86_64__) || defined(__aarch64__)
+#  define UL_SIZE 8
+#  define UL_ALIGN 7
+# elif defined(__LP32__) || defined(_WIN32)
+#  define UL_SIZE 4
+#  define UL_ALIGN 3
+# elif defined(__i386__) || defined(__arm__)
+#  define UL_SIZE 4
+#  define UL_ALIGN 3
+# else
+#  define UL_SIZE 1
+#  define UL_ALIGN 0
+# endif
 
-#define FOUR_UNROLL 4
-#define TWO_UNROLL 2
+# define FOUR_UNROLL 4
+# define TWO_UNROLL 2
 
 typedef unsigned long	t_ulong;
 typedef unsigned char	t_uchar;
@@ -39,9 +51,10 @@ void	*ft_memmove(void *dest, const void *src, size_t len);
 void	*ft_calloc(size_t nmemb, size_t bytes);
 
 /*functions to free, ft_free_misc.c*/
-void	*ft_free_charmat(void *table, void(*del)(void *));
-void	*ft_free_charmat_null(void *table, void(*del)(void *));
-void	*ft_free_sizemat(void *table, size_t size, void(*del)(void *));
-void	*ft_free_sizemat_null(void *table, size_t size, void(*del)(void *));
+void	*ft_free_charmat(void *table, void (*del)(void *));
+void	*ft_free_charmat_null(void *table, void (*del)(void *));
+void	*ft_free_sizemat(void *table, size_t size, void (*del)(void *));
+void	*ft_free_sizemat_null(void *table, size_t size, void (*del)(void *));
 void	*ft_free_set_null(void *ptr);
+
 #endif
