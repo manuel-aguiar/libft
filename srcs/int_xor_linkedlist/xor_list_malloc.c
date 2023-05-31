@@ -1,13 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   xor_list_malloc.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmaria-d <mmaria-d@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/31 20:26:18 by mmaria-d          #+#    #+#             */
+/*   Updated: 2023/05/31 20:26:18 by mmaria-d         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "int_xor_list.h"
 
-static t_ixmnode* xor_func(t_ixmnode* prev, t_ixmnode* next)
+static t_ixmnode	*xor_func(t_ixmnode *prev, t_ixmnode *next)
 {
-	return ((t_ixmnode*)((uintptr_t)prev ^ (uintptr_t)next));
+	return ((t_ixmnode *)((uintptr_t)prev ^ (uintptr_t)next));
 }
 
-static t_ixmnode *new_ixmnode(int nbr)
+static t_ixmnode	*new_ixmnode(int nbr)
 {
-	t_ixmnode *new;
+	t_ixmnode	*new;
 
 	new = malloc(sizeof(t_ixmnode));
 	if (!new)
@@ -17,9 +29,9 @@ static t_ixmnode *new_ixmnode(int nbr)
 	return (new);
 }
 
-t_ixmlist *ixmlist_new(void)
+t_ixmlist	*ixmlist_new(void)
 {
-	t_ixmlist *list;
+	t_ixmlist	*list;
 
 	list = malloc(sizeof(*list));
 	if (!list)
@@ -30,9 +42,9 @@ t_ixmlist *ixmlist_new(void)
 	return (list);
 }
 
-void ixmlist_in_head(t_ixmlist* list, int data)
+void	ixmlist_in_head(t_ixmlist *list, int data)
 {
-	t_ixmnode* new_node;
+	t_ixmnode	*new_node;
 
 	if (!list)
 		return ;
@@ -48,9 +60,9 @@ void ixmlist_in_head(t_ixmlist* list, int data)
 	++(list->len);
 }
 
-void ixmlist_in_tail(t_ixmlist* list, int data)
+void	ixmlist_in_tail(t_ixmlist *list, int data)
 {
-	t_ixmnode* new_node;
+	t_ixmnode	*new_node;
 
 	if (!list)
 		return ;

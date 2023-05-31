@@ -1,13 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   xor_list_mpool.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmaria-d <mmaria-d@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/31 20:26:23 by mmaria-d          #+#    #+#             */
+/*   Updated: 2023/05/31 20:26:23 by mmaria-d         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "int_xor_list.h"
 
-t_ixpnode* xor_func(t_ixpnode* prev, t_ixpnode* next)
+t_ixpnode	*xor_func(t_ixpnode *prev, t_ixpnode *next)
 {
-	return ((t_ixpnode*)((uintptr_t)prev ^ (uintptr_t)next));
+	return ((t_ixpnode *)((uintptr_t)prev ^ (uintptr_t)next));
 }
 
-static t_ixpnode *new_ixpnode(int nbr, t_mpool *pool)
+static t_ixpnode	*new_ixpnode(int nbr, t_mpool *pool)
 {
-	t_ixpnode *new;
+	t_ixpnode	*new;
 
 	if (!pool || !pool->pool_start)
 		return (NULL);
@@ -19,10 +31,10 @@ static t_ixpnode *new_ixpnode(int nbr, t_mpool *pool)
 	return (new);
 }
 
-t_ixplist *ixplist_new(int elements, t_mpool *shared_pool)
+t_ixplist	*ixplist_new(int elements, t_mpool *shared_pool)
 {
-	t_ixplist *list;
-	t_mpool *pool;
+	t_ixplist	*list;
+	t_mpool		*pool;
 
 	list = malloc(sizeof(*list));
 	if (!list)
@@ -45,9 +57,9 @@ t_ixplist *ixplist_new(int elements, t_mpool *shared_pool)
 	return (list);
 }
 
-void ixplist_in_head(t_ixplist* list, int data)
+void	ixplist_in_head(t_ixplist *list, int data)
 {
-	t_ixpnode* new_node;
+	t_ixpnode	*new_node;
 
 	if (!list)
 		return ;
@@ -63,9 +75,9 @@ void ixplist_in_head(t_ixplist* list, int data)
 	++(list->len);
 }
 
-void ixplist_in_tail(t_ixplist* list, int data)
+void	ixplist_in_tail(t_ixplist *list, int data)
 {
-	t_ixpnode* new_node;
+	t_ixpnode	*new_node;
 
 	if (!list)
 		return ;

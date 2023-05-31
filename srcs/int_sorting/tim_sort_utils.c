@@ -12,8 +12,14 @@
 
 #include "int_sorting.h"
 
-/*
+int	helper_tern(int a, int b)
+{
+	if (a > b)
+		return (b);
+	return (a);
+}
 
+/*
 Using binary search to merge elements but unless there is some order before,
 it is pretty useless and i wasted 5 hours dubugging this S. :)
 

@@ -96,7 +96,8 @@ FILES_LIDBL		=	dll_list_malloc.c			\
 					dll_list_mpool_utils.c
 
 FILES_LISNGL	=	sl_list_malloc.c			\
-					sl_list_malloc_utils.c
+					sl_list_malloc_utils.c		\
+					sl_list_malloc_print.c
 
 FILES_LIXOR		=	xor_list_malloc.c			\
 					xor_list_malloc_utils.c		\

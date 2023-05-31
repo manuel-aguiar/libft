@@ -6,7 +6,7 @@
 /*   By: mmaria-d <mmaria-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 19:30:27 by mmaria-d          #+#    #+#             */
-/*   Updated: 2023/05/31 18:48:47 by mmaria-d         ###   ########.fr       */
+/*   Updated: 2023/05/31 20:29:11 by mmaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	gnl_strncat(char *buf, char **line, int *old_size, int inc_size)
 {
 	char	*new_line;
 
-	if(!increase_line(&new_line, line, old_size, inc_size))
+	if (!increase_line(&new_line, line, old_size, inc_size))
 		return (0);
 	if (*line)
 	{
@@ -65,7 +65,7 @@ int	buffer_to_line(char *buf, char **line, int *line_len)
 		i++;
 	if (buf[i] == '\n')
 		stop = 1;
-	if(!gnl_strncat(buf, line, line_len, i + stop))
+	if (!gnl_strncat(buf, line, line_len, i + stop))
 		stop = 1;
 	buffer_clean(buf, i + 1);
 	return (stop);

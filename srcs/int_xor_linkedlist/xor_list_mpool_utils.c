@@ -1,12 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   xor_list_mpool_utils.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmaria-d <mmaria-d@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/31 20:26:13 by mmaria-d          #+#    #+#             */
+/*   Updated: 2023/05/31 20:26:13 by mmaria-d         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "int_xor_list.h"
 #include <stdio.h>
 
-t_ixpnode* xor_func(t_ixpnode* prev, t_ixpnode* next);
+t_ixpnode	*xor_func(t_ixpnode *prev, t_ixpnode *next);
 
-void ixplist_del_head(t_ixplist* list)
+void	ixplist_del_head(t_ixplist *list)
 {
-	t_ixpnode *cur;
-	t_ixpnode *next;
+	t_ixpnode	*cur;
+	t_ixpnode	*next;
 
 	if (!list || !(list->head))
 		return ;
@@ -21,10 +33,10 @@ void ixplist_del_head(t_ixplist* list)
 	--(list->len);
 }
 
-void ixplist_del_tail(t_ixplist* list)
+void	ixplist_del_tail(t_ixplist *list)
 {
-	t_ixpnode *cur;
-	t_ixpnode *prev;
+	t_ixpnode	*cur;
+	t_ixpnode	*prev;
 
 	if (!list || !(list->tail))
 		return ;
@@ -39,11 +51,11 @@ void ixplist_del_tail(t_ixplist* list)
 	--(list->len);
 }
 
-void ixplist_head_print(t_ixplist *list, void (*pnt)(int))
+void	ixplist_head_print(t_ixplist *list, void (*pnt)(int))
 {
-	t_ixpnode *cur;
-	t_ixpnode *prev;
-	t_ixpnode *next;
+	t_ixpnode	*cur;
+	t_ixpnode	*prev;
+	t_ixpnode	*next;
 
 	if (!list)
 		return ;
@@ -58,11 +70,11 @@ void ixplist_head_print(t_ixplist *list, void (*pnt)(int))
 	}
 }
 
-void ixplist_tail_print(t_ixplist *list, void (*pnt)(int))
+void	ixplist_tail_print(t_ixplist *list, void (*pnt)(int))
 {
-	t_ixpnode *cur;
-	t_ixpnode *prev;
-	t_ixpnode *next;
+	t_ixpnode	*cur;
+	t_ixpnode	*prev;
+	t_ixpnode	*next;
 
 	if (!list)
 		return ;
@@ -77,7 +89,7 @@ void ixplist_tail_print(t_ixplist *list, void (*pnt)(int))
 	}
 }
 
-void    ixplist_destroy(t_ixplist **list, int keep_pool)
+void	ixplist_destroy(t_ixplist **list, int keep_pool)
 {
 	if (!list || !*list)
 		return ;

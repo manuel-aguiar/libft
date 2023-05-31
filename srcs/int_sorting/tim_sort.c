@@ -12,11 +12,13 @@
 
 #include "int_sorting.h"
 
+int	helper_tern(int a, int b);
+
 static void	timsertsort(int *arr, int left, int right, int (*cmp)(int, int))
 {
-	int i;
-	int temp;
-	int j;
+	int	i;
+	int	temp;
+	int	j;
 
 	i = left + 1;
 	while (i <= right)
@@ -35,11 +37,11 @@ static void	timsertsort(int *arr, int left, int right, int (*cmp)(int, int))
 
 static void	intersect(int *arr, int *copy, int *lmr, int (*cmp)(int, int))
 {
-	int len1;
-	int len2;
-	int i;
-	int j;
-	int k;
+	int	len1;
+	int	len2;
+	int	i;
+	int	j;
+	int	k;
 
 	len1 = lmr[1] - lmr[0] + 1;
 	len2 = lmr[2] - lmr[1];
@@ -58,16 +60,15 @@ static void	intersect(int *arr, int *copy, int *lmr, int (*cmp)(int, int))
 		ft_memcpy(&arr[k], &copy[i], (len1 - i) * sizeof(*arr));
 	if (j < (len1 + len2))
 		ft_memcpy(&arr[k], &copy[j], ((len1 + len2) - j) * sizeof(*arr));
-
 }
 
 static void	tim_merge(int *arr, int *copy, int *lmr, int (*cmp)(int, int))
 {
-	int len1;
-	int len2;
-	int left;
-	int middle;
-	int right;
+	int	len1;
+	int	len2;
+	int	left;
+	int	middle;
+	int	right;
 
 	left = lmr[0];
 	middle = lmr[1];
@@ -76,7 +77,6 @@ static void	tim_merge(int *arr, int *copy, int *lmr, int (*cmp)(int, int))
 		return ;
 	if (cmp(arr[left], arr[right]))
 	{
-
 		len1 = middle - left + 1;
 		len2 = right - middle;
 		ft_memcpy(copy, &arr[left], len1 * sizeof(*copy));
@@ -87,48 +87,47 @@ static void	tim_merge(int *arr, int *copy, int *lmr, int (*cmp)(int, int))
 		intersect(arr, copy, lmr, cmp);
 }
 
-static int	helper_tern(int a, int b)
+static int	tim_sort_helper(int *arr, int n, int (*cmp)(int, int), int size)
 {
-	if (a > b)
-		return (b);
-	return (a);
+	int	lmr[3];
+	int	*copy;
+
+	copy = malloc(sizeof(*copy) * n);
+	if (!copy)
+		return (0);
+	while (size < n)
+	{
+		lmr[0] = 0;
+		while (lmr[0] < n)
+		{
+			lmr[1] = lmr[0] + size - 1;
+			lmr[2] = helper_tern((lmr[0] + 2 * size - 1), (n - 1));
+			if (lmr[1] < lmr[2])
+				tim_merge(arr, copy, lmr, cmp);
+			lmr[0] += 2 * size;
+		}
+		size *= 2;
+	}
+	free(copy);
+	return (1);
 }
 
-int			tim_sort(int *arr, int n, int (*cmp)(int, int))
+int	tim_sort(int *arr, int n, int (*cmp)(int, int))
 {
-	int i;
-	int size;
-	int lmr[3];
-	int *copy;
+	int	i;
+	int	size;
 
-	copy = NULL;
 	i = 0;
 	while (i < n)
 	{
 		timsertsort(arr, i, helper_tern((i + TIM_SORT_RUN - 1), (n - 1)), cmp);
 		i += TIM_SORT_RUN;
 	}
-	if ((size = TIM_SORT_RUN) < n)
+	size = TIM_SORT_RUN;
+	if (size < n)
 	{
-		copy = malloc(sizeof(*copy) * n);
-		if (!copy)
-		{
+		if (!tim_sort_helper(arr, n, cmp, size))
 			return (0);
-		}
-		while (size < n)
-		{
-			lmr[0] = 0;
-			while (lmr[0] < n)
-			{
-				lmr[1] = lmr[0] + size - 1;
-				lmr[2] = helper_tern((lmr[0] + 2 * size - 1), (n - 1));
-				if (lmr[1] < lmr[2])
-					tim_merge(arr, copy, lmr, cmp);
-				lmr[0] += 2 * size;
-			}
-			size *= 2;
-		}
-		free(copy);
 	}
 	return (1);
 }
