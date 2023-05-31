@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmaria-d <mmaria-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 19:30:27 by mmaria-d          #+#    #+#             */
-/*   Updated: 2023/05/15 11:58:06 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/31 18:48:47 by mmaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ static int	increase_line(char **new, char **old, int *old_size, int inc_size)
 	if (!*new)
 	{
 		if (*old)
-			free(*old);
-		*old = NULL;
+			ft_free_set_null(old);
 		return (0);
 	}
 	return (1);
@@ -28,25 +27,17 @@ static int	increase_line(char **new, char **old, int *old_size, int inc_size)
 static int	gnl_strncat(char *buf, char **line, int *old_size, int inc_size)
 {
 	char	*new_line;
-	int		i;
-	int		j;
 
 	if(!increase_line(&new_line, line, old_size, inc_size))
 		return (0);
 	if (*line)
 	{
-		i = -1;
-		while (++i < *old_size)
-			new_line[i] = (*line)[i];
+		ft_memcpy(new_line, *line, *old_size);
 		free(*line);
 	}
-	else
-		i = 0;
-	j = -1;
-	while (++j < inc_size)
-		new_line[i + j] = buf[j];
-	new_line[i + j] = '\0';
+	ft_memcpy(&new_line[*old_size], buf, inc_size);
 	*old_size += inc_size;
+	new_line[*old_size] = '\0';
 	*line = new_line;
 	return (1);
 }
@@ -89,8 +80,7 @@ int	buffer_refill(int fd, char *buf, char **line)
 	{
 		buf[0] = '\0';
 		if (*line)
-			free(*line);
-		*line = NULL;
+			ft_free_set_null(line);
 		return (0);
 	}
 	buf[bytes] = '\0';

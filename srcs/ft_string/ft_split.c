@@ -73,6 +73,8 @@ char	**ft_split(t_cchar *s, char c)
 			split[i] = malloc(sizeof(*split[i]) * (wordlen + 1));
 			if (split[i])
 				s = copyword(split[i], s, wordlen);
+			else
+				return (ft_free_charmat_null(&split, &free));
 			i++;
 		}
 		split[i] = NULL;

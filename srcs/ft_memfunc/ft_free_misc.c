@@ -22,7 +22,7 @@ void	*ft_free_set_null(void *ptr)
 	return (NULL);
 }
 
-void	*ft_free_charmat(void *table, void (*del)(char *))
+void	*ft_free_charmat(void *table, void (*del)(void *))
 {
 	int		i;
 	char	**split;
@@ -40,7 +40,7 @@ void	*ft_free_charmat(void *table, void (*del)(char *))
 	return (ft_free_set_null(&split));
 }
 
-void	*ft_free_charmat_null(void *table, void (*del)(char *))
+void	*ft_free_charmat_null(void *table, void (*del)(void *))
 {
 	int		i;
 	char	**split;

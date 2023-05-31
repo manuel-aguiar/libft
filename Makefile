@@ -142,7 +142,7 @@ $(NAME):  message $(OBJS)
 	@echo Libft is ready!!
 
 %.o : %.c
-	@$(CC) $(CFLAGS) -I$(INC_PATH) -c $< -o $@
+	$(CC) $(CFLAGS) -I$(INC_PATH) -c $< -o $@
 
 message:
 	@echo Creating object files for Libft...

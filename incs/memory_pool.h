@@ -28,26 +28,26 @@ avoiding multiple calls to malloc and null
 # include <stdlib.h>
 # include <stddef.h>
 
-# define UPSIZE(x) (x / 2)
+# define UPSIZE(Value) ({ __auto_type _v = (Value); _v / 2;})
 
 typedef unsigned int	t_uint;
 typedef unsigned char	t_uchar;
 
 typedef struct s_mpool
 {
-    t_uint	block_num;
-    t_uint	block_size;
-    t_uint	free_blocks;
-    t_uint	used_blocks;
-    t_uchar	*pool_start;
-    t_uchar	*pool_end;
-    t_uchar	*next_empty;
-    struct s_mpool	*next_pool;
-} t_mpool;
+	t_uint			block_num;
+	t_uint			block_size;
+	t_uint			free_blocks;
+	t_uint			used_blocks;
+	t_uchar			*pool_start;
+	t_uchar			*pool_end;
+	t_uchar			*next_empty;
+	struct s_mpool	*next_pool;
+}	t_mpool;
 
 t_mpool	*mpool_create(size_t block_size, t_uint block_num);
 void	mpool_destroy(t_mpool **pool);
 void	*mpool_alloc(t_mpool *pool);
-void	mpool_dealloc(t_mpool *pool, void* p);
+void	mpool_dealloc(t_mpool *pool, void *p);
 
 #endif

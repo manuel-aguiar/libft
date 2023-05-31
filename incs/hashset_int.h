@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hashset_int.h                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmaria-d <mmaria-d@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/05/31 18:38:49 by mmaria-d          #+#    #+#             */
+/*   Updated: 2023/05/31 18:38:49 by mmaria-d         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef HASHSET_INT_H
 
 # define HASHSET_INT_H
@@ -7,8 +19,8 @@
 # include "int_sl_list.h"
 # include "ft_memfunc.h"
 
-#define SIGN(Value) ({ __auto_type _v = (Value); (_v < 0) * -1 + (_v > 0) * 1;})
-#define ABS(Value) ({ __auto_type _w = (Value); _w * SIGN(_w);})
+# define SIGN(Value) ({ __auto_type _v = (Value); (_v < 0) * -1 + (_v > 0) * 1;})
+# define ABS(Value) ({ __auto_type _w = (Value); _w * SIGN(_w);})
 
 typedef struct s_ihs_table
 {

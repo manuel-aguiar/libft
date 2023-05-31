@@ -25,23 +25,23 @@
 
 typedef struct s_ixpnode
 {
-    int				data;
-    struct s_ixpnode	*xor_ptr;
-} t_ixpnode;
+	int					data;
+	struct s_ixpnode	*xor_ptr;
+}	t_ixpnode;
 
 typedef struct s_ixplist
 {
-    t_ixpnode *head;
-    t_ixpnode *tail;
-    t_mpool *pool;
-    size_t  len;
-} t_ixplist;
+	t_ixpnode	*head;
+	t_ixpnode	*tail;
+	t_mpool		*pool;
+	size_t		len;
+}	t_ixplist;
 
 t_ixplist	*ixplist_new(int elements, t_mpool *shared_pool);
-void		ixplist_in_head(t_ixplist* list, int data);
-void		ixplist_in_tail(t_ixplist* list, int data);
-void		ixplist_del_head(t_ixplist* list);
-void		ixplist_del_tail(t_ixplist* list);
+void		ixplist_in_head(t_ixplist *list, int data);
+void		ixplist_in_tail(t_ixplist *list, int data);
+void		ixplist_del_head(t_ixplist *list);
+void		ixplist_del_tail(t_ixplist *list);
 void		ixplist_head_print(t_ixplist *list, void (*pnt)(int));
 void		ixplist_tail_print(t_ixplist *list, void (*pnt)(int));
 void		ixplist_destroy(t_ixplist **list, int keep_pool);
@@ -50,24 +50,24 @@ void		ixplist_destroy(t_ixplist **list, int keep_pool);
 
 typedef struct s_ixmnode
 {
-    int     data;
-    struct s_ixmnode* xor_ptr;
-} t_ixmnode;
+	int					data;
+	struct s_ixmnode	*xor_ptr;
+}	t_ixmnode;
 
 typedef struct s_ixmlist
 {
-    struct  s_ixmnode* head;
-    struct  s_ixmnode* tail;
-    size_t  len;
-} t_ixmlist;
+	struct s_ixmnode	*head;
+	struct s_ixmnode	*tail;
+	size_t				len;
+}	t_ixmlist;
 
-t_ixmlist *ixmlist_new(void);
-void    ixmlist_in_head(t_ixmlist* list, int data);
-void    ixmlist_in_tail(t_ixmlist* list, int data);
-void    ixmlist_del_head(t_ixmlist* list);
-void    ixmlist_del_tail(t_ixmlist* list);
-void    ixmlist_head_print(t_ixmlist *list, void (*pnt)(int));
-void    ixmlist_tail_print(t_ixmlist *list, void (*pnt)(int));
-void    ixmlist_destroy(t_ixmlist **list);
+t_ixmlist	*ixmlist_new(void);
+void		ixmlist_in_head(t_ixmlist *list, int data);
+void		ixmlist_in_tail(t_ixmlist *list, int data);
+void		ixmlist_del_head(t_ixmlist *list);
+void		ixmlist_del_tail(t_ixmlist *list);
+void		ixmlist_head_print(t_ixmlist *list, void (*pnt)(int));
+void		ixmlist_tail_print(t_ixmlist *list, void (*pnt)(int));
+void		ixmlist_destroy(t_ixmlist **list);
 
 #endif

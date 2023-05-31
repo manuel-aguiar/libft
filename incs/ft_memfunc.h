@@ -39,8 +39,8 @@ void	*ft_memmove(void *dest, const void *src, size_t len);
 void	*ft_calloc(size_t nmemb, size_t bytes);
 
 /*functions to free, ft_free_misc.c*/
-void	*ft_free_charmat(void *table, void(*del)(char *));
-void	*ft_free_charmat_null(void *table, void(*del)(char *));
+void	*ft_free_charmat(void *table, void(*del)(void *));
+void	*ft_free_charmat_null(void *table, void(*del)(void *));
 void	*ft_free_sizemat(void *table, size_t size, void(*del)(void *));
 void	*ft_free_sizemat_null(void *table, size_t size, void(*del)(void *));
 void	*ft_free_set_null(void *ptr);
