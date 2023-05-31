@@ -30,10 +30,10 @@ static int	frontrun(int *arr, int len, int swapn, int (*cmp)(int, int))
 	i = swapn;
 	while (i < (len - swapn - 1))
 	{
-		if (cmp(arr[i],arr[i + 1]))
-			swap(&arr[i],&arr[i + 1]);
-		if(i > 0 && !keep_sorting)
-			if(cmp(arr[i - 1], arr[i]))
+		if (cmp(arr[i], arr[i + 1]))
+			swap(&arr[i], &arr[i + 1]);
+		if (i > 0 && !keep_sorting)
+			if (cmp(arr[i - 1], arr[i]))
 				keep_sorting = 1;
 		i++;
 	}
@@ -50,10 +50,9 @@ static int	backrun(int *arr, int len, int swapn, int (*cmp)(int, int))
 	while (j >= swapn)
 	{
 		if (cmp(arr[j], arr[j + 1]))
-			swap(&arr[j],&arr[j + 1]);
-
-		if(j > 0 && !keep_sorting)
-			if(cmp(arr[j - 1], arr[j]))
+			swap(&arr[j], &arr[j + 1]);
+		if (j > 0 && !keep_sorting)
+			if (cmp(arr[j - 1], arr[j]))
 				keep_sorting = 1;
 		j--;
 	}
@@ -69,8 +68,7 @@ int	*cocktail_sort(int *arr, int len, int (*cmp)(int, int))
 	swapn = 0;
 	sorttoright = 1;
 	sorttoleft = 0;
-
-	while(swapn < (len / 2) && sorttoright)
+	while (swapn < (len / 2) && sorttoright)
 	{
 		if (sorttoright)
 			sorttoleft = frontrun(arr, len, swapn, cmp);

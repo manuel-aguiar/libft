@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mmaria-d <mmaria-d@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 20:27:18 by manuel            #+#    #+#             */
-/*   Updated: 2023/04/19 14:10:21 by marvin           ###   ########.fr       */
+/*   Updated: 2023/05/31 20:46:55 by mmaria-d         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,3 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 		tail->next = new;
 	}
 }*/
-

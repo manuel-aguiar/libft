@@ -15,9 +15,10 @@
 /*
 totally not norminette compliant....... YET
 unprotected mallocs.... FOR NOW
-*/
 
-static void ms_merge(int *arr, int left, int mid, int right, int (*cmp)(int, int))
+
+static void ms_merge(int *arr, int left, int mid, int right, \
+		int (*cmp)(int, int))
 {
 	int i;
 	int j;
@@ -110,3 +111,4 @@ int *mergesort(int *arr, int len, int (*cmp)(int, int))
 	ms_split(arr,0, len - 1, cmp);
 	return (arr);
 }
+*/
