@@ -143,9 +143,7 @@ all: $(NAME)
 
 $(NAME):  message $(OBJS)
 	@echo Compiling Libft, wait a moment....
-	@mkdir -p $(OBJ_PATH)
-	@mv $(OBJS) $(OBJ_PATH)
-	@$(LIB) $@ $(OBJ_PATH)/*.o
+	@$(LIB) $@ $(OBJS)
 	@echo Libft is ready!!
 
 %.o : %.c
@@ -156,21 +154,22 @@ message:
 
 clean:
 	@echo Removing object files.....
-	@if [ -n "$(wildcard $(OBJ_PATH)/*.o)" ]; then \
-        $(RM) $(OBJ_PATH)/*.o; \
-    fi
+	@$(RM) $(OBJS)
+	@$(RM) -r $(OBJ_PATH)
+	@rmdir $(OBJ_PATH)
 	@echo Objects successfully deleted!
 
 fclean: clean
 	@echo Deleting libft.a...
-	@if [ -n "$(wildcard  $(NAME))" ]; then \
-        $(RM) $(NAME); \
-    fi
+	$(RM) $(NAME)
 	@echo Done!!
 
 re: fclean all
 
 mkclean: all clean
+
+bruh:
+	rm mymain.exe
 
 .PHONY: clean fclean re mkclean bruh message
 
