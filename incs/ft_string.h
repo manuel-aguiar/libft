@@ -51,5 +51,6 @@ char	*ft_strtrim(t_cchar *s1, t_cchar *set);
 
 /* the most evil and useful function ever invented*/
 char	**ft_split(t_cchar *s, char c);
+char	**ft_split_count(t_cchar *s, char *sepset, int *place_count);
 
 #endif
