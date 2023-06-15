@@ -12,7 +12,7 @@
 
 #include "ft_memfunc.h"
 
-void	free_split(void *to_free)
+void	ft_free_split(void *to_free)
 {
 	char	**split;
 	int		i;
