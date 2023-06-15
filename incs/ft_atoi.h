@@ -36,5 +36,6 @@ int		ft_atoi_overf(char *str);
 int		ft_atoiable(char *str, int *placenum);
 int		ft_atoi_arr(int **dest, int ac, char **av);
 char	*ft_itoa(int nb);
+int	ft_atoi_base(char *str, char *base);
 
 #endif
