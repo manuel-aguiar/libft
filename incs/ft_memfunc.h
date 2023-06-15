@@ -58,6 +58,6 @@ void	*ft_free_sizemat_null(void *table, size_t size, void (*del)(void *));
 void	*ft_free_set_null(void *ptr);
 
 /*ft_free_split.c*/
-void	free_split(void *to_free);
+void	ft_free_split(void *to_free);
 
 #endif
