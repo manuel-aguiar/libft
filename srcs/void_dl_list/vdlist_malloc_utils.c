@@ -102,7 +102,7 @@ void	vdmlist_destroy(t_vdmlist **list, void (*del)(void *))
 	while (delete)
 	{
 		next = delete->next;
-		if (del)
+		if (del && delete->data)
 			del(delete->data);
 		free(delete);
 		delete = next;
